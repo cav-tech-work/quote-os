@@ -18,6 +18,7 @@ async function main() {
     let category = categoryCache.get(categoryName);
     if (!category) { category = await ensureCategory(categoryName); categoryCache.set(categoryName, category); }
     const data = { vendorRatePaise, clientRatePaise: Math.round(vendorRatePaise * 1.4), unit: "Per Day", active: true };
+    const existing = await prisma.catalogueItem.findFirst({ where: { categoryId: category.id, name: itemName } });
     if (existing) await prisma.catalogueItem.update({ where: { id: existing.id }, data });
     else await prisma.catalogueItem.create({ data: { code: `CAV-${categoryName}-${itemName}`.replace(/[^a-z0-9]/gi, "-").toUpperCase().slice(0, 120), categoryId: category.id, name: itemName, ...data } });
   }
