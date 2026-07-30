@@ -8,7 +8,7 @@ const accessManagers = new Set(["sourav@clockwork-av.com", "joyjeet@clockwork-av
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   trustHost: true,
-  providers: [Google({})],
+  providers: [Google({ allowDangerousEmailAccountLinking: true })],
   callbacks: {
     async signIn({ user }) {
       const email = user.email?.toLowerCase();
