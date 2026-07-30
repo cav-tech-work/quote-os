@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const access = await requireRole("ADMIN", "QUOTE_USER");
   if ("error" in access) return access.error;
   const search = request.nextUrl.searchParams.get("search")?.trim();
-  const items = await prisma.catalogueItem.findMany({ where: search ? { active: true, OR: [{ code: { contains: search, mode: "insensitive" } }, { name: { contains: search, mode: "insensitive" } }, { manufacturer: { contains: search, mode: "insensitive" } }, { model: { contains: search, mode: "insensitive" } }] } : { active: true }, include: { category: true }, orderBy: { name: "asc" }, take: 50 });
+  const items = await prisma.catalogueItem.findMany({ where: search ? { active: true, OR: [{ code: { contains: search, mode: "insensitive" } }, { name: { contains: search, mode: "insensitive" } }, { manufacturer: { contains: search, mode: "insensitive" } }, { model: { contains: search, mode: "insensitive" } }] } : { active: true }, include: { category: true }, orderBy: [{ category: { name: "asc" } }, { name: "asc" }], take: 500 });
   return NextResponse.json(items);
 }
 
