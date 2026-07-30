@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
-
-const itemInput = z.object({ code: z.string().trim().min(2).max(32), name: z.string().trim().min(2), categoryId: z.string().cuid(), vendorRatePaise: z.number().int().nonnegative(), clientRatePaise: z.number().int().nonnegative(), unit: z.string().trim().min(1).default("Per Day"), discountEligible: z.boolean().default(true), description: z.string().trim().optional(), manufacturer: z.string().trim().optional(), model: z.string().trim().optional(), taxCategory: z.string().trim().optional() });
+import { findOrCreateCategory, inventoryInput } from "@/lib/inventory";
 
 export async function GET(request: NextRequest) {
   const access = await requireRole("ADMIN", "QUOTE_USER");
@@ -16,8 +14,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const access = await requireRole("ADMIN");
   if ("error" in access) return access.error;
-  const parsed = itemInput.safeParse(await request.json());
+  const parsed = inventoryInput.safeParse(await request.json());
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
-  try { return NextResponse.json(await prisma.catalogueItem.create({ data: parsed.data }), { status: 201 }); }
-  catch { return NextResponse.json({ error: "Item code already exists or category is invalid" }, { status: 409 }); }
+  const input = parsed.data;
+  const category = await findOrCreateCategory(input.category);
+  const code = `INV-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 5).toUpperCase()}`;
+  return NextResponse.json(await prisma.catalogueItem.create({ data: { code, categoryId: category.id, name: input.item, manufacturer: input.brand || null, model: input.model || null, unit: input.unit, clientRatePaise: input.unitPricePaise, vendorRatePaise: input.unitPricePaise } }), { status: 201 });
 }

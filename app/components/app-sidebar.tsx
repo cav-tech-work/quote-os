@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 const links = [
   { href: "/", label: "New quote", icon: "+" },
   { href: "/quotes", label: "Quote repository", icon: "□" },
+  { href: "/catalogue", label: "Inventory", icon: "▦" },
   { href: "/access", label: "User access", icon: "◎" }
 ];
 
