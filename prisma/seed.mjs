@@ -12,6 +12,8 @@ async function main() {
     { code: "LGT012", name: "Ayrton Diablo Profile", categoryId: lighting.id, vendorRatePaise: 550000, clientRatePaise: 770000 },
     { code: "VID004", name: "2.6mm LED Wall Panel", categoryId: video.id, vendorRatePaise: 125000, clientRatePaise: 175000 }
   ]) await prisma.catalogueItem.upsert({ where: { code: item.code }, update: item, create: item });
+  const existingItems = await prisma.catalogueItem.findMany({ select: { id: true, vendorRatePaise: true } });
+  await Promise.all(existingItems.map((item) => prisma.catalogueItem.update({ where: { id: item.id }, data: { clientRatePaise: Math.round(item.vendorRatePaise * 1.4) } })));
 }
 
 main().then(() => prisma.$disconnect()).catch(async (error) => { console.error(error); await prisma.$disconnect(); process.exit(1); });

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/auth";
 import { findOrCreateCategory, inventoryInput } from "@/lib/inventory";
+import { clientRateFromVendor } from "@/lib/pricing";
 
 export async function GET(request: NextRequest) {
   const access = await requireRole("ADMIN", "QUOTE_USER");
@@ -19,5 +20,5 @@ export async function POST(request: NextRequest) {
   const input = parsed.data;
   const category = await findOrCreateCategory(input.category);
   const code = `INV-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 5).toUpperCase()}`;
-  return NextResponse.json(await prisma.catalogueItem.create({ data: { code, categoryId: category.id, name: input.item, manufacturer: input.brand || null, model: input.model || null, unit: input.unit, clientRatePaise: input.unitPricePaise, vendorRatePaise: input.unitPricePaise } }), { status: 201 });
+  return NextResponse.json(await prisma.catalogueItem.create({ data: { code, categoryId: category.id, name: input.item, manufacturer: input.brand || null, model: input.model || null, unit: input.unit, vendorRatePaise: input.vendorRatePaise, clientRatePaise: clientRateFromVendor(input.vendorRatePaise) } }), { status: 201 });
 }
