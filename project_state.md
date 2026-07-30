@@ -17,7 +17,8 @@ QuoteOS is Clockwork AV's quotation engine: a central rate catalogue for produci
 - Next.js 15 / TypeScript application shell and responsive quote builder.
 - Client and vendor quote modes with correct rate selection, quantity, days, discount, GST, and live totals.
 - In-memory sample catalogue search and line-item management for the UI prototype.
-- Prisma/PostgreSQL domain schema for users, roles, hierarchical catalogue, quotes, immutable quote revisions, snapped quote lines, audit events, and generated documents.
+- Prisma/PostgreSQL domain schema plus committed initial migration for users, roles, hierarchical catalogue, quotes, immutable quote revisions, snapped quote lines, audit events, and generated documents.
+- Signed HTTP-only authentication-session groundwork, server-side `ADMIN` / `QUOTE_USER` guards, protected catalogue API, server-side paise calculation helper, and catalogue seed script.
 - Production multi-stage Docker image using Next.js standalone output and a non-root runtime user.
 - Render Blueprint (`render.yaml`) with health check and production environment variables.
 
@@ -29,8 +30,8 @@ QuoteOS is Clockwork AV's quotation engine: a central rate catalogue for produci
 
 ## Deliberately not implemented yet
 
-- Authentication and real server-side role enforcement.
-- API routes, Prisma client integration, database persistence, seeds, and migrations.
+- Login user interface and full user-management workflow.
+- Database-backed quote persistence (the catalogue API is the first Prisma-backed endpoint).
 - Catalogue administration/import/export.
 - Quote persistence, duplication, revisions, statuses, search repository, and audit UI.
 - PDF generation, document storage, email sending, and settings administration.
@@ -53,11 +54,10 @@ QuoteOS is Clockwork AV's quotation engine: a central rate catalogue for produci
 
 ## Recommended next increment: foundation and persistence
 
-1. Add authentication and server-side `ADMIN` / `QUOTE_USER` authorization.
-2. Add Prisma client, initial migration, database seed data, and a safe money/calculation module.
-3. Build protected catalogue APIs and administration screens.
-4. Replace the in-memory quote builder state with persisted drafts and immutable revisions.
-5. Add calculation, snapshot, and permissions tests before PDF/email work.
+1. Build the protected catalogue administration screen and replace in-memory quote-builder catalogue data with the API.
+2. Add draft quote write/read APIs with transactional calculation and immutable line snapshots.
+3. Add quote revision locking, duplication, status events, and repository search.
+4. Add calculation, snapshot, and permissions tests before PDF/email work.
 
 ## Useful files
 
