@@ -3,6 +3,8 @@ services:
     name: quote-os
     runtime: docker
     plan: starter
+    branch: main
+    autoDeploy: true
     healthCheckPath: /
     envVars:
       - key: NODE_ENV
@@ -10,4 +12,10 @@ services:
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
       - key: DATABASE_URL
+        sync: false
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: AUTH_GOOGLE_ID
+        sync: false
+      - key: AUTH_GOOGLE_SECRET
         sync: false
