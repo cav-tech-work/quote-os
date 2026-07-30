@@ -12,7 +12,7 @@ QuoteOS uses Auth.js with the Google provider. Only invited users can sign in; `
 
 ## Configure Render
 
-In the `quote-os` Render service, set `DATABASE_URL` to the internal Render PostgreSQL URL, plus `AUTH_SECRET`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET`. On its next deploy, the container automatically applies the committed Prisma migrations before starting QuoteOS.
+In the `quote-os` Render service, set `DATABASE_URL` to the internal Render PostgreSQL URL, plus `AUTH_SECRET`, `AUTH_URL`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET`. Set `AUTH_URL` to `https://quote-os.onrender.com`; it prevents Auth.js from using the container-only `0.0.0.0` host in callback URLs. On its next deploy, the container automatically applies the committed Prisma migrations before starting QuoteOS.
 
 ## Granting access
 
