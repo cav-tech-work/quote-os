@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: quote-os
+    runtime: docker
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: DATABASE_URL
+        sync: false
