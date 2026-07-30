@@ -2,7 +2,7 @@
 set -eu
 
 if [ -n "${DATABASE_URL:-}" ]; then
-  ./node_modules/.bin/prisma migrate deploy
+  node ./node_modules/prisma/build/index.js migrate deploy
 fi
 
 exec node server.js
