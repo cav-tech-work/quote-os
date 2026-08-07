@@ -1,19 +1,27 @@
-# Google sign-in setup
+# Google OAuth setup
 
-QuoteOS uses Auth.js with the Google provider. Only invited users can sign in; `sourav@clockwork-av.com` and `joyjeet@clockwork-av.com` are automatically made administrators and access managers on their first sign-in.
+QuoteOS uses Auth.js and Google OAuth. Any verified `@clockwork-av.com` Google Workspace account can sign in; the system access managers are provisioned automatically as administrators.
 
-## Create the Google OAuth client
+## Google Cloud
 
-1. Open Google Cloud Console and select the Clockwork AV project.
-2. Configure the OAuth consent screen for the Clockwork AV organisation. Add the two access-manager accounts as test users if the app is still in testing mode.
-3. Create an **OAuth client ID** of type **Web application**.
-4. Add this authorised redirect URI exactly: `https://quote-os.onrender.com/api/auth/callback/google`
-5. Copy the generated client ID and client secret.
+Create a Web application OAuth client and register this exact authorised redirect URI:
 
-## Configure Render
+```text
+https://quotes.clockwork-av.com/api/auth/callback/google
+```
 
-In the `quote-os` Render service, set `DATABASE_URL` to the internal Render PostgreSQL URL, plus `AUTH_SECRET`, `AUTH_URL`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET`. Set `AUTH_URL` to `https://quote-os.onrender.com`; it prevents Auth.js from using the container-only `0.0.0.0` host in callback URLs. On its next deploy, the container automatically applies the committed Prisma migrations before starting QuoteOS.
+Do not use the Render hostname as the production callback. The Render hostname is redirected to the canonical Clockwork domain before an OAuth flow can begin.
 
-## Granting access
+## Render
 
-After either bootstrap access manager signs in, visit `/access`. They can invite an email as a **Quote user** or **Administrator**. Only the two specified bootstrap users can manage access; that authority cannot be delegated through the interface or API.
+Set the following production environment variables in the `quote-os` service:
+
+```text
+DATABASE_URL=<Render internal PostgreSQL URL>
+AUTH_SECRET=<one stable, long random value>
+AUTH_URL=https://quotes.clockwork-av.com
+AUTH_GOOGLE_ID=<Google client ID>
+AUTH_GOOGLE_SECRET=<Google client secret>
+```
+
+Keep `AUTH_SECRET` stable across deploys. Do not regenerate it while users may be completing OAuth sign-in.

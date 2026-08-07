@@ -6,6 +6,8 @@ services:
     branch: main
     autoDeploy: true
     healthCheckPath: /
+    domains:
+      - quotes.clockwork-av.com
     envVars:
       - key: NODE_ENV
         value: production
@@ -16,7 +18,7 @@ services:
       - key: AUTH_SECRET
         generateValue: true
       - key: AUTH_URL
-        value: https://quote-os.onrender.com
+        value: https://quotes.clockwork-av.com
       - key: AUTH_GOOGLE_ID
         sync: false
       - key: AUTH_GOOGLE_SECRET
