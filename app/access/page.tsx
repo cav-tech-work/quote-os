@@ -1,9 +1,9 @@
-import { auth } from "@/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { AccessManager } from "./access-manager";
 
 export default async function AccessPage() {
-  const session = await auth();
-  if (!session?.user?.active || !session.user.accessManager) redirect("/");
+  const user = await getCurrentUser();
+  if (!user?.active || !user.accessManager) redirect("/");
   return <AccessManager />;
 }

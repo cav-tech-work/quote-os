@@ -35,9 +35,9 @@ export async function POST(request: NextRequest) {
   const totals = calculateQuote(calculatedLines.map((line) => ({ quantity: line.quantity, days: line.days, ratePaise: line.rateUsedPaise, discountPercent: line.discountPercent })), input.taxPercentage);
   const quote = await prisma.$transaction(async (tx) => {
     const number = `QT-${new Date().getFullYear()}-${Date.now().toString().slice(-8)}`;
-    const created = await tx.quote.create({ data: { number, type: input.type, company: input.company, project: input.project || null, venue: input.venue || null, city: input.city || null, salesperson: input.salesperson || null, createdById: access.session.user.id } });
+    const created = await tx.quote.create({ data: { number, type: input.type, company: input.company, project: input.project || null, venue: input.venue || null, city: input.city || null, salesperson: input.salesperson || null, createdById: access.user.id } });
     const revision = await tx.quoteRevision.create({ data: { quoteId: created.id, revisionNumber: 1, preparedDate: new Date(), taxPercentage: input.taxPercentage, settingsSnapshot: {}, ...totals, lines: { create: calculatedLines.map((line) => ({ catalogueItemId: line.catalogueItemId, itemCodeSnapshot: line.item.code, itemNameSnapshot: line.item.name, descriptionSnapshot: line.item.description, unitSnapshot: line.item.unit, quantity: line.quantity, days: line.days, rateUsedPaise: line.rateUsedPaise, discountPercent: line.discountPercent, discountPaise: line.discountPaise, lineTotalPaise: line.lineTotalPaise, remarks: line.remarks || null })) } } });
-    await tx.quoteEvent.create({ data: { quoteId: created.id, actorId: access.session.user.id, action: "CREATED", metadata: { revisionId: revision.id } } });
+    await tx.quoteEvent.create({ data: { quoteId: created.id, actorId: access.user.id, action: "CREATED", metadata: { revisionId: revision.id } } });
     return { ...created, revision };
   });
   return NextResponse.json(quote, { status: 201 });

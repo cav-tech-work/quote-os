@@ -1,9 +1,9 @@
-import { auth } from "@/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { InventoryManager } from "./inventory-manager";
 
 export default async function CataloguePage() {
-  const session = await auth();
-  if (!session?.user?.active || session.user.role !== "ADMIN") redirect("/");
+  const user = await getCurrentUser();
+  if (!user?.active || user.role !== "ADMIN") redirect("/");
   return <InventoryManager />;
 }
