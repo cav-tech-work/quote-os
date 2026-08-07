@@ -1,70 +1,59 @@
 # QuoteOS project state
 
-Last updated: 2026-07-30
+Updated: 2026-08-07
 
-## Product purpose
+## Production
 
-QuoteOS is Clockwork AV's quotation engine: a central rate catalogue for producing professional client and vendor quotations while preserving immutable historical prices.
+- Repository: `https://github.com/varous/quote-os`
+- Production branch: `main`
+- Canonical application URL: `https://quotes.clockwork-av.com`
+- Render service hostname: `https://quote-os.onrender.com` (redirected to the canonical URL)
+- Runtime: Docker, Node.js 22, Next.js 15.5.22, PostgreSQL, Prisma 6.19.3.
 
-## Live environments
+## Authentication and authorization
 
-- Production: https://quote-os.onrender.com/
-- GitHub (private): https://github.com/varous/quote-os
-- Default branch: `main`
+- Auth.js / NextAuth v5 beta 32 with Google OAuth and Prisma adapter 2.11.3.
+- Only verified Google identities with an exact `@clockwork-av.com` email can authenticate.
+- New valid Workspace users are automatically provisioned as active `QUOTE_USER` accounts.
+- Existing user roles and active state are preserved. Inactive users remain disabled after Google authentication.
+- `sourav@clockwork-av.com` and `joyjeet@clockwork-av.com` are permanent system access managers and always reconcile to active `ADMIN` accounts.
+- Only those system access managers can manage user roles/status through `/access`.
+- Protected APIs use an authoritative PostgreSQL user lookup, so role/status changes revoke access even for old browser sessions.
+- Google account linking remains enabled only for the Google provider to preserve historic manually provisioned user records.
 
-## What is implemented
+## OAuth PKCE canonical-host repair
 
-- Next.js 15 / TypeScript application shell and responsive quote builder.
-- Client and vendor quote modes with correct rate selection, quantity, days, discount, GST, and live totals.
-- In-memory sample catalogue search and line-item management for the UI prototype.
-- Prisma/PostgreSQL domain schema plus committed initial migration for users, roles, hierarchical catalogue, quotes, immutable quote revisions, snapped quote lines, audit events, and generated documents.
-- Google OAuth with database-backed sessions, server-side `ADMIN` / `QUOTE_USER` guards, and two non-delegable bootstrap access managers (`sourav@clockwork-av.com`, `joyjeet@clockwork-av.com`).
-- Protected catalogue and access-management APIs, server-side paise calculation helper, and catalogue seed script.
-- Production multi-stage Docker image using Next.js standalone output and a non-root runtime user.
-- Render Blueprint (`render.yaml`) with health check and production environment variables.
+- `AUTH_URL` is `https://quotes.clockwork-av.com` in `render.yaml` and `.env.example`.
+- `middleware.ts` redirects requests from `quote-os.onrender.com` to the canonical Clockwork URL before OAuth can begin.
+- This keeps PKCE cookie creation and callback processing on the same hostname.
+- No PKCE, state, nonce, cookie, or OAuth validation has been disabled or overridden.
+- Production environment must retain one stable `AUTH_SECRET` and the Google redirect URI must be `https://quotes.clockwork-av.com/api/auth/callback/google`.
 
-## Verified
+## Application features
 
-- `npm run build` succeeds.
-- `docker build --tag quote-os:local .` succeeds.
-- Render service is reported live by the project owner at the production URL above.
+- Shared quote builder with client/vendor prices and persisted drafts.
+- Vendor price is the base price; client price is always 40% higher.
+- Shared quote repository for active quote users/admins.
+- Administrator-only inventory catalogue create/update/delete functions.
+- System-access-manager-only user role and status management.
+- Server-generated PDF export for saved quotes with repeatable Clockwork AV headers/footers.
+- Imported rate catalogue is seeded idempotently from `prisma/cav-rates.mjs`.
 
-## Deliberately not implemented yet
+## Verification
 
-- Catalogue administration and quote-user workflow integration with the protected APIs.
-- Database-backed quote persistence (the catalogue API is the first Prisma-backed endpoint).
-- Catalogue administration/import/export.
-- Quote persistence, duplication, revisions, statuses, search repository, and audit UI.
-- PDF generation, document storage, email sending, and settings administration.
+Latest checks passed:
 
-## Critical product rules
+```text
+npm test
+npm run typecheck
+npm run build
+```
 
-- Store all monetary values as integer paise; do not use floating-point values for persisted calculations.
-- Drafts may be edited. Generated/sent versions must be locked; changes create a new revision or duplicate quote.
-- Quote-line item names, units, rates, discounts, tax inputs, terms, and settings are snapshots.
-- Catalogue changes must never modify historical quotes.
-- Quotes must never be hard-deleted.
-- Authoritative calculation happens server-side inside the quote-write transaction.
+Policy tests cover exact domain checks, founder privilege reconciliation, normal/disabled user preservation, and Render-host canonicalization.
 
-## Deployment configuration
+## Operational notes
 
-- Render uses the repository `Dockerfile`, tracks `main`, and auto-deploys new commits; it supplies `PORT` automatically.
-- Keep `DATABASE_URL` as a Render secret, pointing to the **internal** URL of a same-region Render PostgreSQL instance.
-- The current UI does not query the database yet, so provisioning the database now is preparatory.
-- Before persistence is launched, add an initial Prisma migration and deploy it with `prisma migrate deploy` during the release process.
-
-## Recommended next increment: foundation and persistence
-
-1. Build the protected catalogue administration screen and replace in-memory quote-builder catalogue data with the API.
-2. Add draft quote write/read APIs with transactional calculation and immutable line snapshots.
-3. Add quote revision locking, duplication, status events, and repository search.
-4. Add calculation, snapshot, and permissions tests before PDF/email work.
-
-## Useful files
-
-- `PLAN.md` — approved MVP scope and delivery sequence.
-- `Dockerfile` — production image definition.
-- `render.yaml` — Render Blueprint.
-- `DEPLOYMENT.md` — Render deployment notes.
-- `prisma/schema.prisma` — current data model.
-- `app/quote-workspace.tsx` — current interactive UI prototype.
+- Render automatically deploys `main`.
+- `dev` exists as a future staging branch but production work is currently on `main`.
+- Do not commit `AUTH_SECRET`, Google client secrets, or database URLs.
+- Database migrations run with `prisma migrate deploy` at container startup; seeding is repeatable.
