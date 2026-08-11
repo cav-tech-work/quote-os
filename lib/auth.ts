@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { effectiveAccess, isSystemAccessManager, type AppRole } from "@/lib/access-policy";
+import { effectiveAccess, hasSystemAccessManagerAuthority, isSystemAccessManager, type AppRole } from "@/lib/access-policy";
 import { prisma } from "@/lib/prisma";
 
 export { type AppRole } from "@/lib/access-policy";
@@ -26,6 +26,6 @@ export async function requireRole(...roles: AppRole[]) {
 export async function requireAccessManager() {
   const access = await requireRole("ADMIN");
   if ("error" in access) return access;
-  if (!access.user.accessManager) return { error: NextResponse.json({ error: "System access-manager permission required" }, { status: 403 }) } as const;
+  if (!hasSystemAccessManagerAuthority(access.user)) return { error: NextResponse.json({ error: "System access-manager permission required" }, { status: 403 }) } as const;
   return access;
 }
