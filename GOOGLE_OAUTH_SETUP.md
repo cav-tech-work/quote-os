@@ -25,3 +25,7 @@ AUTH_GOOGLE_SECRET=<Google client secret>
 ```
 
 Keep `AUTH_SECRET` stable across deploys. Do not regenerate it while users may be completing OAuth sign-in.
+
+## Post-deployment verification
+
+Before testing Google login, open `https://quote-os.onrender.com/signin` in a fresh browser session and confirm it redirects to `https://quotes.clockwork-av.com/signin`. Then verify founder, new Workspace-user, external-account, inactive-user, and repeat-login behavior. A successful build does not validate PKCE; the full Google callback must complete on the canonical hostname without an `InvalidCheck` error.

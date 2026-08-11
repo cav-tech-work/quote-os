@@ -24,10 +24,11 @@ Updated: 2026-08-07
 ## OAuth PKCE canonical-host repair
 
 - `AUTH_URL` is `https://quotes.clockwork-av.com` in `render.yaml` and `.env.example`.
-- `middleware.ts` redirects requests from `quote-os.onrender.com` to the canonical Clockwork URL before OAuth can begin.
+- `middleware.ts` derives the public request host from Render's forwarded-host header (falling back to `Host` and the request URL) and redirects `quote-os.onrender.com` to the canonical Clockwork URL before OAuth can begin.
 - This keeps PKCE cookie creation and callback processing on the same hostname.
 - No PKCE, state, nonce, cookie, or OAuth validation has been disabled or overridden.
 - Production environment must retain one stable `AUTH_SECRET` and the Google redirect URI must be `https://quotes.clockwork-av.com/api/auth/callback/google`.
+- Production authentication remains unvalidated until the post-deployment canonical-host and Google login smoke tests pass.
 
 ## Application features
 
