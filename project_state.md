@@ -4,7 +4,7 @@ Updated: 2026-08-12
 
 ## Production
 
-- Repository: `https://github.com/varous/quote-os`
+- Repository: `https://github.com/cav-tech-work/quote-os`
 - Production branch: `main`
 - Canonical application URL: `https://quotes.clockwork-av.com`
 - Render service hostname: `https://quote-os.onrender.com` (redirected to the canonical URL)
