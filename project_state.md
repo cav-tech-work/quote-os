@@ -40,6 +40,13 @@ Updated: 2026-08-12
 - Server-generated PDF export for saved quotes with repeatable Clockwork AV headers/footers.
 - A legacy development catalogue can be loaded explicitly with `npm run db:seed`; it is never loaded during application startup and must not be used as a production import process.
 
+## Catalogue redesign status
+
+- Phase 0 adds an empty normalized catalogue schema alongside the operational legacy flat catalogue; no workbook data or historic quote data has been migrated.
+- The normalized foundation separates canonical identity, commercial offerings, approved independent client/vendor prices, aliases, source mappings, city markets, historical rate observations, and import provenance.
+- Current `/catalogue`, quote creation/search, quote history, pricing, and PDFs continue to use `CatalogueItem` unchanged. The legacy 40% client-price rule remains technical debt until an explicit cutover.
+- The checked-in contract is [`docs/catalogue-domain.md`](docs/catalogue-domain.md). The next phase is **Master workbook parser + deterministic import preview**, not catalogue cutover.
+
 ## Verification
 
 GitHub Actions runs the following validation for pull requests into `main` and pushes to `dev-mac` or `main`:

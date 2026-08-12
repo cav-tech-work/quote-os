@@ -37,165 +37,452 @@ enum AuditAction {
   IMPORTED
 }
 
+enum CatalogueDomain {
+  VC
+  OPS
+  POWER
+  TECH
+  OTHER
+}
+
+enum CanonicalEntityType {
+  PHYSICAL_ITEM
+  EQUIPMENT
+  PERSONNEL
+  SERVICE
+  CONSUMABLE
+  STRUCTURE
+}
+
+enum OfferingKind {
+  ITEM
+  PACKAGE
+  SERVICE
+}
+
+enum UnitCode {
+  M
+  FT
+  SQ_M
+  SQ_FT
+  RFT
+  CBM
+  NOS
+  DAY
+  DUTY
+  LITRE
+  SET
+  LUMPSUM
+}
+
+enum QuantityBasis {
+  COUNT
+  AREA_LW
+  AREA_LH
+  LINEAR
+  VOLUME
+  HEADCOUNT_DUTY
+  FIXED
+  MANUAL
+  GENERATOR
+}
+
+enum DurationBasis {
+  ONE_OFF
+  VC_CHARGE_DAYS
+  OPS_CHARGE_DAYS
+  POWER_CHARGE_DAYS
+  DUTY
+  MANUAL
+}
+
+enum PriceSide {
+  TO_CLIENT
+  TO_VENDOR
+}
+
+enum PriceScopeType {
+  GLOBAL
+  CITY
+}
+
+enum ImportSourceType {
+  ACTIVE_COMMERCIAL_MASTER
+  NORMALIZATION_VOCABULARY
+  OPERATIONAL_BUSINESS_LOGIC
+  HISTORICAL_OBSERVATION
+  OTHER
+}
+
+enum ImportStatus {
+  PENDING
+  PREVIEWED
+  VALIDATED
+  APPLIED
+  REJECTED
+  FAILED
+}
+
+enum ImportRowStatus {
+  PENDING
+  VALID
+  WARNING
+  ERROR
+  APPLIED
+  SKIPPED
+}
+
 model User {
-  id String @id @default(cuid())
-  name String?
-  email String @unique
+  id            String        @id @default(cuid())
+  name          String?
+  email         String        @unique
   emailVerified DateTime?
-  image String?
-  role Role @default(QUOTE_USER)
-  accessManager Boolean @default(false)
-  active Boolean @default(true)
-  createdAt DateTime @default(now())
-  accounts Account[]
-  sessions Session[]
-  quotes Quote[] @relation("Creator")
-  events QuoteEvent[]
+  image         String?
+  role          Role          @default(QUOTE_USER)
+  accessManager Boolean       @default(false)
+  active        Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  accounts      Account[]
+  sessions      Session[]
+  quotes        Quote[]       @relation("Creator")
+  events        QuoteEvent[]
+  importBatches ImportBatch[]
 }
 
 model Account {
-  id String @id @default(cuid())
-  userId String
-  type String
-  provider String
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
   providerAccountId String
-  refresh_token String? @db.Text
-  access_token String? @db.Text
-  expires_at Int?
-  token_type String?
-  scope String?
-  id_token String? @db.Text
-  session_state String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id String @id @default(cuid())
-  sessionToken String @unique
-  userId String
-  expires DateTime
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
   identifier String
-  token String @unique
-  expires DateTime
+  token      String   @unique
+  expires    DateTime
+
   @@unique([identifier, token])
 }
 
 model CatalogueCategory {
-  id String @id @default(cuid())
-  name String
+  id       String              @id @default(cuid())
+  name     String
   parentId String?
-  parent CatalogueCategory? @relation("Tree", fields: [parentId], references: [id])
+  parent   CatalogueCategory?  @relation("Tree", fields: [parentId], references: [id])
   children CatalogueCategory[] @relation("Tree")
-  items CatalogueItem[]
+  items    CatalogueItem[]
+
   @@unique([name, parentId])
 }
 
 model CatalogueItem {
-  id String @id @default(cuid())
-  code String @unique
-  categoryId String
-  category CatalogueCategory @relation(fields: [categoryId], references: [id])
-  name String
-  description String?
-  manufacturer String?
-  model String?
-  vendorRatePaise Int
-  clientRatePaise Int
-  unit String @default("Per Day")
-  discountEligible Boolean @default(true)
-  taxCategory String?
-  active Boolean @default(true)
-  archivedAt DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  lines QuoteLine[]
+  id               String            @id @default(cuid())
+  code             String            @unique
+  categoryId       String
+  category         CatalogueCategory @relation(fields: [categoryId], references: [id])
+  name             String
+  description      String?
+  manufacturer     String?
+  model            String?
+  vendorRatePaise  Int
+  clientRatePaise  Int
+  unit             String            @default("Per Day")
+  discountEligible Boolean           @default(true)
+  taxCategory      String?
+  active           Boolean           @default(true)
+  archivedAt       DateTime?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  lines            QuoteLine[]
+}
+
+model CanonicalItem {
+  id               String               @id @default(cuid())
+  code             String               @unique
+  name             String
+  domain           CatalogueDomain
+  entityType       CanonicalEntityType
+  defaultUnit      UnitCode?
+  active           Boolean              @default(true)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  offerings        CommercialOffering[]
+  aliases          Alias[]
+  sourceMappings   SourceMapping[]
+  rateObservations RateObservation[]
+}
+
+model CommercialOffering {
+  id               String            @id @default(cuid())
+  code             String            @unique
+  name             String
+  kind             OfferingKind
+  canonicalItemId  String?
+  canonicalItem    CanonicalItem?    @relation(fields: [canonicalItemId], references: [id], onDelete: SetNull)
+  quantityBasis    QuantityBasis
+  durationBasis    DurationBasis
+  billingUnit      UnitCode
+  active           Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  aliases          Alias[]
+  sourceMappings   SourceMapping[]
+  prices           Price[]
+  rateObservations RateObservation[]
+
+  @@index([canonicalItemId])
+}
+
+model Alias {
+  id                   String              @id @default(cuid())
+  canonicalItemId      String?
+  canonicalItem        CanonicalItem?      @relation(fields: [canonicalItemId], references: [id], onDelete: Cascade)
+  commercialOfferingId String?
+  commercialOffering   CommercialOffering? @relation(fields: [commercialOfferingId], references: [id], onDelete: Cascade)
+  normalizedText       String
+  originalText         String
+  source               String?
+  weight               Int                 @default(100)
+  active               Boolean             @default(true)
+  createdAt            DateTime            @default(now())
+
+  @@index([normalizedText])
+  @@index([canonicalItemId])
+  @@index([commercialOfferingId])
+}
+
+model SourceMapping {
+  id                   String              @id @default(cuid())
+  sourceSystem         String
+  sourceFile           String?
+  sourceSheet          String?
+  sourceCode           String?
+  sourceDescription    String
+  canonicalItemId      String?
+  canonicalItem        CanonicalItem?      @relation(fields: [canonicalItemId], references: [id], onDelete: SetNull)
+  commercialOfferingId String?
+  commercialOffering   CommercialOffering? @relation(fields: [commercialOfferingId], references: [id], onDelete: SetNull)
+  confidence           Decimal?            @db.Decimal(5, 4)
+  validated            Boolean             @default(false)
+  notes                String?
+  importBatchId        String?
+  importBatch          ImportBatch?        @relation(fields: [importBatchId], references: [id], onDelete: SetNull)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+
+  @@index([sourceSystem, sourceCode])
+  @@index([canonicalItemId])
+  @@index([commercialOfferingId])
+  @@index([importBatchId])
+}
+
+model RateMarket {
+  id               String            @id @default(cuid())
+  code             String            @unique
+  cityName         String
+  state            String?
+  country          String            @default("IN")
+  active           Boolean           @default(true)
+  prices           Price[]
+  rateObservations RateObservation[]
+}
+
+model Price {
+  id                   String             @id @default(cuid())
+  commercialOfferingId String
+  commercialOffering   CommercialOffering @relation(fields: [commercialOfferingId], references: [id], onDelete: Restrict)
+  side                 PriceSide
+  scopeType            PriceScopeType
+  marketId             String?
+  market               RateMarket?        @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  amountPaise          Int
+  currency             String             @default("INR")
+  effectiveFrom        DateTime?
+  effectiveTo          DateTime?
+  sourceImportId       String?
+  sourceImport         ImportBatch?       @relation(fields: [sourceImportId], references: [id], onDelete: SetNull)
+  active               Boolean            @default(true)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  @@index([commercialOfferingId, side, scopeType])
+  @@index([marketId])
+  @@index([sourceImportId])
+}
+
+model RateObservation {
+  id                   String              @id @default(cuid())
+  sourceFile           String
+  sourceSheet          String
+  sourceRow            Int?
+  rawCode              String?
+  rawDescription       String
+  canonicalItemId      String?
+  canonicalItem        CanonicalItem?      @relation(fields: [canonicalItemId], references: [id], onDelete: SetNull)
+  commercialOfferingId String?
+  commercialOffering   CommercialOffering? @relation(fields: [commercialOfferingId], references: [id], onDelete: SetNull)
+  marketId             String?
+  market               RateMarket?         @relation(fields: [marketId], references: [id], onDelete: SetNull)
+  cityText             String?
+  observedRatePaise    Int?
+  observedUnit         UnitCode?
+  observedQuantity     Decimal?            @db.Decimal(12, 4)
+  length               Decimal?            @db.Decimal(12, 4)
+  width                Decimal?            @db.Decimal(12, 4)
+  height               Decimal?            @db.Decimal(12, 4)
+  observedDays         Decimal?            @db.Decimal(12, 4)
+  notes                String?
+  metadata             Json?
+  importBatchId        String?
+  importBatch          ImportBatch?        @relation(fields: [importBatchId], references: [id], onDelete: SetNull)
+  createdAt            DateTime            @default(now())
+
+  @@index([canonicalItemId])
+  @@index([commercialOfferingId])
+  @@index([marketId])
+  @@index([importBatchId])
+}
+
+model ImportBatch {
+  id               String            @id @default(cuid())
+  sourceType       ImportSourceType
+  filename         String
+  fileHash         String
+  status           ImportStatus      @default(PENDING)
+  createdById      String?
+  createdBy        User?             @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt        DateTime          @default(now())
+  appliedAt        DateTime?
+  rowCount         Int               @default(0)
+  warningCount     Int               @default(0)
+  errorCount       Int               @default(0)
+  metadata         Json?
+  rows             ImportRow[]
+  prices           Price[]
+  sourceMappings   SourceMapping[]
+  rateObservations RateObservation[]
+
+  @@unique([sourceType, fileHash])
+  @@index([createdById])
+  @@index([status, createdAt])
+}
+
+model ImportRow {
+  id            String          @id @default(cuid())
+  importBatchId String
+  importBatch   ImportBatch     @relation(fields: [importBatchId], references: [id], onDelete: Cascade)
+  sheet         String
+  rowNumber     Int
+  rawData       Json
+  rowHash       String
+  status        ImportRowStatus @default(PENDING)
+  message       String?
+  createdAt     DateTime        @default(now())
+
+  @@unique([importBatchId, sheet, rowNumber])
+  @@index([importBatchId, rowHash])
 }
 
 model Quote {
-  id String @id @default(cuid())
-  number String @unique
-  type QuoteType
-  status QuoteStatus @default(DRAFT)
-  company String
-  project String?
-  venue String?
-  city String?
+  id          String          @id @default(cuid())
+  number      String          @unique
+  type        QuoteType
+  status      QuoteStatus     @default(DRAFT)
+  company     String
+  project     String?
+  venue       String?
+  city        String?
   salesperson String?
-  currency String @default("INR")
+  currency    String          @default("INR")
   createdById String
-  createdBy User @relation("Creator", fields: [createdById], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  revisions QuoteRevision[]
-  events QuoteEvent[]
+  createdBy   User            @relation("Creator", fields: [createdById], references: [id])
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  revisions   QuoteRevision[]
+  events      QuoteEvent[]
 }
 
 model QuoteRevision {
-  id String @id @default(cuid())
-  quoteId String
-  quote Quote @relation(fields: [quoteId], references: [id], onDelete: Restrict)
-  revisionNumber Int
-  preparedDate DateTime
-  validUntil DateTime?
-  taxPercentage Decimal @db.Decimal(5, 2)
-  notes String?
-  termsSnapshot String?
-  settingsSnapshot Json
-  subtotalPaise Int
+  id                 String              @id @default(cuid())
+  quoteId            String
+  quote              Quote               @relation(fields: [quoteId], references: [id], onDelete: Restrict)
+  revisionNumber     Int
+  preparedDate       DateTime
+  validUntil         DateTime?
+  taxPercentage      Decimal             @db.Decimal(5, 2)
+  notes              String?
+  termsSnapshot      String?
+  settingsSnapshot   Json
+  subtotalPaise      Int
   discountTotalPaise Int
-  taxTotalPaise Int
-  grandTotalPaise Int
-  lockedAt DateTime?
-  createdAt DateTime @default(now())
-  lines QuoteLine[]
-  documents GeneratedDocument[]
+  taxTotalPaise      Int
+  grandTotalPaise    Int
+  lockedAt           DateTime?
+  createdAt          DateTime            @default(now())
+  lines              QuoteLine[]
+  documents          GeneratedDocument[]
+
   @@unique([quoteId, revisionNumber])
 }
 
 model QuoteLine {
-  id String @id @default(cuid())
-  revisionId String
-  revision QuoteRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict)
-  catalogueItemId String?
-  catalogueItem CatalogueItem? @relation(fields: [catalogueItemId], references: [id], onDelete: SetNull)
-  itemCodeSnapshot String
-  itemNameSnapshot String
+  id                  String         @id @default(cuid())
+  revisionId          String
+  revision            QuoteRevision  @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+  catalogueItemId     String?
+  catalogueItem       CatalogueItem? @relation(fields: [catalogueItemId], references: [id], onDelete: SetNull)
+  itemCodeSnapshot    String
+  itemNameSnapshot    String
   descriptionSnapshot String?
-  unitSnapshot String
-  quantity Decimal @db.Decimal(12, 2)
-  days Decimal @db.Decimal(12, 2)
-  rateUsedPaise Int
-  discountPercent Decimal @default(0) @db.Decimal(5, 2)
-  discountPaise Int
-  lineTotalPaise Int
-  remarks String?
+  unitSnapshot        String
+  quantity            Decimal        @db.Decimal(12, 2)
+  days                Decimal        @db.Decimal(12, 2)
+  rateUsedPaise       Int
+  discountPercent     Decimal        @default(0) @db.Decimal(5, 2)
+  discountPaise       Int
+  lineTotalPaise      Int
+  remarks             String?
 }
 
 model QuoteEvent {
-  id String @id @default(cuid())
-  quoteId String
-  quote Quote @relation(fields: [quoteId], references: [id], onDelete: Restrict)
-  actorId String?
-  actor User? @relation(fields: [actorId], references: [id])
-  action AuditAction
+  id        String      @id @default(cuid())
+  quoteId   String
+  quote     Quote       @relation(fields: [quoteId], references: [id], onDelete: Restrict)
+  actorId   String?
+  actor     User?       @relation(fields: [actorId], references: [id])
+  action    AuditAction
   fromValue String?
-  toValue String?
-  metadata Json?
-  createdAt DateTime @default(now())
+  toValue   String?
+  metadata  Json?
+  createdAt DateTime    @default(now())
 }
 
 model GeneratedDocument {
-  id String @id @default(cuid())
-  revisionId String
-  revision QuoteRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+  id              String        @id @default(cuid())
+  revisionId      String
+  revision        QuoteRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict)
   templateVersion String
-  storageKey String @unique
-  checksum String
-  generatedAt DateTime @default(now())
-  emailedAt DateTime?
+  storageKey      String        @unique
+  checksum        String
+  generatedAt     DateTime      @default(now())
+  emailedAt       DateTime?
 }

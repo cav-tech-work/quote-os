@@ -2,6 +2,10 @@
 
 QuoteOS is Clockwork AV's internal quotation application. It uses Next.js, PostgreSQL, Prisma, Auth.js, and Google Workspace authentication.
 
+## Catalogue transition
+
+QuoteOS temporarily contains the legacy flat `CatalogueCategory` / `CatalogueItem` system used by all current screens and quote flows alongside an empty normalized catalogue foundation. No user-facing cutover or workbook import has occurred. The normalized concepts, source-authority rules, and bounded unit/quantity/duration contracts are defined in [`docs/catalogue-domain.md`](docs/catalogue-domain.md). The next bounded phase is the master workbook parser and deterministic import preview.
+
 ## Local setup
 
 Requirements: Node.js 22+, npm, and PostgreSQL.
