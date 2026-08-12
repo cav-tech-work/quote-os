@@ -1,6 +1,6 @@
 # QuoteOS project state
 
-Updated: 2026-08-07
+Updated: 2026-08-12
 
 ## Production
 
@@ -38,23 +38,24 @@ Updated: 2026-08-07
 - Administrator-only inventory catalogue create/update/delete functions.
 - System-access-manager-only user role and status management.
 - Server-generated PDF export for saved quotes with repeatable Clockwork AV headers/footers.
-- Imported rate catalogue is seeded idempotently from `prisma/cav-rates.mjs`.
+- A legacy development catalogue can be loaded explicitly with `npm run db:seed`; it is never loaded during application startup and must not be used as a production import process.
 
 ## Verification
 
-Latest checks passed:
+GitHub Actions runs the following validation for pull requests into `main` and pushes to `dev-mac` or `main`:
 
 ```text
+npm ci
 npm test
 npm run typecheck
 npm run build
 ```
 
-Policy tests cover exact domain checks, founder privilege reconciliation, normal/disabled user preservation, and Render-host canonicalization.
+The workflow uses Node.js 22, matching the production Docker image, and does not receive production secrets or connect to PostgreSQL. Policy tests cover exact domain checks, founder privilege reconciliation, normal/disabled user preservation, Render-host canonicalization, and production startup safety.
 
 ## Operational notes
 
 - Render automatically deploys `main`.
 - `dev` exists as a future staging branch but production work is currently on `main`.
 - Do not commit `AUTH_SECRET`, Google client secrets, or database URLs.
-- Database migrations run with `prisma migrate deploy` at container startup; seeding is repeatable.
+- Production container startup runs `prisma migrate deploy` and then starts the application. Migration failure prevents startup. Catalogue seeding/import is never part of the production lifecycle.
