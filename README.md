@@ -15,6 +15,16 @@ npm run catalogue:preview -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xl
 
 Add `--output preview.json` for deterministic machine-readable output. Only that workbook's `RateChart.ToClients` and `RateChart.ToVendors` are active-price candidates; `LookUp` is normalization vocabulary, venue-master data is operational evidence, and city/event files are historical evidence. Preview never populates normalized tables. Known warnings include unmapped source codes, two raw `unit` values, uncertain tour-specific duration semantics, and aliases shared across incompatible canonical targets.
 
+Generate or update the hash-bound review decisions, inspect a database-aware dry-run, and apply only with the explicit flag:
+
+```text
+npm run catalogue:review -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx
+npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --decisions ./catalogue-import-decisions.json
+npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --decisions ./catalogue-import-decisions.json --apply
+```
+
+The review file defaults every unresolved mapping, unknown unit, and alias conflict to `DEFER`. Apply verifies the exact workbook/review hashes and commits approved canonicals, offerings, aliases, global prices, mappings, and provenance atomically. Repeating the same reviewed apply is a no-op. The legacy catalogue and quote builder remain active; normalized data is not user-facing, and all 1,608 city values remain inactive.
+
 ## Local setup
 
 Requirements: Node.js 22+, npm, and PostgreSQL.

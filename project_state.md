@@ -48,8 +48,12 @@ Updated: 2026-08-12
 - The checked-in contract is [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
 - Phase 1 now provides `npm run catalogue:preview -- <workbook.xlsx>` plus `--json`/`--output`. The parser is pure and does not import Prisma or write `ImportBatch`, `ImportRow`, or normalized catalogue entities.
 - `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the sole active commercial-master authority for preview. Candidate global client/vendor rates come independently from `RateChart`; `LookUp` is normalization vocabulary. Venue-master and city/event workbooks cannot override active rates.
-- The first real preview found unmapped source codes, two unknown raw `unit` values, tour-specific duration uncertainty, and conflicting aliases. These remain review items; no catalogue population or apply workflow exists.
-- The next bounded phase is **review decisions + guarded apply for explicitly approved deterministic candidates**. It must exclude unresolved mappings, city observations, packages, calculations, and catalogue/quote cutover.
+- The first real preview found unmapped source codes, two unknown raw `unit` values, tour-specific duration uncertainty, and conflicting aliases. These remain explicit review items.
+- Phase 2 adds the version-controlled, SHA-bound `catalogue-import-decisions.json`, deterministic review generation, database-aware apply planning, and an explicit transactional `--apply` boundary. Unresolved candidates fail closed to `DEFER`.
+- The disposable-database guarded real-master validation result is 113 canonical items, 197 distinct offerings, 1,094 non-conflicting aliases, 197 source mappings, 327 independent GLOBAL prices, one ImportBatch, and 452 provenance rows. Twenty-six source rows and 18 conflicting alias-target rows remain deferred; no human approvals or rejections were asserted.
+- Entity type, offering kind, quantity basis, and duration basis may remain null when source evidence does not determine them. This prevents arbitrary calculation/business classifications while allowing approved identity and pricing data.
+- The 1,608 city values remain inactive and produce no Price, RateMarket, or RateObservation rows. Legacy `/catalogue`, quotes, pricing, and PDFs still use `CatalogueItem` exclusively.
+- The next major phase is **Normalized Catalogue + Rate Admin Dashboard**. It must manage `CommercialOffering × TO_CLIENT/TO_VENDOR × GLOBAL/CITY`, while V1 quote resolution remains GLOBAL-only and no quote/catalogue cutover occurs implicitly.
 
 ## Verification
 

@@ -220,7 +220,7 @@ model CanonicalItem {
   code             String               @unique
   name             String
   domain           CatalogueDomain
-  entityType       CanonicalEntityType
+  entityType       CanonicalEntityType?
   defaultUnit      UnitCode?
   active           Boolean              @default(true)
   createdAt        DateTime             @default(now())
@@ -235,11 +235,11 @@ model CommercialOffering {
   id               String            @id @default(cuid())
   code             String            @unique
   name             String
-  kind             OfferingKind
+  kind             OfferingKind?
   canonicalItemId  String?
   canonicalItem    CanonicalItem?    @relation(fields: [canonicalItemId], references: [id], onDelete: SetNull)
-  quantityBasis    QuantityBasis
-  durationBasis    DurationBasis
+  quantityBasis    QuantityBasis?
+  durationBasis    DurationBasis?
   billingUnit      UnitCode
   active           Boolean           @default(true)
   createdAt        DateTime          @default(now())

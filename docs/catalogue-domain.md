@@ -1,6 +1,6 @@
 # Normalized catalogue domain contract
 
-Status: Phase 1 preview foundation, 12 August 2026. The normalized catalogue is additive and has no user-facing consumers yet. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for the current application until an explicit cutover phase.
+Status: Phase 2 guarded-apply foundation, 12 August 2026. The normalized catalogue is additive and has no user-facing consumers yet. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for the current application until an explicit cutover phase.
 
 Phase 1 adds a pure, deterministic preview parser. `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the only active commercial-master authority: `RateChart.ToClients` and `RateChart.ToVendors` are independent candidate global prices, while `LookUp` supplies normalization evidence. City columns are reported only as later `RateObservation` candidates. `VCxOpsxPower_Master_VenueWise.xlsx` remains operational evidence, and city/event workbooks remain historical evidence.
 
@@ -91,7 +91,7 @@ Package composition and package pricing will remain separate to prevent double c
 
 ## Compatibility and technical debt
 
-The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is not represented in the normalized models. Production startup remains migration-only. The next bounded phase is review decisions plus guarded apply for explicitly approved deterministic candidates, with no catalogue/quote cutover.
+The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is not represented in the normalized models. Production startup remains migration-only. The next bounded phase is the normalized catalogue and rate-management admin dashboard, with no quote-flow cutover or CITY resolution.
 
 The preview command is:
 
@@ -101,4 +101,20 @@ npm run catalogue:preview -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xl
 npm run catalogue:preview -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --output preview.json
 ```
 
-It hashes the file and source rows, detects headers, parses `RateChart` and `LookUp` into typed intermediate candidates, and performs no Prisma/database operation. Known source-review items are unmapped RateChart codes (especially power and tour-specific lines), the raw unit `unit`, aliases shared by incompatible canonical targets, and tour-specific rows whose section does not determine a duration basis. No normalized catalogue migration has occurred.
+It hashes the file and source rows, detects headers, parses `RateChart` and `LookUp` into typed intermediate candidates, and performs no Prisma/database operation. Known source-review items are unmapped RateChart codes (especially power and tour-specific lines), the raw unit `unit`, aliases shared by incompatible canonical targets, and tour-specific rows whose section does not determine a duration basis. Only the separate guarded apply command may populate normalized data.
+
+## Review and guarded apply policy
+
+`catalogue-import-decisions.json` is version-controlled human interpretation, not duplicated source data. It is bound to the exact workbook SHA-256, parser version, review schema version, and authority type. Deterministic conflict-free mappings and known billing units are explicitly auto-approved by policy. Anything review-required defaults to `DEFER`; absence never means approval. Decisions may be `APPROVE`, `DEFER`, or `REJECT`.
+
+Candidate-blocking conditions are unmapped/ambiguous/invalid identity, unknown billing unit, duplicate source code, invalid active master rate, or a formula error. Conflicting aliases block only those alias rows. Unknown calculation semantics such as `AREA_LW` versus `AREA_LH`, nullable entity/offering kind, and uncertain duration basis are informational because Phase 2 does not execute calculations; the schema retains them as null rather than inventing behavior. City values remain preview-only historical evidence.
+
+```text
+npm run catalogue:review -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx
+npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --decisions ./catalogue-import-decisions.json
+npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --decisions ./catalogue-import-decisions.json --apply
+```
+
+The first apply command is a database-aware dry-run. Only the separate command containing `--apply` may mutate data. It verifies both hashes, regenerates the Phase 1 preview, validates decisions, and performs one PostgreSQL transaction containing provenance and approved normalized records. An already-applied identical workbook/decision pair is a no-op. The importer never creates `RateObservation`, `RateMarket`, or CITY `Price` records.
+
+The permanent normalized admin architecture must expose approved rates as a matrix of `CommercialOffering × (TO_CLIENT | TO_VENDOR) × (GLOBAL | CITY/RateMarket)`. V1 quote resolution remains GLOBAL-only. Future CITY management must use the existing `Price.scopeType` and `RateMarket` model rather than redesigning offering identity or price ownership.
