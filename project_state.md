@@ -42,15 +42,16 @@ Updated: 2026-08-12
 
 ## Verification
 
-Latest checks passed:
+GitHub Actions runs the following validation for pull requests into `main` and pushes to `dev-mac` or `main`:
 
 ```text
+npm ci
 npm test
 npm run typecheck
 npm run build
 ```
 
-Policy tests cover exact domain checks, founder privilege reconciliation, normal/disabled user preservation, and Render-host canonicalization.
+The workflow uses Node.js 22, matching the production Docker image, and does not receive production secrets or connect to PostgreSQL. Policy tests cover exact domain checks, founder privilege reconciliation, normal/disabled user preservation, Render-host canonicalization, and production startup safety.
 
 ## Operational notes
 

@@ -18,3 +18,17 @@ Migration failure stops startup. Container deployment, replacement, and restart 
 For a new local or disposable database, developers may explicitly run `npm run db:seed`. The legacy seed must not be run against production. Production catalogue imports are explicit controlled operations; the master-chart import workflow will be implemented separately.
 
 Production authentication requires one stable `AUTH_SECRET`, `AUTH_URL=https://quotes.clockwork-av.com`, and the Google callback `https://quotes.clockwork-av.com/api/auth/callback/google`. After deployment, confirm the Render service hostname redirects to the canonical domain before beginning a Google sign-in, then complete fresh and repeat login smoke tests.
+
+## Production change flow
+
+The intended minimum delivery flow is:
+
+```text
+development branch
+pull request into main
+GitHub Actions CI (Validate)
+merge to main
+automatic Render production deployment
+```
+
+CI installs from `package-lock.json`, runs tests and typechecking, and creates a production build. It does not connect to PostgreSQL, migrate, seed, or receive production OAuth/database secrets. GitHub branch protection is a separate repository-owner setting and must require the `Validate` status check before merging.

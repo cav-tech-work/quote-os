@@ -25,3 +25,7 @@ npm run build
 ```
 
 Production containers apply committed migrations before starting the application. Catalogue imports are separate controlled operations; the production master-chart import will be implemented in a later phase.
+
+## Continuous integration
+
+GitHub Actions validates pull requests into `main` and pushes to `dev-mac` or `main` with `npm ci`, tests, typechecking, and a production build. CI uses no production database or OAuth secrets. Repository branch protection must be configured separately in GitHub settings before this check can be required for merges.
