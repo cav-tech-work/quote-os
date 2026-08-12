@@ -1,6 +1,8 @@
 # Normalized catalogue domain contract
 
-Status: Phase 0 foundation, 12 August 2026. The normalized catalogue is additive and has no user-facing consumers yet. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for the current application until an explicit cutover phase.
+Status: Phase 1 preview foundation, 12 August 2026. The normalized catalogue is additive and has no user-facing consumers yet. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for the current application until an explicit cutover phase.
+
+Phase 1 adds a pure, deterministic preview parser. `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the only active commercial-master authority: `RateChart.ToClients` and `RateChart.ToVendors` are independent candidate global prices, while `LookUp` supplies normalization evidence. City columns are reported only as later `RateObservation` candidates. `VCxOpsxPower_Master_VenueWise.xlsx` remains operational evidence, and city/event workbooks remain historical evidence.
 
 ## Evidence and authority
 
@@ -89,4 +91,14 @@ Package composition and package pricing will remain separate to prevent double c
 
 ## Compatibility and technical debt
 
-The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is not represented in the normalized models. Production startup remains migration-only. The next bounded phase is a deterministic master-workbook parser and import preview, with no apply/cutover behavior.
+The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is not represented in the normalized models. Production startup remains migration-only. The next bounded phase is review decisions plus guarded apply for explicitly approved deterministic candidates, with no catalogue/quote cutover.
+
+The preview command is:
+
+```text
+npm run catalogue:preview -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx
+npm run catalogue:preview -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --json
+npm run catalogue:preview -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --output preview.json
+```
+
+It hashes the file and source rows, detects headers, parses `RateChart` and `LookUp` into typed intermediate candidates, and performs no Prisma/database operation. Known source-review items are unmapped RateChart codes (especially power and tour-specific lines), the raw unit `unit`, aliases shared by incompatible canonical targets, and tour-specific rows whose section does not determine a duration basis. No normalized catalogue migration has occurred.

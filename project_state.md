@@ -45,7 +45,11 @@ Updated: 2026-08-12
 - Phase 0 adds an empty normalized catalogue schema alongside the operational legacy flat catalogue; no workbook data or historic quote data has been migrated.
 - The normalized foundation separates canonical identity, commercial offerings, approved independent client/vendor prices, aliases, source mappings, city markets, historical rate observations, and import provenance.
 - Current `/catalogue`, quote creation/search, quote history, pricing, and PDFs continue to use `CatalogueItem` unchanged. The legacy 40% client-price rule remains technical debt until an explicit cutover.
-- The checked-in contract is [`docs/catalogue-domain.md`](docs/catalogue-domain.md). The next phase is **Master workbook parser + deterministic import preview**, not catalogue cutover.
+- The checked-in contract is [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
+- Phase 1 now provides `npm run catalogue:preview -- <workbook.xlsx>` plus `--json`/`--output`. The parser is pure and does not import Prisma or write `ImportBatch`, `ImportRow`, or normalized catalogue entities.
+- `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the sole active commercial-master authority for preview. Candidate global client/vendor rates come independently from `RateChart`; `LookUp` is normalization vocabulary. Venue-master and city/event workbooks cannot override active rates.
+- The first real preview found unmapped source codes, two unknown raw `unit` values, tour-specific duration uncertainty, and conflicting aliases. These remain review items; no catalogue population or apply workflow exists.
+- The next bounded phase is **review decisions + guarded apply for explicitly approved deterministic candidates**. It must exclude unresolved mappings, city observations, packages, calculations, and catalogue/quote cutover.
 
 ## Verification
 

@@ -4,7 +4,16 @@ QuoteOS is Clockwork AV's internal quotation application. It uses Next.js, Postg
 
 ## Catalogue transition
 
-QuoteOS temporarily contains the legacy flat `CatalogueCategory` / `CatalogueItem` system used by all current screens and quote flows alongside an empty normalized catalogue foundation. No user-facing cutover or workbook import has occurred. The normalized concepts, source-authority rules, and bounded unit/quantity/duration contracts are defined in [`docs/catalogue-domain.md`](docs/catalogue-domain.md). The next bounded phase is the master workbook parser and deterministic import preview.
+QuoteOS temporarily contains the legacy flat `CatalogueCategory` / `CatalogueItem` system used by all current screens and quote flows alongside an empty normalized catalogue foundation. No user-facing cutover or workbook import has occurred. The normalized concepts, source-authority rules, and bounded unit/quantity/duration contracts are defined in [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
+
+The authoritative master can be inspected without database writes:
+
+```text
+npm run catalogue:preview -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx
+npm run catalogue:preview -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --json
+```
+
+Add `--output preview.json` for deterministic machine-readable output. Only that workbook's `RateChart.ToClients` and `RateChart.ToVendors` are active-price candidates; `LookUp` is normalization vocabulary, venue-master data is operational evidence, and city/event files are historical evidence. Preview never populates normalized tables. Known warnings include unmapped source codes, two raw `unit` values, uncertain tour-specific duration semantics, and aliases shared across incompatible canonical targets.
 
 ## Local setup
 
