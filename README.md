@@ -4,7 +4,7 @@ QuoteOS is Clockwork AV's internal quotation application. It uses Next.js, Postg
 
 ## Catalogue transition
 
-QuoteOS temporarily contains the legacy flat `CatalogueCategory` / `CatalogueItem` system used by all current screens and quote flows alongside an empty normalized catalogue foundation. No user-facing cutover or workbook import has occurred. The normalized concepts, source-authority rules, and bounded unit/quantity/duration contracts are defined in [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
+QuoteOS contains the legacy flat catalogue used by all quote flows alongside the populated normalized catalogue. Active administrators manage normalized offerings and independent GLOBAL or CITY client/vendor rates at `/admin/catalogue`; this does not cut the quote builder over from the legacy catalogue. The domain contract is in [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
 
 The authoritative master can be inspected without database writes:
 
@@ -23,7 +23,11 @@ npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx
 npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --decisions ./catalogue-import-decisions.json --apply
 ```
 
-The review file defaults every unresolved mapping, unknown unit, and alias conflict to `DEFER`. Apply verifies the exact workbook/review hashes and commits approved canonicals, offerings, aliases, global prices, mappings, and provenance atomically. Repeating the same reviewed apply is a no-op. The legacy catalogue and quote builder remain active; normalized data is not user-facing, and all 1,608 city values remain inactive.
+The review file defaults every unresolved mapping, unknown unit, and alias conflict to `DEFER`. Apply verifies the exact workbook/review hashes and commits approved canonicals, offerings, aliases, global prices, mappings, and provenance atomically. Repeating the same reviewed apply is a no-op, including after an administrator changes a rate. The legacy catalogue and quote builder remain active; all 1,608 workbook city values remain historical evidence.
+
+## Catalogue and rate administration
+
+Active `ADMIN` users can open `/admin/catalogue` to filter the normalized catalogue, distinguish explicit zero from unavailable prices, change or clear either rate side independently, inspect history and import issues, and maintain city markets. Every change requires a reason, preserves imported provenance, closes the previous price rather than overwriting it, and creates an actor-linked audit event. Stale edits return a conflict and must be retried after refresh. Inactive markets retain history but reject new rates. Quote users cannot access these routes or see their navigation.
 
 ## Local setup
 
@@ -50,7 +54,7 @@ npm run typecheck
 npm run build
 ```
 
-Production containers apply committed migrations before starting the application. Catalogue imports are separate controlled operations; the production master-chart import will be implemented in a later phase.
+Production containers apply committed migrations before starting the application. Catalogue imports remain separate controlled operations. The recommended next phase is Measurement + Deterministic Pricing Core; normalized quote integration and cutover remain out of scope until then.
 
 ## Continuous integration
 

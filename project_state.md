@@ -1,6 +1,15 @@
 # QuoteOS project state
 
-Updated: 2026-08-12
+Updated: 2026-08-13
+
+## Phase 3 normalized catalogue and rate administration
+
+- `/admin/catalogue` is the permanent active-ADMIN surface for one-row-per-`CommercialOffering` inspection, filtering, independent client/vendor rate edits, explicit zero/unavailable states, history, latest import issues, and market maintenance.
+- `lib/catalogue-rates.ts` centralizes exact rupee parsing, append-only price versioning, required reasons, actor audit, inactive-market rejection, and optimistic concurrency.
+- PostgreSQL partial unique indexes enforce one active price per offering/side/GLOBAL and offering/side/CITY market, including correct NULL handling.
+- Quote users and inactive accounts are forbidden. Catalogue administrators do not gain `/access`; that remains restricted to system access managers.
+- The legacy `/catalogue`, quote builder, quote APIs, PDFs, snapshots, and 40% legacy behavior are unchanged. CITY rates are configurable but are not quote inputs.
+- Recommended Phase 4: Measurement + Deterministic Pricing Core.
 
 ## Production
 

@@ -28,7 +28,7 @@ test("normalized catalogue stays additive and prices belong to offerings", () =>
     assert.match(schema, new RegExp(`model ${model} \\{`));
   }
   const priceModel = schema.match(/model Price \{([\s\S]*?)\n\}/)?.[1] ?? "";
-  assert.match(priceModel, /commercialOfferingId String/);
+  assert.match(priceModel, /commercialOfferingId\s+String/);
   assert.doesNotMatch(priceModel, /canonicalItemId/);
   assert.match(migration, /Alias_exactly_one_target_check/);
   assert.match(migration, /Price_scope_market_check/);

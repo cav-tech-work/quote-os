@@ -13,6 +13,9 @@ export function isSystemAccessManager(email: string | null | undefined) { return
 export function hasSystemAccessManagerAuthority(user: AccessState) {
   return user.active && user.role === "ADMIN" && isSystemAccessManager(user.email);
 }
+export function hasCatalogueAdminAuthority(user: Pick<AccessState, "active" | "role">) {
+  return user.active && user.role === "ADMIN";
+}
 export function effectiveAccess<T extends AccessState>(user: T): T {
   return isSystemAccessManager(user.email) ? { ...user, role: "ADMIN", active: true, accessManager: true } : user;
 }

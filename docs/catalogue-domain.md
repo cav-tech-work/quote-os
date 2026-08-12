@@ -1,6 +1,6 @@
 # Normalized catalogue domain contract
 
-Status: Phase 2 guarded-apply foundation, 12 August 2026. The normalized catalogue is additive and has no user-facing consumers yet. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for the current application until an explicit cutover phase.
+Status: Phase 3 administration foundation, 13 August 2026. The normalized catalogue is populated and has an administrator-only catalogue/rate dashboard. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for quote creation until an explicit cutover phase.
 
 Phase 1 adds a pure, deterministic preview parser. `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the only active commercial-master authority: `RateChart.ToClients` and `RateChart.ToVendors` are independent candidate global prices, while `LookUp` supplies normalization evidence. City columns are reported only as later `RateObservation` candidates. `VCxOpsxPower_Master_VenueWise.xlsx` remains operational evidence, and city/event workbooks remain historical evidence.
 
@@ -30,6 +30,8 @@ The rate-bearing answer to “how is this version supplied and billed?” It has
 ### Price
 
 An approved integer-minor-unit rate attached only to a `CommercialOffering`. `TO_CLIENT` and `TO_VENDOR` rows are independent: either may exist without the other and neither is calculated from the other. An amount of zero is a valid approved price; absence of a row means no approved price. V1 stores `GLOBAL` and `CITY` scope, but later quote resolution will initially use only `GLOBAL`. `CITY` requires a `RateMarket`; `GLOBAL` has none. Effective dates allow history without imposing premature overlap/precedence rules.
+
+Administrator changes are append-only: replacement closes the prior row and creates a current row; clearing closes it without a replacement. Partial unique indexes enforce one active GLOBAL price per offering/side and one active CITY price per offering/side/market. `PriceAuditEvent` records actor, offering, side, scope, market, CREATE/REPLACE/CLEAR action, old/new price references, required reason, and timestamp. Mutations require the current price ID observed by the editor, so stale writes fail instead of overwriting newer work.
 
 ### Alias
 
@@ -91,7 +93,7 @@ Package composition and package pricing will remain separate to prevent double c
 
 ## Compatibility and technical debt
 
-The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is not represented in the normalized models. Production startup remains migration-only. The next bounded phase is the normalized catalogue and rate-management admin dashboard, with no quote-flow cutover or CITY resolution.
+The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is not represented in normalized rate administration. CITY rates may be maintained but quote resolution does not read them. Production startup remains migration-only. The next bounded phase is Measurement + Deterministic Pricing Core, with no premature quote-flow cutover.
 
 The preview command is:
 

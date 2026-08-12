@@ -106,6 +106,12 @@ enum PriceScopeType {
   CITY
 }
 
+enum PriceAuditAction {
+  CREATE
+  REPLACE
+  CLEAR
+}
+
 enum ImportSourceType {
   ACTIVE_COMMERCIAL_MASTER
   NORMALIZATION_VOCABULARY
@@ -133,20 +139,21 @@ enum ImportRowStatus {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String        @unique
-  emailVerified DateTime?
-  image         String?
-  role          Role          @default(QUOTE_USER)
-  accessManager Boolean       @default(false)
-  active        Boolean       @default(true)
-  createdAt     DateTime      @default(now())
-  accounts      Account[]
-  sessions      Session[]
-  quotes        Quote[]       @relation("Creator")
-  events        QuoteEvent[]
-  importBatches ImportBatch[]
+  id               String            @id @default(cuid())
+  name             String?
+  email            String            @unique
+  emailVerified    DateTime?
+  image            String?
+  role             Role              @default(QUOTE_USER)
+  accessManager    Boolean           @default(false)
+  active           Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  accounts         Account[]
+  sessions         Session[]
+  quotes           Quote[]           @relation("Creator")
+  events           QuoteEvent[]
+  importBatches    ImportBatch[]
+  priceAuditEvents PriceAuditEvent[]
 }
 
 model Account {
@@ -248,6 +255,7 @@ model CommercialOffering {
   sourceMappings   SourceMapping[]
   prices           Price[]
   rateObservations RateObservation[]
+  priceAuditEvents PriceAuditEvent[]
 
   @@index([canonicalItemId])
 }
@@ -304,29 +312,55 @@ model RateMarket {
   active           Boolean           @default(true)
   prices           Price[]
   rateObservations RateObservation[]
+  priceAuditEvents PriceAuditEvent[]
 }
 
 model Price {
+  id                    String             @id @default(cuid())
+  commercialOfferingId  String
+  commercialOffering    CommercialOffering @relation(fields: [commercialOfferingId], references: [id], onDelete: Restrict)
+  side                  PriceSide
+  scopeType             PriceScopeType
+  marketId              String?
+  market                RateMarket?        @relation(fields: [marketId], references: [id], onDelete: Restrict)
+  amountPaise           Int
+  currency              String             @default("INR")
+  effectiveFrom         DateTime?
+  effectiveTo           DateTime?
+  sourceImportId        String?
+  sourceImport          ImportBatch?       @relation(fields: [sourceImportId], references: [id], onDelete: SetNull)
+  active                Boolean            @default(true)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  replacedInAuditEvents PriceAuditEvent[]  @relation("OldPrice")
+  createdInAuditEvents  PriceAuditEvent[]  @relation("NewPrice")
+
+  @@index([commercialOfferingId, side, scopeType])
+  @@index([marketId])
+  @@index([sourceImportId])
+}
+
+model PriceAuditEvent {
   id                   String             @id @default(cuid())
+  actorId              String
+  actor                User               @relation(fields: [actorId], references: [id], onDelete: Restrict)
   commercialOfferingId String
   commercialOffering   CommercialOffering @relation(fields: [commercialOfferingId], references: [id], onDelete: Restrict)
   side                 PriceSide
   scopeType            PriceScopeType
   marketId             String?
   market               RateMarket?        @relation(fields: [marketId], references: [id], onDelete: Restrict)
-  amountPaise          Int
-  currency             String             @default("INR")
-  effectiveFrom        DateTime?
-  effectiveTo          DateTime?
-  sourceImportId       String?
-  sourceImport         ImportBatch?       @relation(fields: [sourceImportId], references: [id], onDelete: SetNull)
-  active               Boolean            @default(true)
+  action               PriceAuditAction
+  oldPriceId           String?
+  oldPrice             Price?             @relation("OldPrice", fields: [oldPriceId], references: [id], onDelete: Restrict)
+  newPriceId           String?
+  newPrice             Price?             @relation("NewPrice", fields: [newPriceId], references: [id], onDelete: Restrict)
+  reason               String
   createdAt            DateTime           @default(now())
-  updatedAt            DateTime           @updatedAt
 
-  @@index([commercialOfferingId, side, scopeType])
+  @@index([commercialOfferingId, createdAt])
+  @@index([actorId])
   @@index([marketId])
-  @@index([sourceImportId])
 }
 
 model RateObservation {
