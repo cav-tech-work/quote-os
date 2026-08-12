@@ -32,3 +32,5 @@ automatic Render production deployment
 ```
 
 CI installs from `package-lock.json`, runs tests and typechecking, and creates a production build. It does not connect to PostgreSQL, migrate, seed, or receive production OAuth/database secrets. GitHub branch protection is a separate repository-owner setting and must require the `Validate` status check before merging.
+
+There is no hosted staging environment. `dev-mac` is exercised on localhost with an isolated local PostgreSQL database and the explicitly gated development auth bypass. Render remains production-only and must not set `DEV_AUTH_BYPASS`.

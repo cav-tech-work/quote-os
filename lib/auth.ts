@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { effectiveAccess, hasSystemAccessManagerAuthority, isSystemAccessManager, type AppRole } from "@/lib/access-policy";
+import { getLocalDevUser, isLocalDevUser } from "@/lib/dev-auth";
 import { prisma } from "@/lib/prisma";
 
 export { type AppRole } from "@/lib/access-policy";
 
 export async function getCurrentUser() {
+  const localUser = await getLocalDevUser();
+  if (localUser) return localUser;
   const session = await auth();
   if (!session?.user?.id) return null;
   const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { id: true, email: true, name: true, role: true, active: true, accessManager: true } });
@@ -26,6 +29,6 @@ export async function requireRole(...roles: AppRole[]) {
 export async function requireAccessManager() {
   const access = await requireRole("ADMIN");
   if ("error" in access) return access;
-  if (!hasSystemAccessManagerAuthority(access.user)) return { error: NextResponse.json({ error: "System access-manager permission required" }, { status: 403 }) } as const;
+  if (!isLocalDevUser(access.user) && !hasSystemAccessManagerAuthority(access.user)) return { error: NextResponse.json({ error: "System access-manager permission required" }, { status: 403 }) } as const;
   return access;
 }

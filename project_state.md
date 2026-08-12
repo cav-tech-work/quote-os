@@ -56,6 +56,7 @@ The workflow uses Node.js 22, matching the production Docker image, and does not
 ## Operational notes
 
 - Render automatically deploys `main`.
-- `dev` exists as a future staging branch but production work is currently on `main`.
+- `dev-mac` is the localhost development/staging branch. It uses isolated local PostgreSQL and may enable `DEV_AUTH_BYPASS=true`; there is no hosted staging service.
+- The local bypass is effective only outside `NODE_ENV=production` and reconciles `dev-local@quoteos.local` as an active local administrator. It cannot grant production access or production system-manager authority.
 - Do not commit `AUTH_SECRET`, Google client secrets, or database URLs.
 - Production container startup runs `prisma migrate deploy` and then starts the application. Migration failure prevents startup. Catalogue seeding/import is never part of the production lifecycle.
