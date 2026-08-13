@@ -2,6 +2,17 @@
 
 Updated: 2026-08-13
 
+## Phase 4 measurement and deterministic pricing core
+
+- `lib/catalogue-calculation` separates pure exact rational arithmetic/unit conversion, pure quantity calculation, normalized GLOBAL database rate lookup, and orchestration.
+- Implemented `COUNT`, `AREA_LW`, `AREA_LH`, `LINEAR`, `VOLUME`, and `FIXED`; missing/unsupported semantics and incomplete configurations return typed outcomes.
+- Quantity stays rational internally, snapshot/display quantity rounds half-up at 12 decimal places, and integer-paise money rounds half-up once after exact multiplication.
+- Current GLOBAL client/vendor rates resolve independently. Explicit zero is valid; missing, conflicting, CITY, opposite-side, legacy, and derived fallback rates are never substituted.
+- Charge-day offerings return `NEEDS_PRICING_SCHEDULE` and a per-charge-period base amount. No duration schedule was implemented.
+- Real-data coverage: 197/197 known billing units, 177/197 known quantity bases, 197/197 known duration bases; 114 offerings use Phase 4-supported bases. The remaining 63 `HEADCOUNT_DUTY` and 20 unclassified offerings fail closed.
+- Phase 4 is headless. The quote workspace, legacy catalogue/pricing, quote persistence, and PDFs remain unchanged.
+- Recommended Phase 5: Quote Pricing Schedule + Charge-Day Resolution.
+
 ## Phase 3 normalized catalogue and rate administration
 
 - `/admin/catalogue` is the permanent active-ADMIN surface for one-row-per-`CommercialOffering` inspection, filtering, independent client/vendor rate edits, explicit zero/unavailable states, history, latest import issues, and market maintenance.
@@ -9,7 +20,7 @@ Updated: 2026-08-13
 - PostgreSQL partial unique indexes enforce one active price per offering/side/GLOBAL and offering/side/CITY market, including correct NULL handling.
 - Quote users and inactive accounts are forbidden. Catalogue administrators do not gain `/access`; that remains restricted to system access managers.
 - The legacy `/catalogue`, quote builder, quote APIs, PDFs, snapshots, and 40% legacy behavior are unchanged. CITY rates are configurable but are not quote inputs.
-- Recommended Phase 4: Measurement + Deterministic Pricing Core.
+- Phase 4 subsequently delivered the headless Measurement + Deterministic Pricing Core described above.
 
 ## Production
 
@@ -62,7 +73,7 @@ Updated: 2026-08-13
 - The disposable-database guarded real-master validation result is 113 canonical items, 197 distinct offerings, 1,094 non-conflicting aliases, 197 source mappings, 327 independent GLOBAL prices, one ImportBatch, and 452 provenance rows. Twenty-six source rows and 18 conflicting alias-target rows remain deferred; no human approvals or rejections were asserted.
 - Entity type, offering kind, quantity basis, and duration basis may remain null when source evidence does not determine them. This prevents arbitrary calculation/business classifications while allowing approved identity and pricing data.
 - The 1,608 city values remain inactive and produce no Price, RateMarket, or RateObservation rows. Legacy `/catalogue`, quotes, pricing, and PDFs still use `CatalogueItem` exclusively.
-- The next major phase is **Normalized Catalogue + Rate Admin Dashboard**. It must manage `CommercialOffering × TO_CLIENT/TO_VENDOR × GLOBAL/CITY`, while V1 quote resolution remains GLOBAL-only and no quote/catalogue cutover occurs implicitly.
+- Phase 3 delivered the normalized rate dashboard and Phase 4 delivered headless GLOBAL calculation. The next major phase is **Quote Pricing Schedule + Charge-Day Resolution**; no quote/catalogue cutover occurs implicitly.
 
 ## Verification
 

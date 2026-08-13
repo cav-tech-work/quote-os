@@ -1,6 +1,6 @@
 # Normalized catalogue domain contract
 
-Status: Phase 3 administration foundation, 13 August 2026. The normalized catalogue is populated and has an administrator-only catalogue/rate dashboard. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for quote creation until an explicit cutover phase.
+Status: Phase 4 headless calculation foundation, 13 August 2026. The normalized catalogue is populated, administrable, and usable through a server-side deterministic calculation core. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for quote creation until an explicit cutover phase.
 
 Phase 1 adds a pure, deterministic preview parser. `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the only active commercial-master authority: `RateChart.ToClients` and `RateChart.ToVendors` are independent candidate global prices, while `LookUp` supplies normalization evidence. City columns are reported only as later `RateObservation` candidates. `VCxOpsxPower_Master_VenueWise.xlsx` remains operational evidence, and city/event workbooks remain historical evidence.
 
@@ -62,7 +62,9 @@ configuration parameter unit
 → billable quantity
 ```
 
-No conversion or calculation engine is part of Phase 0.
+Phase 4 implements a deliberately bounded calculation engine. Decimal configuration values are accepted as strings and represented as reduced `BigInt` rational numbers. The international foot is exact (`1 ft = 0.3048 m = 381/1250 m`); therefore `1 m = 1250/381 ft` and `1 m² = 1,562,500/145,161 ft²`. Area conversion uses the direct square factor rather than a rounded length conversion. `RFT` means running feet. Foot-based volume dimensions are independently normalized to metres before multiplication, producing cubic metres for `CBM`.
+
+Measurement arithmetic remains exact internally. Public billable-quantity strings are rounded half-up to at most 12 decimal places for stable snapshots and display; that representation is not fed back into monetary arithmetic. The exact rational quantity is multiplied by integer paise and rounded half-up exactly once to produce `baseAmountPaise`. COUNT and FIXED quantities must be whole units because the current source evidence does not approve fractional commercial counts.
 
 Quantity bases have these future meanings:
 
@@ -73,12 +75,16 @@ Quantity bases have these future meanings:
 | `AREA_LH` | length × height × quantity |
 | `LINEAR` | length × quantity |
 | `VOLUME` | length × width × height × quantity |
-| `HEADCOUNT_DUTY` | headcount × duties |
+| `HEADCOUNT_DUTY` | deferred; typed manual/unsupported state |
 | `FIXED` | fixed billable quantity |
-| `MANUAL` | explicitly entered commercial value |
-| `GENERATOR` | specialized hire plus fuel calculation |
+| `MANUAL` | deferred; typed manual-required state |
+| `GENERATOR` | deferred; typed manual/unsupported state |
 
 Duration bases are `ONE_OFF`, `VC_CHARGE_DAYS`, `OPS_CHARGE_DAYS`, `POWER_CHARGE_DAYS`, `DUTY`, and `MANUAL`. A later quote revision should snapshot resolved `eventDays`, `vcChargeDays`, `opsChargeDays`, and `powerChargeDays`. Divisors/policies explain derivation; the resolved values are the authoritative commercial snapshot.
+
+Phase 4 returns `READY` only for `ONE_OFF` base calculations. VC/OPS/POWER charge-day offerings return `NEEDS_PRICING_SCHEDULE` with quantity, GLOBAL unit rate, and per-charge-period base amount already resolved. DUTY and MANUAL return a manual/unsupported state. No event-day count, divisor, or hidden schedule default exists.
+
+The current-rate resolver accepts only offering, side, and time. It queries the normalized `Price` table for active/effective GLOBAL rows with no market. Outcomes are `RATE_FOUND`, `RATE_UNAVAILABLE`, or defensive `RATE_DATA_CONFLICT`. Explicit zero is found; client/vendor sides are independent; CITY and all legacy sources are ignored. Pricing readiness additionally distinguishes missing semantics, incomplete configuration, manual requirements, and schedule requirements.
 
 ## Concepts intentionally deferred
 
@@ -86,14 +92,14 @@ Duration bases are `ONE_OFF`, `VC_CHARGE_DAYS`, `OPS_CHARGE_DAYS`, `POWER_CHARGE
 - `ContextPreset` (editable suggestions such as green room, box office, or food-stall area)
 - `PackageTemplate` / `PackageComponent`, included-component behavior, recipes, and package pricing
 - offering parameters and configuration dimensions/options
-- conversions, quantity/duration calculations, generator calculations, and `HEADCOUNT_DUTY` execution
+- charge-day resolution, generator calculations, and `HEADCOUNT_DUTY` execution
 - import parsing, preview UI, search ranking, active price resolution, city precedence, quote snapshots, and all legacy cutover work
 
 Package composition and package pricing will remain separate to prevent double charging. Usage and context describe deployment; neither redefines canonical identity or automatically creates a commercial package.
 
 ## Compatibility and technical debt
 
-The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is not represented in normalized rate administration. CITY rates may be maintained but quote resolution does not read them. Production startup remains migration-only. The next bounded phase is Measurement + Deterministic Pricing Core, with no premature quote-flow cutover.
+The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. The Phase 4 engine is headless and has no quote UI consumer. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is absent from normalized resolution. CITY rates may be maintained but normalized V1 resolution ignores them. Production startup remains migration-only. The next bounded phase is Quote Pricing Schedule + Charge-Day Resolution, with no premature quote-flow cutover.
 
 The preview command is:
 

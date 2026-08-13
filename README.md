@@ -29,6 +29,12 @@ The review file defaults every unresolved mapping, unknown unit, and alias confl
 
 Active `ADMIN` users can open `/admin/catalogue` to filter the normalized catalogue, distinguish explicit zero from unavailable prices, change or clear either rate side independently, inspect history and import issues, and maintain city markets. Every change requires a reason, preserves imported provenance, closes the previous price rather than overwriting it, and creates an actor-linked audit event. Stale edits return a conflict and must be retried after refresh. Inactive markets retain history but reject new rates. Quote users cannot access these routes or see their navigation.
 
+## Headless normalized calculation core
+
+Phase 4 adds reusable pure measurement and quantity calculation under `lib/catalogue-calculation`, plus a server-side current GLOBAL rate resolver and pricing orchestrator. Decimal inputs are strings parsed into reduced `BigInt` rational values. Quantities stay exact internally, are rendered to 12 decimal places using half-up rounding, and are multiplied by integer-paise rates before one final half-up money rounding. Supported quantity bases are `COUNT`, `AREA_LW`, `AREA_LH`, `LINEAR`, `VOLUME`, and `FIXED`; whole units are required for COUNT/FIXED. `HEADCOUNT_DUTY`, `GENERATOR`, `MANUAL`, missing semantics, missing configuration, and incompatible units return typed domain states.
+
+The resolver reads only active/effective normalized GLOBAL `Price` rows. Client and vendor sides never fall back to one another, CITY, legacy rates, workbook values, or markup rules. Charge-day-dependent offerings return their per-charge-period base amount as `NEEDS_PRICING_SCHEDULE`. This engine is headless: the quote builder has **not** been cut over.
+
 ## Local setup
 
 Requirements: Node.js 22+, npm, and PostgreSQL.
@@ -54,7 +60,7 @@ npm run typecheck
 npm run build
 ```
 
-Production containers apply committed migrations before starting the application. Catalogue imports remain separate controlled operations. The recommended next phase is Measurement + Deterministic Pricing Core; normalized quote integration and cutover remain out of scope until then.
+Production containers apply committed migrations before starting the application. Catalogue imports remain separate controlled operations. The recommended next phase is Quote Pricing Schedule + Charge-Day Resolution; normalized quote integration and cutover remain out of scope until then.
 
 ## Continuous integration
 
