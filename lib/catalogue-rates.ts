@@ -39,6 +39,7 @@ export async function listCatalogueOfferings(scopeType: PriceScopeType, marketId
     orderBy: [{ canonicalItem: { name: "asc" } }, { name: "asc" }],
     include: {
       canonicalItem: { select: { id: true, code: true, name: true, domain: true, entityType: true, active: true } },
+      durationPolicy: true,
       prices: { where: { ...scope, active: true }, include: { sourceImport: { select: { id: true, filename: true, appliedAt: true } } } },
     },
   });
@@ -47,8 +48,9 @@ export async function listCatalogueOfferings(scopeType: PriceScopeType, marketId
     const vendor = offering.prices.find((price) => price.side === "TO_VENDOR") ?? null;
     return {
       id: offering.id, code: offering.code, name: offering.name, kind: offering.kind,
-      quantityBasis: offering.quantityBasis, durationBasis: offering.durationBasis,
+      quantityBasis: offering.quantityBasis,
       billingUnit: offering.billingUnit, active: offering.active, canonicalItem: offering.canonicalItem,
+      durationBasis: offering.durationBasis, durationPolicy: offering.durationPolicy,
       completeness: client && vendor ? "BOTH" : client ? "CLIENT_ONLY" : vendor ? "VENDOR_ONLY" : "NEITHER",
       rates: { TO_CLIENT: client, TO_VENDOR: vendor },
     };
@@ -108,9 +110,10 @@ export async function changeCurrentRate(input: ChangeRateInput, database = prism
 }
 
 export async function catalogueRateHistory(offeringId: string) {
-  const [prices, events] = await Promise.all([
+  const [prices, events, durationPolicyEvents] = await Promise.all([
     prisma.price.findMany({ where: { commercialOfferingId: offeringId }, orderBy: [{ createdAt: "desc" }], include: { market: true, sourceImport: { select: { id: true, filename: true, appliedAt: true } } } }),
     prisma.priceAuditEvent.findMany({ where: { commercialOfferingId: offeringId }, orderBy: { createdAt: "desc" }, include: { actor: { select: { name: true, email: true } }, market: true, oldPrice: true, newPrice: true } }),
+    prisma.durationPolicyAssignmentAudit.findMany({ where: { commercialOfferingId: offeringId }, orderBy: { createdAt: "desc" }, include: { actor: { select: { name: true, email: true } }, oldPolicy: true, newPolicy: true } }),
   ]);
-  return { prices, events };
+  return { prices, events, durationPolicyEvents };
 }

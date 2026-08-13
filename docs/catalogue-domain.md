@@ -1,6 +1,6 @@
 # Normalized catalogue domain contract
 
-Status: Phase 4 headless calculation foundation, 13 August 2026. The normalized catalogue is populated, administrable, and usable through a server-side deterministic calculation core. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for quote creation until an explicit cutover phase.
+Status: Phase 5 configurable duration-policy foundation, 13 August 2026. The normalized catalogue is populated, administrable, and usable through a server-side deterministic calculation core. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for quote creation until an explicit cutover phase.
 
 Phase 1 adds a pure, deterministic preview parser. `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the only active commercial-master authority: `RateChart.ToClients` and `RateChart.ToVendors` are independent candidate global prices, while `LookUp` supplies normalization evidence. City columns are reported only as later `RateObservation` candidates. `VCxOpsxPower_Master_VenueWise.xlsx` remains operational evidence, and city/event workbooks remain historical evidence.
 
@@ -82,7 +82,13 @@ Quantity bases have these future meanings:
 
 Duration bases are `ONE_OFF`, `VC_CHARGE_DAYS`, `OPS_CHARGE_DAYS`, `POWER_CHARGE_DAYS`, `DUTY`, and `MANUAL`. A later quote revision should snapshot resolved `eventDays`, `vcChargeDays`, `opsChargeDays`, and `powerChargeDays`. Divisors/policies explain derivation; the resolved values are the authoritative commercial snapshot.
 
-Phase 4 returns `READY` only for `ONE_OFF` base calculations. VC/OPS/POWER charge-day offerings return `NEEDS_PRICING_SCHEDULE` with quantity, GLOBAL unit rate, and per-charge-period base amount already resolved. DUTY and MANUAL return a manual/unsupported state. No event-day count, divisor, or hidden schedule default exists.
+### Duration policies and charge units
+
+`durationBasis` remains imported classification evidence and is not a runtime formula selector. Runtime calculation follows `CommercialOffering.durationPolicyId`. A `DurationPolicy` is bounded to `ONE_OFF`, `USAGE_DAYS`, or `MANUAL`, with non-negative rational multiplier/minimum and explicit `NONE`, `CEIL`, `FLOOR`, or `HALF_UP` rounding. `USAGE_DAYS` computes `max(usageDays × numerator/denominator, minimum)` and then applies policy rounding. `ONE_OFF` always resolves one charge unit. `MANUAL` requires exact caller-supplied units.
+
+Policy calculation fields are immutable through administration. A mathematical change requires a new policy/version and audited offering reassignment, protecting future snapshots from silent reinterpretation. Assignments record actor, offering, old/new policies, reason, and timestamp. Inactive policies cannot be newly assigned.
+
+`Days Applies? = N` is strong one-off evidence where its source row is approved. `Y` only establishes duration sensitivity; it does not choose full-day, half-day, minimum, or rounding behavior. Domain likewise selects no math: VC may often use half-use-days and CCTV may share that same policy, while two VC offerings may legitimately use different policies. Usage days are line-level engine input, distinct from future quote-level event days.
 
 The current-rate resolver accepts only offering, side, and time. It queries the normalized `Price` table for active/effective GLOBAL rows with no market. Outcomes are `RATE_FOUND`, `RATE_UNAVAILABLE`, or defensive `RATE_DATA_CONFLICT`. Explicit zero is found; client/vendor sides are independent; CITY and all legacy sources are ignored. Pricing readiness additionally distinguishes missing semantics, incomplete configuration, manual requirements, and schedule requirements.
 
@@ -99,7 +105,7 @@ Package composition and package pricing will remain separate to prevent double c
 
 ## Compatibility and technical debt
 
-The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. The Phase 4 engine is headless and has no quote UI consumer. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is absent from normalized resolution. CITY rates may be maintained but normalized V1 resolution ignores them. Production startup remains migration-only. The next bounded phase is Quote Pricing Schedule + Charge-Day Resolution, with no premature quote-flow cutover.
+The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. The Phase 5 engine is headless and has no quote UI consumer. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is absent from normalized resolution. CITY rates may be maintained but normalized V1 resolution ignores them. Production startup remains migration-only. The next bounded phase is Normalized Quote-Line Snapshot + Ordinary Item Quote Builder Cutover, with event days defaulting line usage days while retaining a future override boundary.
 
 The preview command is:
 

@@ -18,6 +18,9 @@ export class ExactDecimal {
   divide(other: ExactDecimal) { return new ExactDecimal(this.numerator * other.denominator, this.denominator * other.numerator); }
   isNegative() { return this.numerator < 0n; }
   isInteger() { return this.numerator % this.denominator === 0n; }
+  compare(other: ExactDecimal) { const difference = this.numerator * other.denominator - other.numerator * this.denominator; return difference < 0n ? -1 : difference > 0n ? 1 : 0; }
+  floor() { return this.numerator / this.denominator; }
+  ceil() { const whole = this.floor(); return this.isInteger() ? whole : whole + 1n; }
   toFixed(scale = 12) {
     const factor = 10n ** BigInt(scale); const raw = this.numerator * factor; const quotient = raw / this.denominator; const remainder = raw % this.denominator;
     const scaled = quotient + (remainder * 2n >= this.denominator ? 1n : 0n);

@@ -112,6 +112,19 @@ enum PriceAuditAction {
   CLEAR
 }
 
+enum DurationPolicyMode {
+  ONE_OFF
+  USAGE_DAYS
+  MANUAL
+}
+
+enum DurationRoundingMode {
+  NONE
+  CEIL
+  FLOOR
+  HALF_UP
+}
+
 enum ImportSourceType {
   ACTIVE_COMMERCIAL_MASTER
   NORMALIZATION_VOCABULARY
@@ -139,21 +152,22 @@ enum ImportRowStatus {
 }
 
 model User {
-  id               String            @id @default(cuid())
-  name             String?
-  email            String            @unique
-  emailVerified    DateTime?
-  image            String?
-  role             Role              @default(QUOTE_USER)
-  accessManager    Boolean           @default(false)
-  active           Boolean           @default(true)
-  createdAt        DateTime          @default(now())
-  accounts         Account[]
-  sessions         Session[]
-  quotes           Quote[]           @relation("Creator")
-  events           QuoteEvent[]
-  importBatches    ImportBatch[]
-  priceAuditEvents PriceAuditEvent[]
+  id                        String                          @id @default(cuid())
+  name                      String?
+  email                     String                          @unique
+  emailVerified             DateTime?
+  image                     String?
+  role                      Role                            @default(QUOTE_USER)
+  accessManager             Boolean                         @default(false)
+  active                    Boolean                         @default(true)
+  createdAt                 DateTime                        @default(now())
+  accounts                  Account[]
+  sessions                  Session[]
+  quotes                    Quote[]                         @relation("Creator")
+  events                    QuoteEvent[]
+  importBatches             ImportBatch[]
+  priceAuditEvents          PriceAuditEvent[]
+  durationPolicyAuditEvents DurationPolicyAssignmentAudit[]
 }
 
 model Account {
@@ -239,25 +253,65 @@ model CanonicalItem {
 }
 
 model CommercialOffering {
-  id               String            @id @default(cuid())
-  code             String            @unique
-  name             String
-  kind             OfferingKind?
-  canonicalItemId  String?
-  canonicalItem    CanonicalItem?    @relation(fields: [canonicalItemId], references: [id], onDelete: SetNull)
-  quantityBasis    QuantityBasis?
-  durationBasis    DurationBasis?
-  billingUnit      UnitCode
-  active           Boolean           @default(true)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
-  aliases          Alias[]
-  sourceMappings   SourceMapping[]
-  prices           Price[]
-  rateObservations RateObservation[]
-  priceAuditEvents PriceAuditEvent[]
+  id                        String                          @id @default(cuid())
+  code                      String                          @unique
+  name                      String
+  kind                      OfferingKind?
+  canonicalItemId           String?
+  canonicalItem             CanonicalItem?                  @relation(fields: [canonicalItemId], references: [id], onDelete: SetNull)
+  quantityBasis             QuantityBasis?
+  durationBasis             DurationBasis?
+  durationPolicyId          String?
+  durationPolicy            DurationPolicy?                 @relation(fields: [durationPolicyId], references: [id], onDelete: Restrict)
+  billingUnit               UnitCode
+  active                    Boolean                         @default(true)
+  createdAt                 DateTime                        @default(now())
+  updatedAt                 DateTime                        @updatedAt
+  aliases                   Alias[]
+  sourceMappings            SourceMapping[]
+  prices                    Price[]
+  rateObservations          RateObservation[]
+  priceAuditEvents          PriceAuditEvent[]
+  durationPolicyAuditEvents DurationPolicyAssignmentAudit[]
 
   @@index([canonicalItemId])
+  @@index([durationPolicyId])
+}
+
+model DurationPolicy {
+  id                          String                          @id @default(cuid())
+  code                        String                          @unique
+  name                        String
+  mode                        DurationPolicyMode
+  chargeMultiplierNumerator   Int
+  chargeMultiplierDenominator Int
+  minimumChargeNumerator      Int
+  minimumChargeDenominator    Int
+  roundingMode                DurationRoundingMode
+  active                      Boolean                         @default(true)
+  description                 String?
+  createdAt                   DateTime                        @default(now())
+  updatedAt                   DateTime                        @updatedAt
+  offerings                   CommercialOffering[]
+  oldAssignments              DurationPolicyAssignmentAudit[] @relation("OldDurationPolicy")
+  newAssignments              DurationPolicyAssignmentAudit[] @relation("NewDurationPolicy")
+}
+
+model DurationPolicyAssignmentAudit {
+  id                   String             @id @default(cuid())
+  actorId              String
+  actor                User               @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  commercialOfferingId String
+  commercialOffering   CommercialOffering @relation(fields: [commercialOfferingId], references: [id], onDelete: Restrict)
+  oldPolicyId          String?
+  oldPolicy            DurationPolicy?    @relation("OldDurationPolicy", fields: [oldPolicyId], references: [id], onDelete: Restrict)
+  newPolicyId          String?
+  newPolicy            DurationPolicy?    @relation("NewDurationPolicy", fields: [newPolicyId], references: [id], onDelete: Restrict)
+  reason               String
+  createdAt            DateTime           @default(now())
+
+  @@index([commercialOfferingId, createdAt])
+  @@index([actorId])
 }
 
 model Alias {

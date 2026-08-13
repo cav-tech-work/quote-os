@@ -33,7 +33,9 @@ Active `ADMIN` users can open `/admin/catalogue` to filter the normalized catalo
 
 Phase 4 adds reusable pure measurement and quantity calculation under `lib/catalogue-calculation`, plus a server-side current GLOBAL rate resolver and pricing orchestrator. Decimal inputs are strings parsed into reduced `BigInt` rational values. Quantities stay exact internally, are rendered to 12 decimal places using half-up rounding, and are multiplied by integer-paise rates before one final half-up money rounding. Supported quantity bases are `COUNT`, `AREA_LW`, `AREA_LH`, `LINEAR`, `VOLUME`, and `FIXED`; whole units are required for COUNT/FIXED. `HEADCOUNT_DUTY`, `GENERATOR`, `MANUAL`, missing semantics, missing configuration, and incompatible units return typed domain states.
 
-The resolver reads only active/effective normalized GLOBAL `Price` rows. Client and vendor sides never fall back to one another, CITY, legacy rates, workbook values, or markup rules. Charge-day-dependent offerings return their per-charge-period base amount as `NEEDS_PRICING_SCHEDULE`. This engine is headless: the quote builder has **not** been cut over.
+The resolver reads only active/effective normalized GLOBAL `Price` rows. Client and vendor sides never fall back to one another, CITY, legacy rates, workbook values, or markup rules.
+
+Phase 5 adds version-safe `DurationPolicy` records and exact charge-unit resolution. Policies are explicitly assigned to offerings and support `ONE_OFF`, rational `USAGE_DAYS`, or caller-supplied `MANUAL` units, with bounded `NONE`, `CEIL`, `FLOOR`, or `HALF_UP` rounding. Domain and imported `durationBasis` never select arithmetic. Workbook `Days Applies? = N` is one-off evidence; `Y` only means duration matters and never establishes a multiplier. VC often uses a half-use-days pattern and CCTV may share it, but this is configurable policy data rather than a VC formula. This engine remains headless: the quote builder has **not** been cut over.
 
 ## Local setup
 
@@ -60,7 +62,7 @@ npm run typecheck
 npm run build
 ```
 
-Production containers apply committed migrations before starting the application. Catalogue imports remain separate controlled operations. The recommended next phase is Quote Pricing Schedule + Charge-Day Resolution; normalized quote integration and cutover remain out of scope until then.
+Production containers apply committed migrations before starting the application. Catalogue imports remain separate controlled operations. The recommended next phase is Normalized Quote-Line Snapshot + Ordinary Item Quote Builder Cutover.
 
 ## Continuous integration
 

@@ -2,6 +2,17 @@
 
 Updated: 2026-08-13
 
+## Phase 5 configurable duration policies
+
+- Added first-class `DurationPolicy` (`ONE_OFF`, `USAGE_DAYS`, `MANUAL`) with rational multiplier/minimum and bounded rounding, plus nullable offering assignment.
+- Runtime pricing now uses assigned policy data—not domain or imported `durationBasis`—to resolve exact charge units and final integer-paise amounts.
+- Policy calculation fields are immutable after creation. New math requires a new policy and audited reassignment; descriptive fields/status remain safely editable.
+- The migration explicitly bootstraps `ONE_OFF`, `FULL_USE_DAYS`, `HALF_USE_DAYS_MIN_1`, and `MANUAL` but assigns no offerings automatically.
+- Real source evidence contains 203 Y / 20 N rows overall; among applied offerings, 180 are Y and 17 are N. N offerings are safe one-off review candidates; Y offerings remain mathematically unassigned.
+- Catalogue & Rates now filters assigned/unassigned offerings, manages policies, assigns policies with a reason, and exposes source duration classification.
+- The engine remains headless. Specialized DUTY/generator behavior and quote-model cutover remain deferred.
+- Recommended Phase 6: Normalized Quote-Line Snapshot + Ordinary Item Quote Builder Cutover.
+
 ## Phase 4 measurement and deterministic pricing core
 
 - `lib/catalogue-calculation` separates pure exact rational arithmetic/unit conversion, pure quantity calculation, normalized GLOBAL database rate lookup, and orchestration.

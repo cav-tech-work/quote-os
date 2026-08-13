@@ -6,6 +6,7 @@ import { changeCurrentRate, RateConflictError } from "../lib/catalogue-rates";
 
 const offering = (quantityBasis: QuantityBasis | null, billingUnit: UnitCode | null, durationBasis: DurationBasis | null = "ONE_OFF") => ({ id: `fixture-${quantityBasis}`, code: `FIX_${quantityBasis}`, quantityBasis, billingUnit, durationBasis });
 const found = (amountPaise = 100) => ({ state: "RATE_FOUND" as const, side: "TO_CLIENT" as const, scope: "GLOBAL" as const, priceId: "price-1", amountPaise });
+const oneOff = { id: "one-off", code: "ONE_OFF", name: "One off", mode: "ONE_OFF" as const, chargeMultiplierNumerator: 1, chargeMultiplierDenominator: 1, minimumChargeNumerator: 1, minimumChargeDenominator: 1, roundingMode: "NONE" as const, active: true };
 
 test("bounded unit model documents compatible dimensions and exact constants", () => {
   assert.equal(UNIT_DIMENSIONS.M, "LENGTH"); assert.equal(UNIT_DIMENSIONS.SQ_FT, "AREA"); assert.equal(UNIT_DIMENSIONS.RFT, "LINEAR_LENGTH");
@@ -52,16 +53,16 @@ test("typed validation rejects missing, negative, incompatible, unknown, and def
 
 test("same inputs are byte-deterministic and monetary rounding happens once, half-up", () => {
   const input = { quantity: "1", length: { value: "1", unit: "M" as const }, width: { value: "1", unit: "M" as const } };
-  const first = calculateOfferingWithRate(offering("AREA_LW", "SQ_FT"), input, "TO_CLIENT", found(1));
-  const second = calculateOfferingWithRate(offering("AREA_LW", "SQ_FT"), input, "TO_CLIENT", found(1));
+  const first = calculateOfferingWithRate(offering("AREA_LW", "SQ_FT"), input, "TO_CLIENT", found(1), oneOff);
+  const second = calculateOfferingWithRate(offering("AREA_LW", "SQ_FT"), input, "TO_CLIENT", found(1), oneOff);
   assert.equal(JSON.stringify(first), JSON.stringify(second)); assert.equal(first.billableQuantity, "10.76391041671"); assert.equal(first.baseAmountPaise, 11);
 });
 
 test("rate states and duration boundary remain explicit", () => {
   const config = { quantity: "20" };
   assert.equal(calculateOfferingWithRate(offering("COUNT", "NOS"), config, "TO_CLIENT", { state: "RATE_UNAVAILABLE", side: "TO_CLIENT", scope: "GLOBAL" }).pricingState, "RATE_UNAVAILABLE");
-  const zero = calculateOfferingWithRate(offering("COUNT", "NOS"), config, "TO_CLIENT", found(0)); assert.equal(zero.pricingState, "READY"); assert.equal(zero.baseAmountPaise, 0);
-  const scheduled = calculateOfferingWithRate(offering("COUNT", "NOS", "VC_CHARGE_DAYS"), config, "TO_CLIENT", found(500)); assert.equal(scheduled.pricingState, "NEEDS_PRICING_SCHEDULE"); assert.equal(scheduled.baseAmountPaise, 10000); assert.equal(scheduled.amountMeaning, "PER_CHARGE_PERIOD_BASE_AMOUNT");
+  const zero = calculateOfferingWithRate(offering("COUNT", "NOS"), config, "TO_CLIENT", found(0), oneOff); assert.equal(zero.pricingState, "READY"); assert.equal(zero.baseAmountPaise, 0);
+  const scheduled = calculateOfferingWithRate(offering("COUNT", "NOS", "VC_CHARGE_DAYS"), config, "TO_CLIENT", found(500)); assert.equal(scheduled.pricingState, "DURATION_POLICY_UNAVAILABLE"); assert.equal(scheduled.baseAmountPaise, 10000);
 });
 
 test("GLOBAL resolver detects unavailable, found, explicit zero, and defensive conflicts without CITY fallback", async () => {
@@ -76,7 +77,7 @@ test("real catalogue and Phase 3 mutations share the normalized GLOBAL source of
   const db = new PrismaClient({ datasources: { db: { url: databaseUrl } } }); const suffix = Date.now().toString(36); let actorId = "", canonicalId = "", offeringId = "", marketId = "", batchId = "";
   try {
     const chair = await db.commercialOffering.findUnique({ where: { code: "CHR_BANQCHAI" } }); assert.equal(chair?.quantityBasis, "COUNT");
-    const chairResult = chair && await calculateOfferingPricing({ offeringId: chair.id, side: "TO_CLIENT", configuration: { quantity: "20" } }, db); assert.equal(chairResult?.billableQuantity, "20"); assert.equal(chairResult?.pricingState, "NEEDS_PRICING_SCHEDULE");
+    const chairResult = chair && await calculateOfferingPricing({ offeringId: chair.id, side: "TO_CLIENT", configuration: { quantity: "20" } }, db); assert.equal(chairResult?.billableQuantity, "20"); assert.equal(chairResult?.pricingState, "DURATION_POLICY_UNAVAILABLE");
     const platform = await db.commercialOffering.findUnique({ where: { code: "PLAT_MAINGREY" } }); assert.equal(platform?.quantityBasis, null); const platformResult = platform && await calculateOfferingPricing({ offeringId: platform.id, side: "TO_CLIENT", configuration: { quantity: "1", length: { value: "32", unit: "FT" }, width: { value: "20", unit: "FT" } } }, db); assert.equal(platformResult?.pricingState, "CALCULATION_SEMANTICS_UNAVAILABLE");
     const railing = await db.commercialOffering.findUnique({ where: { code: "BAR_METARAIL" } }); const railResult = railing && await calculateOfferingPricing({ offeringId: railing.id, side: "TO_CLIENT", configuration: { quantity: "1", length: { value: "100", unit: "FT" } } }, db); assert.equal(railResult?.billableQuantity, "100");
     const scaff = await db.commercialOffering.findUnique({ where: { code: "SCAF_MAINPA" } }); const scaffResult = scaff && await calculateOfferingPricing({ offeringId: scaff.id, side: "TO_CLIENT", configuration: { quantity: "1", length: { value: "10", unit: "FT" }, width: { value: "10", unit: "FT" }, height: { value: "10", unit: "FT" } } }, db); assert.equal(scaffResult?.billableQuantity, "28.316846592");
