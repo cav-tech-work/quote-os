@@ -2,6 +2,12 @@
 
 Updated: 2026-08-13
 
+## External market reference snapshot
+
+- A reproducible, robots-aware collector captures public Brand Profesor product/category/variation pricing and published commercial policy pages under `reference-data/brandprofesor`.
+- The snapshot is explicitly `EXTERNAL_MARKET_REFERENCE`, carries source URLs, capture time and hashes, and has no Prisma or active QuoteOS pricing/import integration.
+- External prices and policy wording remain time-sensitive observations requiring human review; zero-listed or ranged products must not be interpreted as approved or directly comparable rates.
+
 ## Phase 5 configurable duration policies
 
 - Added first-class `DurationPolicy` (`ONE_OFF`, `USAGE_DAYS`, `MANUAL`) with rational multiplier/minimum and bounded rounding, plus nullable offering assignment.

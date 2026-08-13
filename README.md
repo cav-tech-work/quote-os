@@ -37,6 +37,10 @@ The resolver reads only active/effective normalized GLOBAL `Price` rows. Client 
 
 Phase 5 adds version-safe `DurationPolicy` records and exact charge-unit resolution. Policies are explicitly assigned to offerings and support `ONE_OFF`, rational `USAGE_DAYS`, or caller-supplied `MANUAL` units, with bounded `NONE`, `CEIL`, `FLOOR`, or `HALF_UP` rounding. Domain and imported `durationBasis` never select arithmetic. Workbook `Days Applies? = N` is one-off evidence; `Y` only means duration matters and never establishes a multiplier. VC often uses a half-use-days pattern and CCTV may share it, but this is configurable policy data rather than a VC formula. This engine remains headless: the quote builder has **not** been cut over.
 
+## External market reference data
+
+`npm run reference:crawl:brandprofesor` captures the public Brand Profesor product catalogue, variation prices, categories, quantity constraints, and published refund/privacy/terms pages into `reference-data/brandprofesor`. It checks `robots.txt`, uses public WordPress/WooCommerce APIs, throttles requests, and records provenance and hashes. This snapshot is external research only: it has no Prisma, normalized import, price resolver, admin, or quotation connection and must never be treated as an approved Clockwork AV rate automatically.
+
 ## Local setup
 
 Requirements: Node.js 22+, npm, and PostgreSQL.
