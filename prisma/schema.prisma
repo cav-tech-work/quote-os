@@ -115,7 +115,14 @@ enum PriceAuditAction {
 enum DurationPolicyMode {
   ONE_OFF
   USAGE_DAYS
+  CURVE
   MANUAL
+}
+
+enum PricingPolicyAuthority {
+  INTERNAL_APPROVED
+  HISTORICAL_INTERNAL
+  EXTERNAL_REFERENCE
 }
 
 enum DurationRoundingMode {
@@ -273,6 +280,7 @@ model CommercialOffering {
   rateObservations          RateObservation[]
   priceAuditEvents          PriceAuditEvent[]
   durationPolicyAuditEvents DurationPolicyAssignmentAudit[]
+  catalogueSemanticAudits   CatalogueSemanticAudit[]
 
   @@index([canonicalItemId])
   @@index([durationPolicyId])
@@ -283,6 +291,7 @@ model DurationPolicy {
   code                        String                          @unique
   name                        String
   mode                        DurationPolicyMode
+  authority                   PricingPolicyAuthority          @default(INTERNAL_APPROVED)
   chargeMultiplierNumerator   Int
   chargeMultiplierDenominator Int
   minimumChargeNumerator      Int
@@ -295,6 +304,44 @@ model DurationPolicy {
   offerings                   CommercialOffering[]
   oldAssignments              DurationPolicyAssignmentAudit[] @relation("OldDurationPolicy")
   newAssignments              DurationPolicyAssignmentAudit[] @relation("NewDurationPolicy")
+  points                      DurationPolicyPoint[]
+}
+
+model DurationPolicyPoint {
+  id                     String         @id @default(cuid())
+  durationPolicyId       String
+  durationPolicy         DurationPolicy @relation(fields: [durationPolicyId], references: [id], onDelete: Cascade)
+  usageDays              Int
+  chargeUnitsNumerator   Int
+  chargeUnitsDenominator Int
+  sortOrder              Int
+
+  @@unique([durationPolicyId, usageDays])
+  @@index([durationPolicyId, sortOrder])
+}
+
+model CatalogueSemanticAudit {
+  id                   String             @id @default(cuid())
+  commercialOfferingId String
+  commercialOffering   CommercialOffering @relation(fields: [commercialOfferingId], references: [id], onDelete: Restrict)
+  field                String
+  oldValue             String?
+  newValue             String?
+  reason               String
+  decisionSetHash      String
+  applyIdentity        String
+  createdAt            DateTime           @default(now())
+
+  @@index([commercialOfferingId, createdAt])
+  @@index([decisionSetHash])
+}
+
+model CatalogueSemanticApply {
+  id                   String   @id @default(cuid())
+  decisionSetHash      String   @unique
+  catalogueFingerprint String
+  applyIdentity        String
+  appliedAt            DateTime @default(now())
 }
 
 model DurationPolicyAssignmentAudit {

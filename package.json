@@ -11,6 +11,8 @@
     "catalogue:preview": "tsx scripts/catalogue-preview.ts",
     "catalogue:review": "tsx scripts/catalogue-review.ts",
     "catalogue:apply": "tsx scripts/catalogue-apply.ts",
+    "catalogue:semantic-review": "tsx scripts/catalogue-semantic-review.ts",
+    "catalogue:semantic-apply": "tsx scripts/catalogue-semantic-apply.ts",
     "reference:crawl:brandprofesor": "node scripts/crawl-brandprofesor-reference.mjs",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",

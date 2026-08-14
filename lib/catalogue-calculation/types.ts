@@ -8,11 +8,11 @@ export type MeasurementConfiguration = {
   width?: LengthMeasurement;
   height?: LengthMeasurement;
 };
-export type DurationInput = { usageDays?: DecimalInput; manualChargeUnits?: DecimalInput };
-export type DurationPolicyDefinition = { id: string; code: string; name: string; mode: DurationPolicyMode; chargeMultiplierNumerator: number; chargeMultiplierDenominator: number; minimumChargeNumerator: number; minimumChargeDenominator: number; roundingMode: DurationRoundingMode; active: boolean };
+export type DurationInput = { usageDays?: DecimalInput; manualChargeUnits?: DecimalInput; overrideChargeUnits?: DecimalInput };
+export type DurationPolicyDefinition = { id: string; code: string; name: string; mode: DurationPolicyMode; chargeMultiplierNumerator: number; chargeMultiplierDenominator: number; minimumChargeNumerator: number; minimumChargeDenominator: number; roundingMode: DurationRoundingMode; active: boolean; authority?: "INTERNAL_APPROVED" | "HISTORICAL_INTERNAL" | "EXTERNAL_REFERENCE"; points?: Array<{ usageDays: number; chargeUnitsNumerator: number; chargeUnitsDenominator: number }> };
 export type DurationResult =
-  | { state: "CHARGE_UNITS_RESOLVED"; policyId: string; policyCode: string; usageDays: string | null; rawChargeUnits: string; minimumAdjustedChargeUnits: string; roundingMode: DurationRoundingMode; chargeUnits: string; exactNumerator: string; exactDenominator: string }
-  | { state: "DURATION_INPUT_REQUIRED" | "MANUAL_DURATION_REQUIRED" | "UNSUPPORTED_SPECIAL_DURATION"; issue: CalculationIssue };
+  | { state: "CHARGE_UNITS_RESOLVED"; policyId: string; policyCode: string; usageDays: string | null; rawChargeUnits: string; minimumAdjustedChargeUnits: string; roundingMode: DurationRoundingMode; chargeUnits: string; exactNumerator: string; exactDenominator: string; provenance: "POLICY_RESOLVED" | "OVERRIDE_USED" }
+  | { state: "DURATION_INPUT_REQUIRED" | "MANUAL_DURATION_REQUIRED" | "DURATION_CURVE_VALUE_UNAVAILABLE" | "UNSUPPORTED_SPECIAL_DURATION"; issue: CalculationIssue };
 
 export type CalculationIssueCode =
   | "CALCULATION_SEMANTICS_UNAVAILABLE"
@@ -45,7 +45,7 @@ export type GlobalRateResult =
   | { state: "RATE_UNAVAILABLE"; side: PriceSide; scope: "GLOBAL" }
   | { state: "RATE_DATA_CONFLICT"; side: PriceSide; scope: "GLOBAL"; priceIds: string[] };
 
-export type PricingState = "READY" | "RATE_UNAVAILABLE" | "RATE_DATA_CONFLICT" | "CALCULATION_SEMANTICS_UNAVAILABLE" | "CONFIGURATION_INCOMPLETE" | "MANUAL_REQUIRED" | "DURATION_POLICY_UNAVAILABLE" | "DURATION_INPUT_REQUIRED" | "MANUAL_DURATION_REQUIRED" | "UNSUPPORTED_SPECIAL_DURATION";
+export type PricingState = "READY" | "RATE_UNAVAILABLE" | "RATE_DATA_CONFLICT" | "CALCULATION_SEMANTICS_UNAVAILABLE" | "CONFIGURATION_INCOMPLETE" | "MANUAL_REQUIRED" | "DURATION_POLICY_UNAVAILABLE" | "DURATION_INPUT_REQUIRED" | "MANUAL_DURATION_REQUIRED" | "DURATION_CURVE_VALUE_UNAVAILABLE" | "UNSUPPORTED_SPECIAL_DURATION";
 
 export type OfferingPricingResult = {
   offeringId: string;
@@ -65,6 +65,7 @@ export type OfferingPricingResult = {
   durationPolicyCode: string | null;
   usageDays: string | null;
   chargeUnits: string | null;
+  chargeUnitProvenance: "POLICY_RESOLVED" | "OVERRIDE_USED" | null;
   finalAmountPaise: number | null;
   amountMeaning: "FINAL_BASE_AMOUNT" | "PER_CHARGE_PERIOD_BASE_AMOUNT" | null;
   pricingState: PricingState;

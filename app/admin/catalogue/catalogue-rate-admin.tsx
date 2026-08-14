@@ -24,6 +24,7 @@ type DurationPolicy = {
   roundingMode: string;
   active: boolean;
   description: string | null;
+  points?: Array<{ usageDays: number; chargeUnitsNumerator: number; chargeUnitsDenominator: number }>;
   _count?: { offerings: number };
 };
 type Offering = {
@@ -31,6 +32,7 @@ type Offering = {
   code: string;
   name: string;
   kind: string | null;
+  quantityBasis: string | null;
   billingUnit: string;
   durationBasis: string | null;
   durationPolicy: DurationPolicy | null;
@@ -187,6 +189,9 @@ export function CatalogueRateAdmin({
   const [completeness, setCompleteness] = useState("ALL");
   const [active, setActive] = useState("ACTIVE");
   const [durationFilter, setDurationFilter] = useState("ALL");
+  const [quantityFilter, setQuantityFilter] = useState("ALL");
+  const [readinessFilter, setReadinessFilter] = useState("ALL");
+  const [blockerFilter, setBlockerFilter] = useState("ALL");
   const [policies, setPolicies] = useState<DurationPolicy[]>([]);
   const [selected, setSelected] = useState<Offering | null>(null);
   const [history, setHistory] = useState<History | null>(null);
@@ -239,16 +244,27 @@ export function CatalogueRateAdmin({
       offerings.filter((item) => {
         const haystack =
           `${item.code} ${item.name} ${item.canonicalItem?.code ?? ""} ${item.canonicalItem?.name ?? ""}`.toLowerCase();
+        const specialized = item.quantityBasis === "HEADCOUNT_DUTY" || item.quantityBasis === "GENERATOR" || item.kind === "PACKAGE" || item.durationPolicy?.mode === "MANUAL";
+        const ordinaryReady = !specialized && Boolean(item.quantityBasis && item.durationPolicy && (item.rates.TO_CLIENT || item.rates.TO_VENDOR));
+        const blockers = new Set([
+          ...(!item.quantityBasis ? ["QUANTITY"] : []),
+          ...(!item.durationPolicy ? ["DURATION"] : []),
+          ...(!item.rates.TO_CLIENT && !item.rates.TO_VENDOR ? ["RATE"] : []),
+          ...(specialized ? ["SPECIALIZED"] : []),
+        ]);
         return (
           haystack.includes(search.toLowerCase()) &&
           (domain === "ALL" || item.canonicalItem?.domain === domain) &&
           (completeness === "ALL" || item.completeness === completeness) &&
           (active === "ALL" || item.active === (active === "ACTIVE")) &&
           (durationFilter === "ALL" ||
-            (durationFilter === "ASSIGNED") === Boolean(item.durationPolicy))
+            (durationFilter === "ASSIGNED") === Boolean(item.durationPolicy)) &&
+          (quantityFilter === "ALL" || (quantityFilter === "KNOWN") === Boolean(item.quantityBasis)) &&
+          (readinessFilter === "ALL" || (readinessFilter === "READY") === ordinaryReady) &&
+          (blockerFilter === "ALL" || blockers.has(blockerFilter))
         );
       }),
-    [offerings, search, domain, completeness, active, durationFilter],
+    [offerings, search, domain, completeness, active, durationFilter, quantityFilter, readinessFilter, blockerFilter],
   );
   const summary = useMemo(
     () =>
@@ -361,6 +377,19 @@ export function CatalogueRateAdmin({
   async function createPolicy(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    const points = String(form.get("curvePoints") ?? "")
+      .split(",")
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+      .map((entry) => {
+        const [usageDaysText, chargeUnitsText] = entry.split("=").map((part) => part.trim());
+        const [numeratorText, denominatorText = "1"] = (chargeUnitsText ?? "").split("/").map((part) => part.trim());
+        return {
+          usageDays: Number(usageDaysText),
+          chargeUnitsNumerator: Number(numeratorText),
+          chargeUnitsDenominator: Number(denominatorText),
+        };
+      });
     const response = await fetch("/api/admin/catalogue/duration-policies", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -374,6 +403,7 @@ export function CatalogueRateAdmin({
         minimumChargeDenominator: Number(form.get("minimumDenominator")),
         roundingMode: form.get("roundingMode"),
         description: form.get("description") || null,
+        points,
       }),
     });
     const data = await response.json();
@@ -508,6 +538,23 @@ export function CatalogueRateAdmin({
             <option value="ALL">All duration policies</option>
             <option value="ASSIGNED">Policy assigned</option>
             <option value="UNASSIGNED">Policy unassigned</option>
+          </select>
+          <select value={quantityFilter} onChange={(event) => setQuantityFilter(event.target.value)}>
+            <option value="ALL">All quantity bases</option>
+            <option value="KNOWN">Quantity known</option>
+            <option value="MISSING">Quantity missing</option>
+          </select>
+          <select value={readinessFilter} onChange={(event) => setReadinessFilter(event.target.value)}>
+            <option value="ALL">All ordinary readiness</option>
+            <option value="READY">Ordinary ready</option>
+            <option value="NOT_READY">Ordinary not ready</option>
+          </select>
+          <select value={blockerFilter} onChange={(event) => setBlockerFilter(event.target.value)}>
+            <option value="ALL">All pricing blockers</option>
+            <option value="RATE">Rate blocker</option>
+            <option value="QUANTITY">Quantity blocker</option>
+            <option value="DURATION">Duration blocker</option>
+            <option value="SPECIALIZED">Specialized blocker</option>
           </select>
         </section>
         <section className={styles.table}>
@@ -673,6 +720,7 @@ export function CatalogueRateAdmin({
               <input name="name" placeholder="Policy name" required />
               <select name="mode">
                 <option>USAGE_DAYS</option>
+                <option>CURVE</option>
                 <option>ONE_OFF</option>
                 <option>MANUAL</option>
               </select>
@@ -711,6 +759,7 @@ export function CatalogueRateAdmin({
                 <option>HALF_UP</option>
               </select>
               <input name="description" placeholder="Description" />
+              <input name="curvePoints" placeholder="Curve: 1=1, 4=3/2" />
               <button type="submit">Create version</button>
             </form>
             <div className={styles.markets}>
@@ -725,6 +774,9 @@ export function CatalogueRateAdmin({
                       {policy.minimumChargeNumerator}/
                       {policy.minimumChargeDenominator} · {policy.roundingMode}{" "}
                       · {policy._count?.offerings ?? 0} assigned
+                      {policy.mode === "CURVE" && (policy.points?.length ?? 0) > 0
+                        ? ` · ${policy.points?.map((point) => `${point.usageDays}d→${point.chargeUnitsNumerator}/${point.chargeUnitsDenominator}`).join(", ")}`
+                        : ""}
                     </small>
                   </span>
                   <button onClick={() => void togglePolicy(policy)}>

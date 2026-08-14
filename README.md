@@ -35,7 +35,17 @@ Phase 4 adds reusable pure measurement and quantity calculation under `lib/catal
 
 The resolver reads only active/effective normalized GLOBAL `Price` rows. Client and vendor sides never fall back to one another, CITY, legacy rates, workbook values, or markup rules.
 
-Phase 5 adds version-safe `DurationPolicy` records and exact charge-unit resolution. Policies are explicitly assigned to offerings and support `ONE_OFF`, rational `USAGE_DAYS`, or caller-supplied `MANUAL` units, with bounded `NONE`, `CEIL`, `FLOOR`, or `HALF_UP` rounding. Domain and imported `durationBasis` never select arithmetic. Workbook `Days Applies? = N` is one-off evidence; `Y` only means duration matters and never establishes a multiplier. VC often uses a half-use-days pattern and CCTV may share it, but this is configurable policy data rather than a VC formula. This engine remains headless: the quote builder has **not** been cut over.
+Phase 5.5 supports version-safe `ONE_OFF`, rational `USAGE_DAYS`, exact point-based `CURVE`, and caller-supplied `MANUAL` duration policies. Curves require an exact positive whole-day point and never interpolate or extrapolate. An explicit headless charge-unit override wins over policy resolution and records its provenance. Policy authority is explicit, and only active `INTERNAL_APPROVED` policies may be assigned; domain and imported `durationBasis` never select arithmetic.
+
+The reviewed semantic decision set is fingerprint-bound and guarded:
+
+```text
+npm run catalogue:semantic-review -- --json
+npm run catalogue:semantic-apply -- --decisions ./catalogue-semantic-decisions.json
+npm run catalogue:semantic-apply -- --decisions ./catalogue-semantic-decisions.json --actor-email admin@example.com --apply
+```
+
+Apply is dry-run unless `--apply` is present, is transactional and audited, rejects stale review state, and treats an identical reapply as a no-op. Workbook `Days Applies? = N` is one-off evidence; `Y` only means duration matters and never establishes a multiplier. The engine remains headless: the quote builder has **not** been cut over.
 
 ## External market reference data
 
