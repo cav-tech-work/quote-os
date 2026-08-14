@@ -34,6 +34,7 @@ type Offering = {
   name: string;
   kind: string | null;
   quantityBasis: string | null;
+  pricingFamily: string | null;
   billingUnit: string;
   durationBasis: string | null;
   durationPolicy: DurationPolicy | null;
@@ -246,6 +247,7 @@ export function CatalogueRateAdmin({
         const haystack =
           `${item.code} ${item.name} ${item.canonicalItem?.code ?? ""} ${item.canonicalItem?.name ?? ""}`.toLowerCase();
         const specialized = item.quantityBasis === "HEADCOUNT_DUTY" || item.quantityBasis === "GENERATOR" || item.kind === "PACKAGE" || item.durationPolicy?.mode === "MANUAL";
+        const personnelReady = item.quantityBasis === "HEADCOUNT_DUTY" && item.pricingFamily === "HEADCOUNT_DUTY" && item.billingUnit === "DUTY" && Boolean(item.rates.TO_CLIENT || item.rates.TO_VENDOR);
         const ordinaryReady = !specialized && Boolean(item.quantityBasis && item.durationPolicy?.active && item.durationPolicy.authority === "INTERNAL_APPROVED" && (item.rates.TO_CLIENT || item.rates.TO_VENDOR));
         const blockers = new Set([
           ...(!item.quantityBasis ? ["QUANTITY"] : []),
@@ -265,7 +267,7 @@ export function CatalogueRateAdmin({
             (durationFilter === "ONE_OFF" && item.durationPolicy?.code === "ONE_OFF") ||
             (durationFilter === "OTHER" && Boolean(item.durationPolicy) && !["HALF_USE_DAYS_MIN_1", "ONE_OFF"].includes(item.durationPolicy?.code ?? ""))) &&
           (quantityFilter === "ALL" || (quantityFilter === "KNOWN") === Boolean(item.quantityBasis)) &&
-          (readinessFilter === "ALL" || (readinessFilter === "READY") === ordinaryReady) &&
+          (readinessFilter === "ALL" || (readinessFilter === "READY") === (ordinaryReady || personnelReady)) &&
           (blockerFilter === "ALL" || blockers.has(blockerFilter))
         );
       }),
@@ -589,7 +591,7 @@ export function CatalogueRateAdmin({
               <span>
                 <b>{item.name}</b>
                 <small>
-                  {item.code} · {item.billingUnit}
+                  {item.code} · {item.billingUnit}{item.pricingFamily === "HEADCOUNT_DUTY" ? " · Personnel ready" : ""}
                 </small>
               </span>
               <span

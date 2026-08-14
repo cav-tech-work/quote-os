@@ -4,7 +4,7 @@ QuoteOS is Clockwork AV's internal quotation application. It uses Next.js, Postg
 
 ## Catalogue transition
 
-QuoteOS retains the legacy flat catalogue for historical quote compatibility alongside the populated normalized catalogue. New ordinary quotes use quote-ready normalized commercial offerings and immutable commercial snapshots. Active administrators manage normalized offerings and independent GLOBAL or CITY client/vendor rates at `/admin/catalogue`; Phase 6 quote creation resolves GLOBAL only. The domain contract is in [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
+QuoteOS retains the legacy flat catalogue for historical quote compatibility alongside the populated normalized catalogue. New quotes use ready ordinary or explicitly approved personnel commercial offerings and immutable commercial snapshots. Active administrators manage normalized offerings and independent GLOBAL or CITY client/vendor rates at `/admin/catalogue`; quote creation resolves GLOBAL only. The domain contract is in [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
 
 The authoritative master can be inspected without database writes:
 
@@ -52,6 +52,8 @@ Phase 5.6 applies the explicitly approved CAV `HALF_USE_DAYS_MIN_1` default only
 ## Normalized ordinary quote builder
 
 Phase 6 changes new-quote selection to `CommercialOffering` while retaining legacy quote rows and APIs for history compatibility. Search returns only active ordinary offerings with supported quantity semantics, an active `INTERNAL_APPROVED` non-manual duration policy, and exactly one current GLOBAL rate for the selected side. The server repeats every readiness and calculation check inside the quote transaction.
+
+Phase 7 adds an independently approved `HEADCOUNT_DUTY` personnel family. Personnel is priced as explicit whole-number headcount × explicit positive duties/person × the selected side's current GLOBAL rate per duty. Event days and ordinary duration policies never multiply personnel amounts. Approval is guarded by `catalogue-personnel-decisions.json` and `npm run catalogue:personnel-apply`; equipment and composite services that inherited the source `nos/duty` unit remain unavailable. Personnel and ordinary lines coexist in the same immutable normalized revision and PDF.
 
 Each normalized `QuoteLine` copies offering/canonical identity, original and normalized configuration, exact billable-quantity numerator/denominator, Price ID and unit rate, GLOBAL scope, policy identity/mode/definition, usage days, override provenance, charge units, base/final amounts, and explicit engine/snapshot versions. Readback, totals, and PDFs use this immutable snapshot rather than live catalogue data. `eventDays` defaults line usage duration; a line may override usage days. Charge-unit override and reason are supported by the typed API/snapshot contract but intentionally remain absent from the initial UI.
 

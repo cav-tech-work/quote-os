@@ -13,6 +13,7 @@
     "catalogue:apply": "tsx scripts/catalogue-apply.ts",
     "catalogue:semantic-review": "tsx scripts/catalogue-semantic-review.ts",
     "catalogue:semantic-apply": "tsx scripts/catalogue-semantic-apply.ts",
+    "catalogue:personnel-apply": "tsx scripts/catalogue-personnel-apply.ts",
     "reference:crawl:brandprofesor": "node scripts/crawl-brandprofesor-reference.mjs",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",

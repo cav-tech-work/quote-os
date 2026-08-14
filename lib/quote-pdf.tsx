@@ -36,6 +36,9 @@ export type PdfQuote = {
       chargeUnitsSnapshot?: string | null;
       durationPolicyCodeSnapshot?: string | null;
       finalAmountPaiseSnapshot?: number | null;
+      pricingFamilySnapshot?: "ORDINARY" | "HEADCOUNT_DUTY" | null;
+      headcountSnapshot?: number | null;
+      dutyUnitsPerPersonSnapshot?: string | null;
     }>;
   };
 };
@@ -93,7 +96,7 @@ export function QuotePdf({ quote }: { quote: PdfQuote }) {
       </View>
       <View style={styles.section}><Text style={styles.sectionTitle}>Equipment and services</Text>
         <View style={styles.tableHead}><Text style={styles.colItem}>ITEM</Text><Text style={styles.colQty}>QTY</Text><Text style={styles.colDays}>DAYS</Text><Text style={styles.colRate}>RATE</Text><Text style={styles.colDiscount}>DISC.</Text><Text style={styles.colAmount}>AMOUNT</Text></View>
-        {revision.lines.map((line, index) => <View style={styles.row} key={`${line.itemCodeSnapshot}-${index}`} wrap={false}><View style={styles.colItem}><Text style={styles.itemName}>{line.itemNameSnapshot}</Text><Text style={styles.itemSub}>{line.itemCodeSnapshot}{line.descriptionSnapshot ? ` - ${line.descriptionSnapshot}` : ""}{` - ${line.unitSnapshot}`}{line.durationPolicyCodeSnapshot ? ` - ${line.durationPolicyCodeSnapshot} × ${line.chargeUnitsSnapshot}` : ""}</Text></View><Text style={styles.colQty}>{line.billableQuantitySnapshot ?? value(line.quantity)}</Text><Text style={styles.colDays}>{line.usageDaysSnapshot ?? value(line.days)}</Text><Text style={styles.colRate}>{inr(line.rateUsedPaise)}</Text><Text style={styles.colDiscount}>{value(line.discountPercent)}%</Text><Text style={styles.colAmount}>{inr(line.lineTotalPaise)}</Text></View>)}
+        {revision.lines.map((line, index) => { const personnel = line.pricingFamilySnapshot === "HEADCOUNT_DUTY"; return <View style={styles.row} key={`${line.itemCodeSnapshot}-${index}`} wrap={false}><View style={styles.colItem}><Text style={styles.itemName}>{line.itemNameSnapshot}</Text><Text style={styles.itemSub}>{personnel ? `${line.itemCodeSnapshot} - ${line.headcountSnapshot} people; ${line.dutyUnitsPerPersonSnapshot} duties/person` : `${line.itemCodeSnapshot}${line.descriptionSnapshot ? ` - ${line.descriptionSnapshot}` : ""} - ${line.unitSnapshot}${line.durationPolicyCodeSnapshot ? ` - ${line.durationPolicyCodeSnapshot} × ${line.chargeUnitsSnapshot}` : ""}`}</Text></View><Text style={styles.colQty}>{line.billableQuantitySnapshot ?? value(line.quantity)}</Text><Text style={styles.colDays}>{personnel ? "-" : line.usageDaysSnapshot ?? value(line.days)}</Text><Text style={styles.colRate}>{inr(line.rateUsedPaise)}</Text><Text style={styles.colDiscount}>{value(line.discountPercent)}%</Text><Text style={styles.colAmount}>{inr(line.lineTotalPaise)}</Text></View>; })}
       </View>
       <View style={styles.totals}><View style={styles.totalRow}><Text>Subtotal</Text><Text>{inr(revision.subtotalPaise)}</Text></View><View style={styles.totalRow}><Text>Discount</Text><Text>-{inr(revision.discountTotalPaise)}</Text></View><View style={styles.totalRow}><Text>GST ({value(revision.taxPercentage)}%)</Text><Text>{inr(revision.taxTotalPaise)}</Text></View><View style={styles.grandTotal}><Text>Total</Text><Text>{inr(revision.grandTotalPaise)}</Text></View></View>
       {revision.notes && <View style={styles.section}><Text style={styles.sectionTitle}>Notes</Text><Text style={styles.note}>{revision.notes}</Text></View>}

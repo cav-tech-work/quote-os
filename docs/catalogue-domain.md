@@ -1,6 +1,6 @@
 # Normalized catalogue domain contract
 
-Status: Phase 6 normalized ordinary quote-line snapshot and builder cutover, 14 August 2026. The normalized catalogue is populated, administrable, and used for new ordinary quote creation. Legacy `CatalogueCategory` / `CatalogueItem` records remain available only for explicit compatibility with historical legacy quote lines.
+Status: Phase 7 normalized ordinary and approved personnel quote-line snapshots, 14 August 2026. The normalized catalogue is populated, administrable, and used for new quote creation. Legacy `CatalogueCategory` / `CatalogueItem` records remain available only for explicit compatibility with historical legacy quote lines.
 
 Phase 1 adds a pure, deterministic preview parser. `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the only active commercial-master authority: `RateChart.ToClients` and `RateChart.ToVendors` are independent candidate global prices, while `LookUp` supplies normalization evidence. City columns are reported only as later `RateObservation` candidates. `VCxOpsxPower_Master_VenueWise.xlsx` remains operational evidence, and city/event workbooks remain historical evidence.
 
@@ -75,7 +75,7 @@ Quantity bases have these future meanings:
 | `AREA_LH` | length × height × quantity |
 | `LINEAR` | length × quantity |
 | `VOLUME` | length × width × height × quantity |
-| `HEADCOUNT_DUTY` | deferred; typed manual/unsupported state |
+| `HEADCOUNT_DUTY` | specialized personnel path only when `pricingFamily=HEADCOUNT_DUTY` is explicitly approved; headcount × duties/person, billed in DUTY |
 | `FIXED` | fixed billable quantity |
 | `MANUAL` | deferred; typed manual-required state |
 | `GENERATOR` | deferred; typed manual/unsupported state |
@@ -113,22 +113,26 @@ npm run catalogue:semantic-apply -- --decisions ./catalogue-semantic-decisions.j
 
 Ordinary readiness is derived rather than persisted. It requires a supported ordinary quantity basis, billing unit, active assigned policy, and current approved GLOBAL rate for the requested side, while excluding `HEADCOUNT_DUTY`, generators/fuel, packages, and manual pricing.
 
+Personnel readiness is separate. It requires an active `HEADCOUNT_DUTY` offering, `DUTY` billing unit, an audited `pricingFamily=HEADCOUNT_DUTY` approval, and exactly one current GLOBAL Price for the requested side. It does not require or apply a DurationPolicy. The authoritative workbook contains 63 `nos/duty` rows (58 with Days Applies Y and five with N), but only 24 descriptions are explicitly approved as people-based personnel semantics; missing rates reduce selectable coverage to 23 client and 22 vendor offerings.
+
+The exact engine accepts positive rational duty units for future-safe storage and API use. The Phase 7 builder intentionally exposes whole duties/person only because the current CAV workbook contains no evidence for fractional-duty entry.
+
 ## Concepts intentionally deferred
 
 - `UsagePreset` (for example camera-riser or main-PA-power deployment intelligence)
 - `ContextPreset` (editable suggestions such as green room, box office, or food-stall area)
 - `PackageTemplate` / `PackageComponent`, included-component behavior, recipes, and package pricing
 - offering parameters and configuration dimensions/options
-- charge-day resolution, generator calculations, and `HEADCOUNT_DUTY` execution
+- generator calculations and unresolved OPS equipment/composite `HEADCOUNT_DUTY` classifications
 - preview UI, advanced search ranking, city precedence, specialized quote snapshots, and legacy retirement
 
 Package composition and package pricing will remain separate to prevent double charging. Usage and context describe deployment; neither redefines canonical identity or automatically creates a commercial package.
 
 ## Compatibility and technical debt
 
-New ordinary quote creation searches `CommercialOffering`, renders quantity-basis-specific configuration, previews through the central server calculation engine, and recalculates inside a serializable persistence transaction. Selectability and save both require supported ordinary quantity semantics, an active `INTERNAL_APPROVED` non-manual policy, and one current GLOBAL rate for the requested side. CITY, opposite-side, legacy, external, and historical fallback paths are absent.
+New normalized quote creation searches `CommercialOffering`, renders quantity-basis-specific ordinary controls or explicit personnel headcount/duties controls, previews through the central server calculation engine, and recalculates inside a serializable persistence transaction. Ordinary selectability requires an active approved duration policy; personnel selectability requires explicit audited pricing-family approval instead. Both require one current GLOBAL rate for the requested side. CITY, opposite-side, legacy, external, and historical fallback paths are absent.
 
-`QuoteRevision.eventDays` defaults each normalized line's `usageDays`; a line may provide its own usage duration. `QuoteLine` retains its legacy snapshots and adds nullable normalized snapshots for canonical/offering identity, configuration, normalized configuration, exact billable quantity, price provenance, duration policy definition, resolved duration/override provenance, amounts, and calculation/snapshot versions. Existing rows need no backfill. Quote totals, readback, and PDF output use persisted line values without live recalculation. Charge-unit overrides and required reasons are supported by the API/snapshot contract but not exposed in the initial UI.
+`QuoteRevision.eventDays` defaults each ordinary normalized line's `usageDays`; a line may provide its own usage duration. Personnel duties are always explicit and independent. `QuoteLine` retains legacy fields and adds discriminated nullable normalized snapshots for identity, configuration, exact quantity, price provenance, ordinary duration resolution or personnel headcount/duties, amounts, and bounded versions. Quote totals, readback, and PDF output use persisted line values without live recalculation.
 
 Historical legacy quotes remain readable and PDF-compatible. No automatic legacy-to-normalized mapping exists. The old 40% client-from-vendor rule remains only in the explicit legacy compatibility POST contract and inventory flow; it is never a normalized fallback. Full multi-revision editing and generated-document retention remain later work.
 

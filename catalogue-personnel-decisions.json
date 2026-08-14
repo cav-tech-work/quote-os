@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceImportFileHash": "75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57",
+  "catalogueFingerprint": "6a742e110edb37a1fce9a1487e834c08aeb6cb08264c0d239da36190774c713c",
+  "decisions": {
+    "CCTV_SUPE": "CCTV Supervisor",
+    "CREW_EVENVOLU": "Event Volunteer",
+    "CREW_GENEMANP": "General Manpower",
+    "CREW_USHEFEMA": "Usher Female",
+    "CREW_USHEHOST": "Usher Host Male",
+    "FIRE_MARSJACK": "Fire Marshalls w/ Jackets",
+    "HK_HOUSSTAF": "Housekeeping Staff Male",
+    "HK_HOUSSTAF2": "Housekeeping Staff Female",
+    "HK_HOUSSUPE": "Housekeeping Supervisor",
+    "HK_PACKCREW": "Packing Crew",
+    "MED_ATTE": "Medical Attendant",
+    "MED_MBBSDOCT": "MBBS Doctor",
+    "MED_NURSSTAF": "Nursing Staff",
+    "NET_INTESUPE": "Internet Supervisor",
+    "POL_PERS": "Police Personnel",
+    "SEC_BAGGSCAN": "Baggage Scanner Attendant",
+    "SEC_FEMABOUN": "Female Bouncers",
+    "SEC_FEMAGUAR": "Female Guards",
+    "SEC_MALEBOUN": "Male Bouncers",
+    "SEC_MALEGUAR": "Male Guards",
+    "SEC_PARKSUPE": "Parking Supervisor",
+    "SEC_SUPE": "Security Supervisors",
+    "SEC_TRAFMARS": "Traffic Marshall",
+    "WLK_WALKSUPE": "Walkies Supervisor"
+  },
+  "reason": "Phase 7 commercial review: these source descriptions identify people supplied and billed in explicit DUTY units. Equipment, consumables, vehicles, facilities, and composite services remain unapproved."
+}

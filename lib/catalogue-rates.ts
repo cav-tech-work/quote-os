@@ -48,7 +48,7 @@ export async function listCatalogueOfferings(scopeType: PriceScopeType, marketId
     const vendor = offering.prices.find((price) => price.side === "TO_VENDOR") ?? null;
     return {
       id: offering.id, code: offering.code, name: offering.name, kind: offering.kind,
-      quantityBasis: offering.quantityBasis,
+      quantityBasis: offering.quantityBasis, pricingFamily: offering.pricingFamily,
       billingUnit: offering.billingUnit, active: offering.active, canonicalItem: offering.canonicalItem,
       durationBasis: offering.durationBasis, durationPolicy: offering.durationPolicy,
       completeness: client && vendor ? "BOTH" : client ? "CLIENT_ONLY" : vendor ? "VENDOR_ONLY" : "NEITHER",

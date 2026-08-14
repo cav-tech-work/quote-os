@@ -2,15 +2,15 @@
 
 Updated: 2026-08-14
 
-## Phase 6 normalized ordinary quote builder
+## Phase 7 normalized ordinary + personnel quote builder
 
-- New ordinary quote search uses quote-ready `CommercialOffering` records: 124 TO_CLIENT and 118 TO_VENDOR in the verified Phase 5.6 catalogue.
-- Configuration controls follow the normalized quantity basis and all preview/persistence pricing uses the central exact calculator. `eventDays` defaults line `usageDays`; line duration overrides are supported.
+- Normalized quote search combines 124/118 ordinary TO_CLIENT/TO_VENDOR offerings with 23/22 independently approved personnel offerings, for 147/140 selectable totals.
+- Ordinary configuration follows its normalized quantity basis; personnel uses explicit headcount and duties/person. `eventDays` defaults ordinary line `usageDays` but never determines personnel duties.
 - New `QuoteLine` normalized fields snapshot identity, configuration, exact quantity, GLOBAL Price provenance, duration policy definition, override provenance, amounts, and bounded version identifiers. Existing legacy snapshots are unchanged.
 - Server persistence recalculates inside a serializable transaction, rejects unready/specialized offerings and stale Price IDs, and has no CITY/opposite-side/legacy/external fallback.
 - Quote totals, readback, and PDFs use persisted snapshots. Tests prove historical values survive master rate/policy/name changes while subsequent quotes use the new master state.
 - Charge-unit override plus reason is supported by API and snapshot persistence; initial UI exposure is deferred.
-- Full revision editing/document retention, personnel duties, generators/fuel, and packages remain deferred.
+- Full revision editing/document retention, generators/fuel, packages, and unresolved OPS equipment/composite semantics remain deferred.
 
 ## External market reference snapshot
 
@@ -36,7 +36,7 @@ Updated: 2026-08-14
 - Quantity stays rational internally, snapshot/display quantity rounds half-up at 12 decimal places, and integer-paise money rounds half-up once after exact multiplication.
 - Current GLOBAL client/vendor rates resolve independently. Explicit zero is valid; missing, conflicting, CITY, opposite-side, legacy, and derived fallback rates are never substituted.
 - Charge-day offerings return `NEEDS_PRICING_SCHEDULE` and a per-charge-period base amount. No duration schedule was implemented.
-- Real-data coverage: 197/197 known billing units, 177/197 known quantity bases, 197/197 known duration bases; 114 offerings use Phase 4-supported bases. The remaining 63 `HEADCOUNT_DUTY` and 20 unclassified offerings fail closed.
+- Real-data coverage: 197/197 known billing units, 177/197 known quantity bases, and 197/197 known duration bases. Of 63 mechanically normalized `HEADCOUNT_DUTY` rows, 24 evidence-clear people offerings have audited personnel approval; 39 equipment/composite/uncertain rows continue to fail closed.
 - Phase 4 is headless. The quote workspace, legacy catalogue/pricing, quote persistence, and PDFs remain unchanged.
 - Recommended Phase 5: Quote Pricing Schedule + Charge-Day Resolution.
 
@@ -100,7 +100,7 @@ Updated: 2026-08-14
 - The disposable-database guarded real-master validation result is 113 canonical items, 197 distinct offerings, 1,094 non-conflicting aliases, 197 source mappings, 327 independent GLOBAL prices, one ImportBatch, and 452 provenance rows. Twenty-six source rows and 18 conflicting alias-target rows remain deferred; no human approvals or rejections were asserted.
 - Entity type, offering kind, quantity basis, and duration basis may remain null when source evidence does not determine them. This prevents arbitrary calculation/business classifications while allowing approved identity and pricing data.
 - The 1,608 city values remain inactive and produce no Price, RateMarket, or RateObservation rows. Legacy `/catalogue`, quotes, pricing, and PDFs still use `CatalogueItem` exclusively.
-- Phase 3 delivered normalized rate administration, Phases 4-5.6 delivered exact calculation and reviewed duration coverage, and Phase 6 delivered the explicit ordinary quote-builder cutover while retaining legacy history.
+- Phase 3 delivered normalized rate administration, Phases 4-5.6 delivered exact calculation and reviewed duration coverage, Phase 6 delivered the ordinary builder cutover, and Phase 7 adds explicit personnel-duty pricing while retaining legacy history.
 
 ## Verification
 

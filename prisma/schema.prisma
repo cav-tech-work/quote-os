@@ -87,6 +87,11 @@ enum QuantityBasis {
   GENERATOR
 }
 
+enum PricingFamily {
+  ORDINARY
+  HEADCOUNT_DUTY
+}
+
 enum DurationBasis {
   ONE_OFF
   VC_CHARGE_DAYS
@@ -267,6 +272,7 @@ model CommercialOffering {
   canonicalItemId           String?
   canonicalItem             CanonicalItem?                  @relation(fields: [canonicalItemId], references: [id], onDelete: SetNull)
   quantityBasis             QuantityBasis?
+  pricingFamily             PricingFamily?
   durationBasis             DurationBasis?
   durationPolicyId          String?
   durationPolicy            DurationPolicy?                 @relation(fields: [durationPolicyId], references: [id], onDelete: Restrict)
@@ -605,6 +611,9 @@ model QuoteLine {
   configurationSnapshot                Json?
   normalizedConfigurationSnapshot      Json?
   quantityBasisSnapshot                QuantityBasis?
+  pricingFamilySnapshot                PricingFamily?
+  headcountSnapshot                    Int?
+  dutyUnitsPerPersonSnapshot           String?
   billableQuantitySnapshot             String?
   billableQuantityNumeratorSnapshot    String?
   billableQuantityDenominatorSnapshot  String?
