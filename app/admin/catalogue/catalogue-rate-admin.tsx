@@ -23,6 +23,7 @@ type DurationPolicy = {
   minimumChargeDenominator: number;
   roundingMode: string;
   active: boolean;
+  authority: string;
   description: string | null;
   points?: Array<{ usageDays: number; chargeUnitsNumerator: number; chargeUnitsDenominator: number }>;
   _count?: { offerings: number };
@@ -245,7 +246,7 @@ export function CatalogueRateAdmin({
         const haystack =
           `${item.code} ${item.name} ${item.canonicalItem?.code ?? ""} ${item.canonicalItem?.name ?? ""}`.toLowerCase();
         const specialized = item.quantityBasis === "HEADCOUNT_DUTY" || item.quantityBasis === "GENERATOR" || item.kind === "PACKAGE" || item.durationPolicy?.mode === "MANUAL";
-        const ordinaryReady = !specialized && Boolean(item.quantityBasis && item.durationPolicy && (item.rates.TO_CLIENT || item.rates.TO_VENDOR));
+        const ordinaryReady = !specialized && Boolean(item.quantityBasis && item.durationPolicy?.active && item.durationPolicy.authority === "INTERNAL_APPROVED" && (item.rates.TO_CLIENT || item.rates.TO_VENDOR));
         const blockers = new Set([
           ...(!item.quantityBasis ? ["QUANTITY"] : []),
           ...(!item.durationPolicy ? ["DURATION"] : []),
@@ -258,7 +259,11 @@ export function CatalogueRateAdmin({
           (completeness === "ALL" || item.completeness === completeness) &&
           (active === "ALL" || item.active === (active === "ACTIVE")) &&
           (durationFilter === "ALL" ||
-            (durationFilter === "ASSIGNED") === Boolean(item.durationPolicy)) &&
+            (durationFilter === "ASSIGNED" && Boolean(item.durationPolicy)) ||
+            (durationFilter === "UNASSIGNED" && !item.durationPolicy) ||
+            (durationFilter === "HALF_USE_DAYS_MIN_1" && item.durationPolicy?.code === "HALF_USE_DAYS_MIN_1") ||
+            (durationFilter === "ONE_OFF" && item.durationPolicy?.code === "ONE_OFF") ||
+            (durationFilter === "OTHER" && Boolean(item.durationPolicy) && !["HALF_USE_DAYS_MIN_1", "ONE_OFF"].includes(item.durationPolicy?.code ?? ""))) &&
           (quantityFilter === "ALL" || (quantityFilter === "KNOWN") === Boolean(item.quantityBasis)) &&
           (readinessFilter === "ALL" || (readinessFilter === "READY") === ordinaryReady) &&
           (blockerFilter === "ALL" || blockers.has(blockerFilter))
@@ -538,6 +543,9 @@ export function CatalogueRateAdmin({
             <option value="ALL">All duration policies</option>
             <option value="ASSIGNED">Policy assigned</option>
             <option value="UNASSIGNED">Policy unassigned</option>
+            <option value="HALF_USE_DAYS_MIN_1">Half-use days, minimum 1</option>
+            <option value="ONE_OFF">One-off</option>
+            <option value="OTHER">Other assigned policy</option>
           </select>
           <select value={quantityFilter} onChange={(event) => setQuantityFilter(event.target.value)}>
             <option value="ALL">All quantity bases</option>

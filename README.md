@@ -47,6 +47,8 @@ npm run catalogue:semantic-apply -- --decisions ./catalogue-semantic-decisions.j
 
 Apply is dry-run unless `--apply` is present, is transactional and audited, rejects stale review state, and treats an identical reapply as a no-op. Workbook `Days Applies? = N` is one-off evidence; `Y` only means duration matters and never establishes a multiplier. The engine remains headless: the quote builder has **not** been cut over.
 
+Phase 5.6 applies the explicitly approved CAV `HALF_USE_DAYS_MIN_1` default only to individually reviewed ordinary reusable VC elements. The semantic inventory uses source descriptions, normalized identity, quantity semantics, rate availability, exception classification, and explicit evidence. Vanity, OPS, security, personnel, headcount-duty, generator/fuel, package, and ambiguous work remain deferred. There is no runtime VC/CCTV/OPS policy branch.
+
 ## External market reference data
 
 `npm run reference:crawl:brandprofesor` captures the public Brand Profesor product catalogue, variation prices, categories, quantity constraints, and published refund/privacy/terms pages into `reference-data/brandprofesor`. It checks `robots.txt`, uses public WordPress/WooCommerce APIs, throttles requests, and records provenance and hashes. This snapshot is external research only: it has no Prisma, normalized import, price resolver, admin, or quotation connection and must never be treated as an approved Clockwork AV rate automatically.

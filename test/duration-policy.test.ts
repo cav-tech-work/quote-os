@@ -55,6 +55,10 @@ test("final amount multiplies exact charge units and rounds paise once", () => {
   const rate = { state: "RATE_FOUND" as const, side: "TO_CLIENT" as const, scope: "GLOBAL" as const, priceId: "p", amountPaise: 900000 };
   const result = calculateOfferingWithRate(offering, { quantity: "1" }, "TO_CLIENT", rate, policy("USAGE_DAYS"), { usageDays: "3" }); assert.equal(result.baseAmountPaise, 900000); assert.equal(result.chargeUnits, "1.5"); assert.equal(result.finalAmountPaise, 1350000); assert.equal(result.pricingState, "READY");
   const halfPaise = calculateOfferingWithRate(offering, { quantity: "1" }, "TO_CLIENT", { ...rate, amountPaise: 1 }, policy("USAGE_DAYS"), { usageDays: "3" }); assert.equal(halfPaise.finalAmountPaise, 2);
+  const volume = { id: "v", code: "V", quantityBasis: "VOLUME" as const, durationBasis: "VC_CHARGE_DAYS" as const, billingUnit: "CBM" as const };
+  const fractional = calculateOfferingWithRate(volume, { quantity: "1", length: { value: "10", unit: "FT" }, width: { value: "10", unit: "FT" }, height: { value: "10", unit: "FT" } }, "TO_CLIENT", { ...rate, amountPaise: 20000 }, policy("USAGE_DAYS"), { usageDays: "3" });
+  assert.equal(fractional.baseAmountPaise, 566337);
+  assert.equal(fractional.finalAmountPaise, 849505);
 });
 
 const databaseUrl = process.env.TEST_DATABASE_URL;

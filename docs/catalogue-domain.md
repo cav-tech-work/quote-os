@@ -1,6 +1,6 @@
 # Normalized catalogue domain contract
 
-Status: Phase 5.5 duration curves and catalogue semantic review, 14 August 2026. The normalized catalogue is populated, administrable, and usable through a server-side deterministic calculation core. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for quote creation until an explicit cutover phase.
+Status: Phase 5.6 ordinary VC duration approval and readiness expansion, 14 August 2026. The normalized catalogue is populated, administrable, and usable through a server-side deterministic calculation core. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for quote creation until an explicit cutover phase.
 
 Phase 1 adds a pure, deterministic preview parser. `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the only active commercial-master authority: `RateChart.ToClients` and `RateChart.ToVendors` are independent candidate global prices, while `LookUp` supplies normalization evidence. City columns are reported only as later `RateObservation` candidates. `VCxOpsxPower_Master_VenueWise.xlsx` remains operational evidence, and city/event workbooks remain historical evidence.
 
@@ -92,6 +92,8 @@ Policy calculation fields, including curve points, are immutable through adminis
 
 `Days Applies? = N` is strong one-off evidence where its source row is approved. `Y` only establishes duration sensitivity; it does not choose full-day, half-day, minimum, or rounding behavior. Domain likewise selects no math: VC may often use half-use-days and CCTV may share that same policy, while two VC offerings may legitimately use different policies. Usage days are line-level engine input, distinct from future quote-level event days.
 
+Phase 5.6 records an explicit internal CAV commercial decision: reviewed reusable ordinary VC rental/fabrication elements use `HALF_USE_DAYS_MIN_1` (usage days × 1/2, minimum 1, no rounding). This is candidate and assignment data, never a runtime `domain == VC` rule. Review requires `Days Applies? = Y`, supported ordinary quantity semantics, normalized/source identity describing a reusable physical VC element, and exclusion of vanity, personnel, security, generator/fuel, package, manual, and ambiguous work. Reviewed CCTV equipment may share the policy by explicit assignment; CCTV duty/personnel does not. OPS has no automatic full-day or half-day policy.
+
 Duration policy answers how time modifies commercial quantity or amount. It remains separate from a future price-model axis: `UNIT_RATE`, `FIXED_VARIANT`, `TIERED`, `FORMULA`, and `MANUAL`. Phase 5.5 does not add price schedules or tiers. Generator/fuel formulas, personnel duties, and package composition remain specialized.
 
 The current-rate resolver accepts only offering, side, and time. It queries the normalized `Price` table for active/effective GLOBAL rows with no market. Outcomes are `RATE_FOUND`, `RATE_UNAVAILABLE`, or defensive `RATE_DATA_CONFLICT`. Explicit zero is found; client/vendor sides are independent; CITY and all legacy sources are ignored. Pricing readiness additionally distinguishes missing semantics, incomplete configuration, manual requirements, and schedule requirements.
@@ -99,6 +101,8 @@ The current-rate resolver accepts only offering, side, and time. It queries the 
 ### Semantic review and guarded apply
 
 `catalogue-semantic-decisions.json` is a versioned, source-import-hash and catalogue-fingerprint-bound review set. The deterministic review lists every offering, source evidence, current/candidate quantity and duration semantics, reasoning, family, and blockers. Missing decisions mean `DEFER`, never approval. Apply is dry-run by default; `--apply` requires an active administrator identity and changes only `quantityBasis` and `durationPolicyId` in one transaction. Quantity and duration changes receive durable semantic audit records, duration assignments retain the Phase 5 assignment audit, stale fingerprints fail, and an identical reapply is a no-op without duplicate events.
+
+The Phase 5.6 inventory additionally records GLOBAL rate availability, specialist status, commercial review bucket, confidence, and per-decision evidence. All 180 previously unresolved duration rows are explicit decisions: high-confidence ordinary VC elements are approved individually and exception/OPS/specialist rows are explicitly deferred.
 
 ```text
 npm run catalogue:semantic-review
