@@ -56,6 +56,8 @@ export type OfferingPricingResult = {
   normalizedConfiguration: Record<string, string> | null;
   billingUnit: UnitCode | null;
   billableQuantity: string | null;
+  billableQuantityNumerator: string | null;
+  billableQuantityDenominator: string | null;
   rateSide: PriceSide;
   priceId: string | null;
   unitRatePaise: number | null;

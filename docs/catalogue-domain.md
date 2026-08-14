@@ -1,6 +1,6 @@
 # Normalized catalogue domain contract
 
-Status: Phase 5.6 ordinary VC duration approval and readiness expansion, 14 August 2026. The normalized catalogue is populated, administrable, and usable through a server-side deterministic calculation core. The legacy `CatalogueCategory` / `CatalogueItem` catalogue remains authoritative for quote creation until an explicit cutover phase.
+Status: Phase 6 normalized ordinary quote-line snapshot and builder cutover, 14 August 2026. The normalized catalogue is populated, administrable, and used for new ordinary quote creation. Legacy `CatalogueCategory` / `CatalogueItem` records remain available only for explicit compatibility with historical legacy quote lines.
 
 Phase 1 adds a pure, deterministic preview parser. `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the only active commercial-master authority: `RateChart.ToClients` and `RateChart.ToVendors` are independent candidate global prices, while `LookUp` supplies normalization evidence. City columns are reported only as later `RateObservation` candidates. `VCxOpsxPower_Master_VenueWise.xlsx` remains operational evidence, and city/event workbooks remain historical evidence.
 
@@ -120,13 +120,17 @@ Ordinary readiness is derived rather than persisted. It requires a supported ord
 - `PackageTemplate` / `PackageComponent`, included-component behavior, recipes, and package pricing
 - offering parameters and configuration dimensions/options
 - charge-day resolution, generator calculations, and `HEADCOUNT_DUTY` execution
-- import parsing, preview UI, search ranking, active price resolution, city precedence, quote snapshots, and all legacy cutover work
+- preview UI, advanced search ranking, city precedence, specialized quote snapshots, and legacy retirement
 
 Package composition and package pricing will remain separate to prevent double charging. Usage and context describe deployment; neither redefines canonical identity or automatically creates a commercial package.
 
 ## Compatibility and technical debt
 
-The current quote builder, APIs, PDFs, and historic `QuoteLine` snapshots continue to use the legacy flat catalogue. The Phase 5 engine is headless and has no quote UI consumer. That legacy path still contains the 40% client-from-vendor rule; it is documented technical debt and is absent from normalized resolution. CITY rates may be maintained but normalized V1 resolution ignores them. Production startup remains migration-only. The next bounded phase is Normalized Quote-Line Snapshot + Ordinary Item Quote Builder Cutover, with event days defaulting line usage days while retaining a future override boundary.
+New ordinary quote creation searches `CommercialOffering`, renders quantity-basis-specific configuration, previews through the central server calculation engine, and recalculates inside a serializable persistence transaction. Selectability and save both require supported ordinary quantity semantics, an active `INTERNAL_APPROVED` non-manual policy, and one current GLOBAL rate for the requested side. CITY, opposite-side, legacy, external, and historical fallback paths are absent.
+
+`QuoteRevision.eventDays` defaults each normalized line's `usageDays`; a line may provide its own usage duration. `QuoteLine` retains its legacy snapshots and adds nullable normalized snapshots for canonical/offering identity, configuration, normalized configuration, exact billable quantity, price provenance, duration policy definition, resolved duration/override provenance, amounts, and calculation/snapshot versions. Existing rows need no backfill. Quote totals, readback, and PDF output use persisted line values without live recalculation. Charge-unit overrides and required reasons are supported by the API/snapshot contract but not exposed in the initial UI.
+
+Historical legacy quotes remain readable and PDF-compatible. No automatic legacy-to-normalized mapping exists. The old 40% client-from-vendor rule remains only in the explicit legacy compatibility POST contract and inventory flow; it is never a normalized fallback. Full multi-revision editing and generated-document retention remain later work.
 
 The preview command is:
 

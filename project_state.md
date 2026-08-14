@@ -1,6 +1,16 @@
 # QuoteOS project state
 
-Updated: 2026-08-13
+Updated: 2026-08-14
+
+## Phase 6 normalized ordinary quote builder
+
+- New ordinary quote search uses quote-ready `CommercialOffering` records: 124 TO_CLIENT and 118 TO_VENDOR in the verified Phase 5.6 catalogue.
+- Configuration controls follow the normalized quantity basis and all preview/persistence pricing uses the central exact calculator. `eventDays` defaults line `usageDays`; line duration overrides are supported.
+- New `QuoteLine` normalized fields snapshot identity, configuration, exact quantity, GLOBAL Price provenance, duration policy definition, override provenance, amounts, and bounded version identifiers. Existing legacy snapshots are unchanged.
+- Server persistence recalculates inside a serializable transaction, rejects unready/specialized offerings and stale Price IDs, and has no CITY/opposite-side/legacy/external fallback.
+- Quote totals, readback, and PDFs use persisted snapshots. Tests prove historical values survive master rate/policy/name changes while subsequent quotes use the new master state.
+- Charge-unit override plus reason is supported by API and snapshot persistence; initial UI exposure is deferred.
+- Full revision editing/document retention, personnel duties, generators/fuel, and packages remain deferred.
 
 ## External market reference snapshot
 
@@ -69,8 +79,8 @@ Updated: 2026-08-13
 
 ## Application features
 
-- Shared quote builder with client/vendor prices and persisted drafts.
-- Vendor price is the base price; client price is always 40% higher.
+- Normalized ordinary quote builder with independent approved client/vendor GLOBAL prices and persisted immutable revision snapshots.
+- Legacy 40%-derived prices remain only in the isolated legacy catalogue compatibility path.
 - Shared quote repository for active quote users/admins.
 - Administrator-only inventory catalogue create/update/delete functions.
 - System-access-manager-only user role and status management.
@@ -81,7 +91,7 @@ Updated: 2026-08-13
 
 - Phase 0 adds an empty normalized catalogue schema alongside the operational legacy flat catalogue; no workbook data or historic quote data has been migrated.
 - The normalized foundation separates canonical identity, commercial offerings, approved independent client/vendor prices, aliases, source mappings, city markets, historical rate observations, and import provenance.
-- Current `/catalogue`, quote creation/search, quote history, pricing, and PDFs continue to use `CatalogueItem` unchanged. The legacy 40% client-price rule remains technical debt until an explicit cutover.
+- `/catalogue` remains the legacy inventory administration surface, while new ordinary quote creation uses normalized offerings. Quote history and PDFs render both snapshot forms without recalculation.
 - The checked-in contract is [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
 - Phase 1 now provides `npm run catalogue:preview -- <workbook.xlsx>` plus `--json`/`--output`. The parser is pure and does not import Prisma or write `ImportBatch`, `ImportRow`, or normalized catalogue entities.
 - `CAV_Rates_VC_Ops_Power_v120826.xlsx` is the sole active commercial-master authority for preview. Candidate global client/vendor rates come independently from `RateChart`; `LookUp` is normalization vocabulary. Venue-master and city/event workbooks cannot override active rates.
@@ -90,7 +100,7 @@ Updated: 2026-08-13
 - The disposable-database guarded real-master validation result is 113 canonical items, 197 distinct offerings, 1,094 non-conflicting aliases, 197 source mappings, 327 independent GLOBAL prices, one ImportBatch, and 452 provenance rows. Twenty-six source rows and 18 conflicting alias-target rows remain deferred; no human approvals or rejections were asserted.
 - Entity type, offering kind, quantity basis, and duration basis may remain null when source evidence does not determine them. This prevents arbitrary calculation/business classifications while allowing approved identity and pricing data.
 - The 1,608 city values remain inactive and produce no Price, RateMarket, or RateObservation rows. Legacy `/catalogue`, quotes, pricing, and PDFs still use `CatalogueItem` exclusively.
-- Phase 3 delivered the normalized rate dashboard and Phase 4 delivered headless GLOBAL calculation. The next major phase is **Quote Pricing Schedule + Charge-Day Resolution**; no quote/catalogue cutover occurs implicitly.
+- Phase 3 delivered normalized rate administration, Phases 4-5.6 delivered exact calculation and reviewed duration coverage, and Phase 6 delivered the explicit ordinary quote-builder cutover while retaining legacy history.
 
 ## Verification
 

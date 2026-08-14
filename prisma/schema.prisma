@@ -281,6 +281,7 @@ model CommercialOffering {
   priceAuditEvents          PriceAuditEvent[]
   durationPolicyAuditEvents DurationPolicyAssignmentAudit[]
   catalogueSemanticAudits   CatalogueSemanticAudit[]
+  quoteLines                QuoteLine[]
 
   @@index([canonicalItemId])
   @@index([durationPolicyId])
@@ -572,6 +573,7 @@ model QuoteRevision {
   taxTotalPaise      Int
   grandTotalPaise    Int
   lockedAt           DateTime?
+  eventDays          Int?
   createdAt          DateTime            @default(now())
   lines              QuoteLine[]
   documents          GeneratedDocument[]
@@ -580,22 +582,53 @@ model QuoteRevision {
 }
 
 model QuoteLine {
-  id                  String         @id @default(cuid())
-  revisionId          String
-  revision            QuoteRevision  @relation(fields: [revisionId], references: [id], onDelete: Restrict)
-  catalogueItemId     String?
-  catalogueItem       CatalogueItem? @relation(fields: [catalogueItemId], references: [id], onDelete: SetNull)
-  itemCodeSnapshot    String
-  itemNameSnapshot    String
-  descriptionSnapshot String?
-  unitSnapshot        String
-  quantity            Decimal        @db.Decimal(12, 2)
-  days                Decimal        @db.Decimal(12, 2)
-  rateUsedPaise       Int
-  discountPercent     Decimal        @default(0) @db.Decimal(5, 2)
-  discountPaise       Int
-  lineTotalPaise      Int
-  remarks             String?
+  id                                   String              @id @default(cuid())
+  revisionId                           String
+  revision                             QuoteRevision       @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+  catalogueItemId                      String?
+  catalogueItem                        CatalogueItem?      @relation(fields: [catalogueItemId], references: [id], onDelete: SetNull)
+  commercialOfferingId                 String?
+  commercialOffering                   CommercialOffering? @relation(fields: [commercialOfferingId], references: [id], onDelete: SetNull)
+  itemCodeSnapshot                     String
+  itemNameSnapshot                     String
+  descriptionSnapshot                  String?
+  unitSnapshot                         String
+  quantity                             Decimal             @db.Decimal(12, 2)
+  days                                 Decimal             @db.Decimal(12, 2)
+  rateUsedPaise                        Int
+  discountPercent                      Decimal             @default(0) @db.Decimal(5, 2)
+  discountPaise                        Int
+  lineTotalPaise                       Int
+  remarks                              String?
+  canonicalCodeSnapshot                String?
+  canonicalNameSnapshot                String?
+  configurationSnapshot                Json?
+  normalizedConfigurationSnapshot      Json?
+  quantityBasisSnapshot                QuantityBasis?
+  billableQuantitySnapshot             String?
+  billableQuantityNumeratorSnapshot    String?
+  billableQuantityDenominatorSnapshot  String?
+  rateSideSnapshot                     PriceSide?
+  priceIdSnapshot                      String?
+  rateScopeSnapshot                    PriceScopeType?
+  marketIdSnapshot                     String?
+  currencySnapshot                     String?
+  usageDaysSnapshot                    String?
+  durationPolicyIdSnapshot             String?
+  durationPolicyCodeSnapshot           String?
+  durationPolicyModeSnapshot           DurationPolicyMode?
+  durationPolicyDefinitionSnapshot     Json?
+  chargeUnitsSnapshot                  String?
+  durationResolutionProvenanceSnapshot String?
+  overrideChargeUnitsSnapshot          String?
+  overrideReasonSnapshot               String?
+  baseAmountPaiseSnapshot              Int?
+  amountMeaningSnapshot                String?
+  finalAmountPaiseSnapshot             Int?
+  pricingEngineVersion                 String?
+  snapshotSchemaVersion                String?
+
+  @@index([commercialOfferingId])
 }
 
 model QuoteEvent {

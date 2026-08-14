@@ -4,7 +4,7 @@ QuoteOS is Clockwork AV's internal quotation application. It uses Next.js, Postg
 
 ## Catalogue transition
 
-QuoteOS contains the legacy flat catalogue used by all quote flows alongside the populated normalized catalogue. Active administrators manage normalized offerings and independent GLOBAL or CITY client/vendor rates at `/admin/catalogue`; this does not cut the quote builder over from the legacy catalogue. The domain contract is in [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
+QuoteOS retains the legacy flat catalogue for historical quote compatibility alongside the populated normalized catalogue. New ordinary quotes use quote-ready normalized commercial offerings and immutable commercial snapshots. Active administrators manage normalized offerings and independent GLOBAL or CITY client/vendor rates at `/admin/catalogue`; Phase 6 quote creation resolves GLOBAL only. The domain contract is in [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
 
 The authoritative master can be inspected without database writes:
 
@@ -23,7 +23,7 @@ npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx
 npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx --decisions ./catalogue-import-decisions.json --apply
 ```
 
-The review file defaults every unresolved mapping, unknown unit, and alias conflict to `DEFER`. Apply verifies the exact workbook/review hashes and commits approved canonicals, offerings, aliases, global prices, mappings, and provenance atomically. Repeating the same reviewed apply is a no-op, including after an administrator changes a rate. The legacy catalogue and quote builder remain active; all 1,608 workbook city values remain historical evidence.
+The review file defaults every unresolved mapping, unknown unit, and alias conflict to `DEFER`. Apply verifies the exact workbook/review hashes and commits approved canonicals, offerings, aliases, global prices, mappings, and provenance atomically. Repeating the same reviewed apply is a no-op, including after an administrator changes a rate. Legacy catalogue data remains isolated for historical compatibility; all 1,608 workbook city values remain historical evidence.
 
 ## Catalogue and rate administration
 
@@ -45,9 +45,17 @@ npm run catalogue:semantic-apply -- --decisions ./catalogue-semantic-decisions.j
 npm run catalogue:semantic-apply -- --decisions ./catalogue-semantic-decisions.json --actor-email admin@example.com --apply
 ```
 
-Apply is dry-run unless `--apply` is present, is transactional and audited, rejects stale review state, and treats an identical reapply as a no-op. Workbook `Days Applies? = N` is one-off evidence; `Y` only means duration matters and never establishes a multiplier. The engine remains headless: the quote builder has **not** been cut over.
+Apply is dry-run unless `--apply` is present, is transactional and audited, rejects stale review state, and treats an identical reapply as a no-op. Workbook `Days Applies? = N` is one-off evidence; `Y` only means duration matters and never establishes a multiplier.
 
 Phase 5.6 applies the explicitly approved CAV `HALF_USE_DAYS_MIN_1` default only to individually reviewed ordinary reusable VC elements. The semantic inventory uses source descriptions, normalized identity, quantity semantics, rate availability, exception classification, and explicit evidence. Vanity, OPS, security, personnel, headcount-duty, generator/fuel, package, and ambiguous work remain deferred. There is no runtime VC/CCTV/OPS policy branch.
+
+## Normalized ordinary quote builder
+
+Phase 6 changes new-quote selection to `CommercialOffering` while retaining legacy quote rows and APIs for history compatibility. Search returns only active ordinary offerings with supported quantity semantics, an active `INTERNAL_APPROVED` non-manual duration policy, and exactly one current GLOBAL rate for the selected side. The server repeats every readiness and calculation check inside the quote transaction.
+
+Each normalized `QuoteLine` copies offering/canonical identity, original and normalized configuration, exact billable-quantity numerator/denominator, Price ID and unit rate, GLOBAL scope, policy identity/mode/definition, usage days, override provenance, charge units, base/final amounts, and explicit engine/snapshot versions. Readback, totals, and PDFs use this immutable snapshot rather than live catalogue data. `eventDays` defaults line usage duration; a line may override usage days. Charge-unit override and reason are supported by the typed API/snapshot contract but intentionally remain absent from the initial UI.
+
+Legacy catalogue items are not automatically mapped or used as fallback. Historical legacy lines continue to render from their existing snapshots. CITY, opposite-side, external-reference, historical workbook, and legacy 40% fallback pricing are excluded from normalized creation.
 
 ## External market reference data
 
@@ -78,7 +86,7 @@ npm run typecheck
 npm run build
 ```
 
-Production containers apply committed migrations before starting the application. Catalogue imports remain separate controlled operations. The recommended next phase is Normalized Quote-Line Snapshot + Ordinary Item Quote Builder Cutover.
+Production containers apply committed migrations before starting the application. Catalogue imports remain separate controlled operations. Specialized personnel, generator/fuel, and package pricing remain outside the ordinary builder.
 
 ## Continuous integration
 
