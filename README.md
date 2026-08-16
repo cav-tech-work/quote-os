@@ -6,6 +6,8 @@ QuoteOS is Clockwork AV's internal quotation application. It uses Next.js, Postg
 
 QuoteOS retains the legacy flat catalogue for historical quote compatibility alongside the populated normalized catalogue. New quotes use ready ordinary or explicitly approved personnel commercial offerings and immutable commercial snapshots. Active administrators manage normalized offerings and independent GLOBAL or CITY client/vendor rates at `/admin/catalogue`; quote creation resolves GLOBAL only. The domain contract is in [`docs/catalogue-domain.md`](docs/catalogue-domain.md).
 
+Phase 7.5 independently reviews all 39 ambiguous `nos/duty` rows: raw units are evidence, not personnel semantics. See [`docs/phase-7-5-nos-duty-review.md`](docs/phase-7-5-nos-duty-review.md). Use `npm run catalogue:nos-duty-apply -- --decisions catalogue-nos-duty-decisions.json --actor-email <admin>` for dry-run and add `--apply` for the guarded transaction.
+
 The authoritative master can be inspected without database writes:
 
 ```text

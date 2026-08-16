@@ -591,7 +591,10 @@ export function CatalogueRateAdmin({
               <span>
                 <b>{item.name}</b>
                 <small>
-                  {item.code} · {item.billingUnit}{item.pricingFamily === "HEADCOUNT_DUTY" ? " · Personnel ready" : ""}
+                  {item.code} · {item.billingUnit} · {item.pricingFamily ?? "UNCLASSIFIED"} · {item.quantityBasis ?? "NO QUANTITY BASIS"}
+                </small>
+                <small>
+                  Duration: {item.durationPolicy?.code ?? "UNASSIGNED"}
                 </small>
               </span>
               <span
@@ -621,8 +624,16 @@ export function CatalogueRateAdmin({
                   : amount(item.rates.TO_VENDOR)}
               </span>
               <span>
-                {item.active ? "Active" : "Inactive"}
-                <small>{item.completeness.replace("_", " ")}</small>
+                {(() => {
+                  const personnelReady = item.pricingFamily === "HEADCOUNT_DUTY" && item.quantityBasis === "HEADCOUNT_DUTY" && item.billingUnit === "DUTY" && Boolean(item.rates.TO_CLIENT || item.rates.TO_VENDOR);
+                  const ordinaryReady = item.pricingFamily === "ORDINARY" && Boolean(item.quantityBasis && item.durationPolicy?.active && item.durationPolicy.authority === "INTERNAL_APPROVED" && (item.rates.TO_CLIENT || item.rates.TO_VENDOR));
+                  if (personnelReady || ordinaryReady) return "READY";
+                  if (!item.pricingFamily || !item.quantityBasis) return "SEMANTICALLY_BLOCKED";
+                  if (item.pricingFamily === "ORDINARY" && !item.durationPolicy) return "DURATION_BLOCKED";
+                  if (!item.rates.TO_CLIENT && !item.rates.TO_VENDOR) return "RATE_BLOCKED";
+                  return "SPECIALIZED_BLOCKED";
+                })()}
+                <small>{item.active ? "Active" : "Inactive"} · {item.completeness.replace("_", " ")}</small>
               </span>
             </button>
           ))}

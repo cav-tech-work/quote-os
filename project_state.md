@@ -2,6 +2,13 @@
 
 Updated: 2026-08-14
 
+## Phase 7.5 nos/duty semantic cleanup
+
+- All 39 unresolved `nos/duty` rows have explicit, source-bound decisions; the source unit is no longer treated as personnel proof.
+- Twenty-two countable equipment/item rows are normalized to `ORDINARY` + `COUNT` + `NOS`. Five are ready through retained ONE_OFF evidence, 17 remain duration-blocked, and 17 remain semantically deferred.
+- Selectable coverage is now 129 ordinary + 23 personnel (152) TO_CLIENT and 120 ordinary + 22 personnel (142) TO_VENDOR. The 24 approved personnel master classifications remain unchanged.
+- The apply is fingerprint-bound, authority-checked, transactional, idempotent, and field-audited. OPS/security duration, composites, packages, and generators remain deferred.
+
 ## Phase 7 normalized ordinary + personnel quote builder
 
 - Normalized quote search combines 124/118 ordinary TO_CLIENT/TO_VENDOR offerings with 23/22 independently approved personnel offerings, for 147/140 selectable totals.
