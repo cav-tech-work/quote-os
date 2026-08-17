@@ -10,6 +10,8 @@ Phase 7.5 independently reviews all 39 ambiguous `nos/duty` rows: raw units are 
 
 Phase 7.6 explicitly assigns the existing FULL_USE_DAYS policy to 17 reviewed reusable OPS, security, sanitation, and facility equipment offerings. See [`docs/phase-7-6-full-use-review.md`](docs/phase-7-6-full-use-review.md). Apply uses the existing `catalogue:semantic-apply` dry-run/`--apply` workflow with `catalogue-full-use-decisions.json`.
 
+Phase 8 makes QuoteRevision the commercial-history boundary and GeneratedDocument the retained issued-document boundary. Drafts can be previewed and server-recalculated; issue atomically retains an immutable, SHA-256-addressed PDF in PostgreSQL; later changes clone into a new monotonically numbered draft without implicit repricing. See [`docs/phase-8-revision-documents.md`](docs/phase-8-revision-documents.md).
+
 The authoritative master can be inspected without database writes:
 
 ```text

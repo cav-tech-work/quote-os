@@ -70,13 +70,14 @@ const styles = StyleSheet.create({
   grandTotal: { flexDirection: "row", justifyContent: "space-between", marginTop: 3, borderTopWidth: 1.5, borderTopColor: "#102c47", paddingTop: 9, fontFamily: "Helvetica-Bold", fontSize: 12, color: "#102c47" },
   note: { color: "#506475", lineHeight: 1.5, fontSize: 8.5 },
   terms: { color: "#506475", lineHeight: 1.5, fontSize: 8 },
+  preview: { position: "absolute", top: 112, left: 42, color: "#b42318", fontSize: 9, fontFamily: "Helvetica-Bold", letterSpacing: 1.2 },
 });
 
 const inr = (paise: number) => `INR ${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(paise / 100)}`;
 const date = (value: Date) => new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short", year: "numeric" }).format(value);
 const value = (input: { toString(): string } | number) => input.toString();
 
-export function QuotePdf({ quote }: { quote: PdfQuote }) {
+export function QuotePdf({ quote, documentState = "ISSUED" }: { quote: PdfQuote; documentState?: "DRAFT_PREVIEW" | "ISSUED" }) {
   const revision = quote.revision;
   return <Document title={`${quote.number} - ${quote.company}`} author="Clockwork AV" subject="Commercial quotation">
     <Page size="A4" style={styles.page}>
@@ -86,6 +87,7 @@ export function QuotePdf({ quote }: { quote: PdfQuote }) {
         <Text style={styles.companyDetails}>Clockwork Design LLP{`\n`}18B, Prince Anwar Shah Lane, Kolkata, WB 700033{`\n`}GSTIN: 19AATFC2886K1ZL</Text>
       </View>
       <View fixed style={styles.footer}><Text>Clockwork AV - Confidential commercial quotation</Text><Text render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`} /></View>
+      {documentState === "DRAFT_PREVIEW" && <Text fixed style={styles.preview}>DRAFT PDF PREVIEW — NOT ISSUED</Text>}
       <View style={styles.titleRow}>
         <View><Text style={styles.kicker}>{quote.type === "CLIENT" ? "CLIENT OFFER" : "VENDOR OFFER"}</Text><Text style={styles.title}>Quotation</Text></View>
         <View style={styles.quoteMeta}><Text><Text style={styles.metaLabel}>Quote no. </Text>{quote.number}</Text><Text><Text style={styles.metaLabel}>Revision </Text>{revision.revisionNumber}</Text><Text><Text style={styles.metaLabel}>Prepared </Text>{date(revision.preparedDate)}</Text><Text><Text style={styles.metaLabel}>Valid until </Text>{revision.validUntil ? date(revision.validUntil) : "On request"}</Text></View>

@@ -35,6 +35,16 @@ enum AuditAction {
   SENT
   STATUS_CHANGED
   IMPORTED
+  REVISION_CREATED
+  REVISION_ISSUED
+  REVISION_SUPERSEDED
+  DOCUMENT_RETAINED
+}
+
+enum QuoteRevisionStatus {
+  DRAFT
+  ISSUED
+  SUPERSEDED
 }
 
 enum CatalogueDomain {
@@ -180,6 +190,9 @@ model User {
   importBatches             ImportBatch[]
   priceAuditEvents          PriceAuditEvent[]
   durationPolicyAuditEvents DurationPolicyAssignmentAudit[]
+  revisionsCreated          QuoteRevision[]                 @relation("RevisionCreator")
+  revisionsIssued           QuoteRevision[]                 @relation("RevisionIssuer")
+  generatedDocuments        GeneratedDocument[]
 }
 
 model Account {
@@ -563,11 +576,23 @@ model Quote {
   events      QuoteEvent[]
 }
 
+model QuoteNumberCounter {
+  year      Int      @id
+  nextValue Int
+  updatedAt DateTime @updatedAt
+}
+
 model QuoteRevision {
   id                 String              @id @default(cuid())
   quoteId            String
   quote              Quote               @relation(fields: [quoteId], references: [id], onDelete: Restrict)
   revisionNumber     Int
+  status             QuoteRevisionStatus @default(DRAFT)
+  createdById        String?
+  createdBy          User?               @relation("RevisionCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  issuedById         String?
+  issuedBy           User?               @relation("RevisionIssuer", fields: [issuedById], references: [id], onDelete: Restrict)
+  issuedAt           DateTime?
   preparedDate       DateTime
   validUntil         DateTime?
   taxPercentage      Decimal             @db.Decimal(5, 2)
@@ -580,11 +605,20 @@ model QuoteRevision {
   grandTotalPaise    Int
   lockedAt           DateTime?
   eventDays          Int?
+  quoteTypeSnapshot  QuoteType?
+  companySnapshot    String?
+  projectSnapshot    String?
+  venueSnapshot      String?
+  citySnapshot       String?
+  salespersonSnapshot String?
+  currencySnapshot   String?
   createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
   lines              QuoteLine[]
   documents          GeneratedDocument[]
 
   @@unique([quoteId, revisionNumber])
+  @@index([quoteId, status])
 }
 
 model QuoteLine {
@@ -660,6 +694,16 @@ model GeneratedDocument {
   templateVersion String
   storageKey      String        @unique
   checksum        String
+  documentType    String        @default("ISSUED_QUOTE_PDF")
+  documentVersion Int           @default(1)
+  content         Bytes?
+  byteSize        Int?
+  mimeType        String        @default("application/pdf")
+  filename        String?
+  generatedById   String?
+  generatedBy     User?         @relation(fields: [generatedById], references: [id], onDelete: Restrict)
   generatedAt     DateTime      @default(now())
   emailedAt       DateTime?
+
+  @@unique([revisionId, documentType, documentVersion])
 }

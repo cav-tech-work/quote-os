@@ -2,6 +2,14 @@
 
 Updated: 2026-08-17
 
+## Phase 8 revision lifecycle and retained documents
+
+- QuoteRevision now has explicit DRAFT, ISSUED and SUPERSEDED states, one active draft per quote, creator/issuer identity, issued time, and revision-scoped PDF-visible metadata.
+- PostgreSQL counters allocate concurrency-safe quote numbers; advisory locks plus unique constraints serialize next-revision creation and issue.
+- Cloning preserves snapshots without repricing. Server-authoritative line edits recalculate only changed cloned lines; issued revisions reject mutation with `REVISION_IMMUTABLE`.
+- The canonical issued PDF is retained in PostgreSQL with SHA-256, bytes, size, MIME type, filename, document type/version, template version and generator. Retrieval verifies and serves the retained bytes rather than rendering again.
+- Dynamic draft preview and legacy-regeneratable output are explicitly distinguished from retained issued artifacts. QuoteEvent records clone, issue, supersession and document retention.
+
 ## Phase 7.6 full-use duration approval
 
 - The exact 17 Phase 7.5 ordinary COUNT rows blocked only by duration were reconciled and individually approved for the existing FULL_USE_DAYS policy.
