@@ -12,6 +12,8 @@ Phase 7.6 explicitly assigns the existing FULL_USE_DAYS policy to 17 reviewed re
 
 Phase 8 makes QuoteRevision the commercial-history boundary and GeneratedDocument the retained issued-document boundary. Drafts can be previewed and server-recalculated; issue atomically retains an immutable, SHA-256-addressed PDF in PostgreSQL; later changes clone into a new monotonically numbered draft without implicit repricing. See [`docs/phase-8-revision-documents.md`](docs/phase-8-revision-documents.md).
 
+Phase 9 audits the remaining 17 service, transport, consumption, cabling, facility and composite rows. None has sufficient quantity plus rate-unit evidence for safe approval, so all remain explicitly deferred through the guarded workflow; no pricing family or billing unit was invented. See [`docs/phase-9-specialized-contract-review.md`](docs/phase-9-specialized-contract-review.md).
+
 The authoritative master can be inspected without database writes:
 
 ```text

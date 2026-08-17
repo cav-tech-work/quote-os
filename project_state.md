@@ -2,6 +2,13 @@
 
 Updated: 2026-08-17
 
+## Phase 9 specialized contract review
+
+- The unresolved population exactly matches the expected 17 rows. Workbook identity, Days Applies, formulas, notes, source mappings, normalized state and both GLOBAL rate sides were audited individually.
+- All 17 are explicitly DEFERRED because billable unit or duration remains ambiguous; 12 also have no GLOBAL rate. The five priced rows do not establish per-meal, per-trip, per-vehicle, per-team or per-package unit meaning.
+- No new PricingFamily, UnitCode, calculation, duration assignment or readiness was added. Coverage remains 164 TO_CLIENT and 153 TO_VENDOR combined.
+- Guarded apply now supports reviewed pricing-family and billing-unit fields, but Phase 9 applied zero field changes. Production population, startup policy, Phase 8, Brand Profesor and generator/package boundaries are unchanged.
+
 ## Phase 8 revision lifecycle and retained documents
 
 - QuoteRevision now has explicit DRAFT, ISSUED and SUPERSEDED states, one active draft per quote, creator/issuer identity, issued time, and revision-scoped PDF-visible metadata.
