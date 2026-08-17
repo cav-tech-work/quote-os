@@ -1,0 +1,1621 @@
+{
+  "schemaVersion": "1.0.0",
+  "sourceImportFileHash": "75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57",
+  "catalogueFingerprint": "dcaf813ac77ea4ac38796eda9acf9d865c37a7ff745601520c0107f769fc5594",
+  "decisions": {
+    "BAR_EMEREXIT": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Emergency Exit"
+      }
+    },
+    "BAR_GOLDBOLL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Golden Bollard with Red rope"
+      }
+    },
+    "BAR_METARAIL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Metal Railing for bars"
+      }
+    },
+    "BAR_METARAIL2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Metal Railing for coupon counter"
+      }
+    },
+    "BAR_METARAIL3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Metal Railing for Ticketing Cue"
+      }
+    },
+    "BAR_METARAIL4": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Metal Railing for Entry Aisles"
+      }
+    },
+    "BAR_METARAIL5": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Metal Railing for Yondr"
+      }
+    },
+    "BAR_METARAIL6": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Metal Railing"
+      }
+    },
+    "BAR_MOJO": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Mojo Barricading"
+      }
+    },
+    "BAR_MOJOAUDI": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Mojo Barricading for Audience Zones"
+      }
+    },
+    "BAR_MOJOFRON": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Mojo Barricading for Frontline, SnakePit & Console"
+      }
+    },
+    "BAR_RAILEDGE": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Railing for Stage Edge"
+      }
+    },
+    "BAR_STEPRAIL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Steps w/ Railing StageLeft"
+      }
+    },
+    "BAR_STEPRAIL2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Steps w/ Railing StageRight"
+      }
+    },
+    "BAR_TIN": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/LINEAR/RFT; source description: Tin Barricading"
+      }
+    },
+    "BKDP_BACK": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LH",
+        "reason": "Stage backdrop is a reviewed vertical face measured by length and height."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "BLST_WATEBALL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Water Ballast for Trussing"
+      }
+    },
+    "BLST_WATEBALL2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Water Ballast for Backwall"
+      }
+    },
+    "BLST_WATEBALL3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Water Ballast for PA Tower"
+      }
+    },
+    "CARP_BACK": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Backstage carpet is reviewed horizontal floor coverage measured by length and width."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "CARP_ITEM": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Carpet is reviewed horizontal floor coverage measured by length and width."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "CARP_PLYB": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Plyback carpet is reviewed horizontal platform coverage measured by length and width."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Plyback carpet"
+      }
+    },
+    "CARP_PLYBUTIL": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Utility plyback carpet is reviewed horizontal platform coverage measured by length and width."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Plyback carpet (utility)"
+      }
+    },
+    "CARP_UTIL": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Utility carpet is reviewed horizontal floor coverage measured by length and width."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "CCTV_CABL": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "CCTV may share the ordinary policy only for equipment; this row is specialized duty/personnel and remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: CCTV Cabling"
+      }
+    },
+    "CCTV_CAME": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "CCTV_PTZCAME": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "CCTV_SUPE": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "CCTV may share the ordinary policy only for equipment; this row is specialized duty/personnel and remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: CCTV Supervisor"
+      }
+    },
+    "CHR_BANQCHAI": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Banquet Chair"
+      }
+    },
+    "CHR_BANQCHAI2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Banquet Chair with black cover"
+      }
+    },
+    "CHR_BANQCHAI3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Banquet Chair w/ black cover"
+      }
+    },
+    "CHR_BANQCHAI4": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Banquet Chair w/ black cover (utility)"
+      }
+    },
+    "CHR_PLASCHAI": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plastic Chair"
+      }
+    },
+    "CHR_PLASCHAI2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plastic Chairs for Stalls"
+      }
+    },
+    "CHR_PLASCHAI3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plastic Chairs"
+      }
+    },
+    "CHR_PLASCHAI4": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plastic Chairs for Yondr"
+      }
+    },
+    "CON_GERMMARQ": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Console Cover: German Marquee/Chinese Tent/Pagoda/Canopy"
+      }
+    },
+    "CON_PLATLAYE": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Console platform layer is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Console Platform Layer 1 Audio"
+      }
+    },
+    "CON_PLATLAYE2": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Console platform layer is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Console Platform Layer 2 Lighting LED"
+      }
+    },
+    "CON_PLATLAYE3": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Console platform layer is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Console Platform Layer 3 Camera"
+      }
+    },
+    "COOL_TOWE": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tower Cooler"
+      }
+    },
+    "COOL_TOWEUTIL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tower Cooler (utility)"
+      }
+    },
+    "CREW_EVENVOLU": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Event Volunteer"
+      }
+    },
+    "CREW_FOOD": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Crew Food"
+      }
+    },
+    "CREW_GENEMANP": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: General Manpower"
+      }
+    },
+    "CREW_USHEFEMA": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Usher Female"
+      }
+    },
+    "CREW_USHEHOST": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Usher Host Male"
+      }
+    },
+    "FAN_MIST": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Mist Fan"
+      }
+    },
+    "FAN_MISTBACK": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Mist Fans for Backstage"
+      }
+    },
+    "FAN_STANBOX": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Standing Fans for Box Office"
+      }
+    },
+    "FAN_STANSTAL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Standing Fans for Stalls"
+      }
+    },
+    "FAN_STANUTIL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Standing Fans (utility)"
+      }
+    },
+    "FAN_STANYOND": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Standing Fans for Yondr"
+      }
+    },
+    "FIRE_BUCKSAND": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Fire Buckets w/ sand"
+      }
+    },
+    "FIRE_EXTIABC": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Fire Extinguishers - ABC"
+      }
+    },
+    "FIRE_EXTICO2": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Fire Extinguishers - CO2"
+      }
+    },
+    "FIRE_MARSJACK": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Fire Marshalls w/ Jackets"
+      }
+    },
+    "FIRE_TEND": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Fire Tender"
+      }
+    },
+    "FRIDGE_BOX": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Fridge/Ice Box"
+      }
+    },
+    "FRIDGE_BOXUTIL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Fridge/Ice Box (utility)"
+      }
+    },
+    "HANGER_RACKARTI": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Hanger Rack w/ Hangers for Artist Green Rooms"
+      }
+    },
+    "HK_BIOWDUMP": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Bio-waste Dumping System"
+      }
+    },
+    "HK_DUMP": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Dumping Area"
+      }
+    },
+    "HK_DUMPTRUC": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Dumping Truck"
+      }
+    },
+    "HK_DUST10L": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Dustbin 10L"
+      }
+    },
+    "HK_DUST50L": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Dustbin 50L"
+      }
+    },
+    "HK_HOUSMATE": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Housekeeping Material Broom, Mop & Dustpan"
+      }
+    },
+    "HK_HOUSSTAF": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Housekeeping Staff Male"
+      }
+    },
+    "HK_HOUSSTAF2": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Housekeeping Staff Female"
+      }
+    },
+    "HK_HOUSSUPE": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Housekeeping Supervisor"
+      }
+    },
+    "HK_PACKCREW": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Packing Crew"
+      }
+    },
+    "HK_PESTCONT": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Pest Control"
+      }
+    },
+    "HK_POSTCLEA": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Post-event cleanup"
+      }
+    },
+    "LT_COBLIGH": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: COB Light for Stalls"
+      }
+    },
+    "LT_COBLIGH2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: COB Light for Bar"
+      }
+    },
+    "LT_COBLIGH3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: COB Light for Coupon Counter"
+      }
+    },
+    "LT_COBLIGH4": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: COB light for box office"
+      }
+    },
+    "LT_COBLIGH5": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: COB light for Yondr"
+      }
+    },
+    "LT_COBLIGH6": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: COB light for Backstage"
+      }
+    },
+    "LT_COBLIGH7": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: COB light (utility)"
+      }
+    },
+    "LT_LEDHALO": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: LED Halogen for Stalls"
+      }
+    },
+    "LT_LEDHALO2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: LED Halogen for Bar"
+      }
+    },
+    "LT_LEDHALO3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: LED Halogen for Coupon Counter"
+      }
+    },
+    "LT_LEDHALO4": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: LED Halogen for box office"
+      }
+    },
+    "LT_LEDHALO5": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: LED Halogen for Yondr"
+      }
+    },
+    "LT_LEDHALO6": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: LED Halogen for Backstage"
+      }
+    },
+    "LT_LEDHALO7": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: LED Halogen (utility)"
+      }
+    },
+    "MASK_AGRO": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LH",
+        "reason": "Agronet masking is reviewed vertical face coverage measured by length and height."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "MASK_BOXOFFI": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "MASK_CONSTABL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Console Tables w/ Black Cover and Masking"
+      }
+    },
+    "MASK_COUPCOUN": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LH",
+        "reason": "Counter masking is reviewed vertical face coverage measured by length and height."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "MASK_CROWCONT": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LH",
+        "reason": "Crowd-control masking is reviewed vertical face coverage measured by length and height."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "MASK_ITEM": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LH",
+        "reason": "Black masking is reviewed vertical face coverage measured by length and height."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "MASK_YOND": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "MED_ALSIAMBU": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: ALS/ICU Ambulance with MBBS doctor and nurse"
+      }
+    },
+    "MED_ATTE": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Medical Attendant"
+      }
+    },
+    "MED_BLSAMBU": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: BLS Ambulance with MBBS doctor and nurse"
+      }
+    },
+    "MED_FIRSAID": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: First Aid Counter with MBBS Doctor and nurse"
+      }
+    },
+    "MED_FIRSAID2": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: First Aid Kit"
+      }
+    },
+    "MED_MBBSDOCT": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: MBBS Doctor"
+      }
+    },
+    "MED_NURSSTAF": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Nursing Staff"
+      }
+    },
+    "MED_ROLLBED": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Rolling bed"
+      }
+    },
+    "MIRROR_FULLLENG": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Full Length Mirror w/ Bulb for Artist Green Rooms"
+      }
+    },
+    "NET_FIBECABL": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Fiber cabling"
+      }
+    },
+    "NET_INTEDROP": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "NET_INTEDROP2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "NET_INTESUPE": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Internet Supervisor"
+      }
+    },
+    "NET_WIFIPOIN": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "OCT_BACKFB": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Octonorm Structure for Backstage F&B 16' x 16'"
+      }
+    },
+    "OCT_BACKUTIL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Octonorm Structure for Backstage Utility 10' x 10'"
+      }
+    },
+    "OCT_BOXOFFI": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Octonorm Structure for Box Office"
+      }
+    },
+    "OCT_FRISCURT": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Octonorm Structure for Frisking w/ black curtain"
+      }
+    },
+    "OCT_GREEROOM": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Octonorm Structure for green room 16' x 16'"
+      }
+    },
+    "OCT_LOCKDOOR": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Lockable door"
+      }
+    },
+    "OCT_LOCKDOOR2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Lockable door (utility)"
+      }
+    },
+    "OCT_STAL10": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Octonorm Structure for Stalls 10' x 10'"
+      }
+    },
+    "OCT_YOND": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Octonorm Structure for Yondr"
+      }
+    },
+    "PAG_2015": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Pagoda 20' x 15'"
+      }
+    },
+    "PAG_4BACK": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Pagoda Structure w/ 4 side for Backstage F&B"
+      }
+    },
+    "PAG_4GREE": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Pagoda Structure w/ 4 side covering for green room"
+      }
+    },
+    "PAG_POLIMARQ": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Police/VIP Marquee w/ 4 side covering 10' x 10'"
+      }
+    },
+    "PAG_STAL10": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Pagoda for Stalls 10' x 10'"
+      }
+    },
+    "PAG_WHIT3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: White Pagoda w/ covering on 3 sides 20' x 15'"
+      }
+    },
+    "PAG_WHITYOND": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: White Pagoda for Yondr 20' x 15'"
+      }
+    },
+    "PLAT_CAMERISE": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Camera riser is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Camera Risers"
+      }
+    },
+    "PLAT_FOLLSPOT": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Follow-spot/camera riser is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Follow Spot/Master Cam Riser"
+      }
+    },
+    "PLAT_IMAGHOUS": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "IMAG riser is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: IMAG HouseLeft LED Riser"
+      }
+    },
+    "PLAT_IMAGHOUS2": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "IMAG riser is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: IMAG HouseRight LED Riser"
+      }
+    },
+    "PLAT_MAINGREY": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Main-stage platform is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Main Stage Platform w/ Grey Carpet"
+      }
+    },
+    "PLAT_THRUGREY": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Thrust/ramp platform is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Thrust/Ramp Platform w/ Grey Carpet"
+      }
+    },
+    "PLAT_UPSTLED": {
+      "quantityBasis": {
+        "decision": "APPROVE",
+        "value": "AREA_LW",
+        "reason": "Upstage LED riser is reviewed horizontal platform area."
+      },
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/AREA_LW/SQ_FT; source description: Upstage LED Riser"
+      }
+    },
+    "POL_PERS": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Police Personnel"
+      }
+    },
+    "PWR_CABLMANA": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Cable Managers"
+      }
+    },
+    "PWR_PLUGPOIN": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plug points for stall"
+      }
+    },
+    "PWR_PLUGPOIN2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plug points for bars"
+      }
+    },
+    "PWR_PLUGPOIN3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plug points for coupon counter"
+      }
+    },
+    "PWR_PLUGPOIN4": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plug Points"
+      }
+    },
+    "PWR_PLUGPOIN5": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plug Points for Yondr"
+      }
+    },
+    "PWR_PLUGPOIN6": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plug Points for Backstage"
+      }
+    },
+    "PWR_PLUGPOIN7": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Plug Points (utility)"
+      }
+    },
+    "SCAF_DELAPA": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/VOLUME/CBM; source description: Delay PA Tower Scaff"
+      }
+    },
+    "SCAF_FOLLRISE": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/VOLUME/CBM; source description: Follow Riser Scaff"
+      }
+    },
+    "SCAF_GENELIGH": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/VOLUME/CBM; source description: General Lighting Scaff"
+      }
+    },
+    "SCAF_IMAGSUPP": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/VOLUME/CBM; source description: IMAG Support Scaff"
+      }
+    },
+    "SCAF_MAINBACK": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/VOLUME/CBM; source description: Main Stage Backwall Scaff"
+      }
+    },
+    "SCAF_MAINPA": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/VOLUME/CBM; source description: Main PA Tower Scaff"
+      }
+    },
+    "SCAF_UTIL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/VOLUME/CBM; source description: Utility Scaff"
+      }
+    },
+    "SCAF_WATEBALL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Water Ballast for IMAG Scaff"
+      }
+    },
+    "SCAF_WHEE": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/VOLUME/CBM; source description: Scaff on wheels for stage"
+      }
+    },
+    "SEC_BAGGSCAN": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Baggage Scanner Attendant"
+      }
+    },
+    "SEC_BAGGSCAN2": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Baggage Scanner"
+      }
+    },
+    "SEC_DFMD": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: DFMD"
+      }
+    },
+    "SEC_FEMABOUN": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Female Bouncers"
+      }
+    },
+    "SEC_FEMAGUAR": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Female Guards"
+      }
+    },
+    "SEC_HHMD": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: HHMD"
+      }
+    },
+    "SEC_MALEBOUN": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Male Bouncers"
+      }
+    },
+    "SEC_MALEGUAR": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Male Guards"
+      }
+    },
+    "SEC_PARKSUPE": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Parking Supervisor"
+      }
+    },
+    "SEC_PLUGPOIN": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Plug points for DFMD"
+      }
+    },
+    "SEC_QUICRESP": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Quick Response Team"
+      }
+    },
+    "SEC_SUPE": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Security Supervisors"
+      }
+    },
+    "SEC_TRAFMARS": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Security duration behavior remains commercially unresolved and conservative.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Traffic Marshall"
+      }
+    },
+    "SKIRT_ITEM": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "SOFA_DOUBSEAT": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Double Seater Sofa for Artist Green Rooms"
+      }
+    },
+    "SOFA_SINGSEAT": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Single Seater Sofa for Artist Green Rooms"
+      }
+    },
+    "STOOL_BAR": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Bar Stool"
+      }
+    },
+    "STOOL_BAR2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Bar Stools"
+      }
+    },
+    "TBL_BARTABL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Bar Tables w black cover and frills"
+      }
+    },
+    "TBL_BARTABL2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Bar Tables for Backstage F&B"
+      }
+    },
+    "TBL_COFFTABL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Coffee Table for Artist Green Rooms"
+      }
+    },
+    "TBL_HIGHTABL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: High Table for Stage"
+      }
+    },
+    "TBL_ROUNDINI": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Round Dining Table w/ black cover and frills"
+      }
+    },
+    "TBL_TABL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tables w black cover"
+      }
+    },
+    "TBL_TABLCLOT": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tables with Black Cloth for Food Stalls"
+      }
+    },
+    "TBL_TABLCLOT2": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tables with Black Cloth for Hydration Counters"
+      }
+    },
+    "TBL_TABLCLOT3": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tables with Black Cloth for Box Office"
+      }
+    },
+    "TBL_TABLCLOT4": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tables with Black Cloth for Yondr"
+      }
+    },
+    "TBL_TABLCLOT5": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tables with Black Cloth for Artist Green Rooms"
+      }
+    },
+    "TBL_TABLUTIL": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Tables w/ black cover (utility)"
+      }
+    },
+    "TENT_CHIN10": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Chinese Tent 10' x 10'"
+      }
+    },
+    "TENT_CHIN102": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Chinese Tent 10' x 10' for Coupon Counter"
+      }
+    },
+    "TENT_CHINBEHI": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "HALF_USE_DAYS_MIN_1",
+        "reason": "Explicit CAV commercial rule: this reviewed reusable ordinary VC element uses half usage days with a one-unit minimum.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Chinese Tent behind stalls for Hydration Counters"
+      }
+    },
+    "VAN_DOUBDOOR": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Vanity is an explicit exception to the ordinary VC default.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Vanity Van Double Door"
+      }
+    },
+    "VAN_RUNNCOST": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Vanity is an explicit exception to the ordinary VC default.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Vanity Running Cost"
+      }
+    },
+    "VAN_SINGDOOR": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Vanity is an explicit exception to the ordinary VC default.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Vanity Van Single Door"
+      }
+    },
+    "VAN_VIP": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Vanity is an explicit exception to the ordinary VC default.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized VC/COUNT/NOS; source description: Vanity Van VIP"
+      }
+    },
+    "WC_DRAI": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Drainage"
+      }
+    },
+    "WC_GEMIHAND": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Gemini Handwash"
+      }
+    },
+    "WC_LUXLTOIL": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Lux-loo/VIP toilets"
+      }
+    },
+    "WC_PORT": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Porta-loo/Bio-toilets"
+      }
+    },
+    "WC_STANHAND": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Standard handwash"
+      }
+    },
+    "WC_TOILCONS": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Toiletry Consumables Set"
+      }
+    },
+    "WC_URIN": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Urinals"
+      }
+    },
+    "WLK_WALK": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Walkies"
+      }
+    },
+    "WLK_WALKSUPE": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "Specialized or uncertain commercial duration behavior remains deferred.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Walkies Supervisor"
+      }
+    },
+    "WTR_WATETANK": {
+      "durationPolicy": {
+        "decision": "APPROVE",
+        "value": "ONE_OFF",
+        "reason": "Authoritative Days Applies N evidence: event duration does not multiply this line.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=N; retained Phase 5.5 reviewed assignment."
+      }
+    },
+    "WTR_WATETANK2": {
+      "durationPolicy": {
+        "decision": "DEFER",
+        "reason": "OPS duration arithmetic has not been approved; Days Applies Y alone is insufficient.",
+        "evidence": "Active commercial master 75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57; Days Applies=Y; normalized OPS/HEADCOUNT_DUTY/DUTY; source description: Water Tanker/Water Supply"
+      }
+    }
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "aliasConflicts": {
+    "ambulance with doctor and nurse": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: AMB_ALS, AMB_BLS"
+    },
+    "artist room sofa": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: SOFA_DBL, SOFA_SGL"
+    },
+    "event power socket": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: PLUG_15A, PLUG_5A"
+    },
+    "green room sofa": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: SOFA_DBL, SOFA_SGL"
+    },
+    "led riser": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: PLAT, PLAT_GREY"
+    },
+    "portable hand wash unit": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: GEM_HANDWASH, STD_HANDWASH"
+    },
+    "stand fan": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: PED_FAN, STAND_FAN"
+    },
+    "tanker water supply": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: WATR_SUPPLY, WATR_TANK"
+    },
+    "water tanker": {
+      "decision": "DEFER",
+      "note": "Conflicting targets: WATR_SUPPLY, WATR_TANK"
+    }
+  },
+  "authorityType": "ACTIVE_COMMERCIAL_MASTER",
+  "expectedFileSha256": "75a0bda81e45dd4f1a21d128e15c23f1c19c47df222a4ffc4cd76c7a022a4f57",
+  "parserVersion": "1.0.0",
+  "policy": {
+    "deterministicConflictFree": "APPROVE",
+    "reviewRequiredDefault": "DEFER"
+  },
+  "schemaVersion": "1.0.0",
+  "sourceMappings": {
+    "CHR_FURNSET": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "GEN_125KVA": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "GEN_250KVA": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "GEN_500KVA": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "GEN_62KVA": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "GEN_DIESFUEL": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "LAB_SETUDISM": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "LT_HALOLIGH": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "LT_LEDMETA": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "MISC_FOODSTAL": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "MISC_FRONFASC": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "MISC_FRONFASC2": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PAG_BOXOFFI": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PAG_MEDIROOM": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PLAT_CAMEFOLL": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PWR_15ADROP": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PWR_30KVA": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PWR_3PHADROP": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PWR_CABLMANA2": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PWR_CHEMEART": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PWR_PLUGPOIN8": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PWR_POWECABL": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "PWR_POWEDIST": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "SCAF_PATOWE": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "SKIRT_GENEBAR": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    },
+    "TRN_MATETRAN": {
+      "decision": "DEFER",
+      "note": "No LookUp row exists for the source code"
+    }
+  },
+  "sourceRows": {},
+  "unitOverrides": {
+    "MISC_FOODSTAL": {
+      "decision": "DEFER",
+      "note": "Unknown billing unit requires an explicit human mapping"
+    },
+    "PAG_MEDIROOM": {
+      "decision": "DEFER",
+      "note": "Unknown billing unit requires an explicit human mapping"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "name": "RateChart",
+    "rows": [
+      ["Fixture master"],
+      ["Sl No.", "Category", "Code", "Element", "Unit", "Days Applies?", "ToClients", "ToVendors", "Delhi", "Notes"],
+      ["VENUE CONSTRUCTION"],
+      [1, "Stage", "DUP_A", "Widget client version", "Sq Ft", "Y", 1000, 700, 50, null],
+      [2, "Stage", "DUP_A", "Widget vendor version", "R Ft", "N", null, 650, null, null],
+      [3, "Queue", "RAIL_B", "Ticket rail", "widgets", "Y", "invalid", 0, 20, null],
+      [4, "Furniture", "CHAIR_C", "Chair", "Nos", "N", 0, null, 0, null],
+      [5, "Other", "BAD CODE", "Invalid code", "set", "maybe", -1, 10, null, null],
+      [6, "Service", "SERVICE_E", "Service", "lumpsum", "N", 500, 400, null, null]
+    ]
+  },
+  {
+    "name": "VC",
+    "rows": [["Supporting sheet"]]
+  },
+  {
+    "name": "LookUp",
+    "rows": [
+      ["Code", "Description", "Maps_To", "Parent_Code", "Tags", "Category"],
+      ["DUP_A", "Widget deployment", "Widget", "CAN_A", "widget, Main Widget", "Stage"],
+      ["DUP_A", "Widget deployment", "Different Widget", "CAN_A", "widget", "Stage"],
+      ["RAIL_B", "Ticket rail", "Metal Rail", "CAN_B", "common, queue rail", "Queue"],
+      ["CHAIR_C", "Chair deployment", "Chair", "CAN_C", "chair, seat", "Furniture"],
+      ["SERVICE_E", "Service deployment", "Service", "CAN_E", "common, service", "Service"]
+    ]
+  }
+]
