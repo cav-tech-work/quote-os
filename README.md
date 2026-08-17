@@ -8,6 +8,8 @@ QuoteOS retains the legacy flat catalogue for historical quote compatibility alo
 
 Phase 7.5 independently reviews all 39 ambiguous `nos/duty` rows: raw units are evidence, not personnel semantics. See [`docs/phase-7-5-nos-duty-review.md`](docs/phase-7-5-nos-duty-review.md). Use `npm run catalogue:nos-duty-apply -- --decisions catalogue-nos-duty-decisions.json --actor-email <admin>` for dry-run and add `--apply` for the guarded transaction.
 
+Phase 7.6 explicitly assigns the existing FULL_USE_DAYS policy to 17 reviewed reusable OPS, security, sanitation, and facility equipment offerings. See [`docs/phase-7-6-full-use-review.md`](docs/phase-7-6-full-use-review.md). Apply uses the existing `catalogue:semantic-apply` dry-run/`--apply` workflow with `catalogue-full-use-decisions.json`.
+
 The authoritative master can be inspected without database writes:
 
 ```text

@@ -1,6 +1,13 @@
 # QuoteOS project state
 
-Updated: 2026-08-14
+Updated: 2026-08-17
+
+## Phase 7.6 full-use duration approval
+
+- The exact 17 Phase 7.5 ordinary COUNT rows blocked only by duration were reconciled and individually approved for the existing FULL_USE_DAYS policy.
+- Readiness is now 141 ordinary + 23 personnel (164) TO_CLIENT and 131 ordinary + 22 personnel (153) TO_VENDOR. Five facility rows remain rate-blocked on both sides; SEC_PLUGPOIN remains vendor-rate-blocked.
+- Runtime behavior remains assignment-driven: four usage days resolve to two HALF_USE, four FULL_USE, one ONE_OFF, and no duration charge units for HEADCOUNT_DUTY.
+- The 17 service/transport/consumption/composite deferrals remain excluded. No domain branch, specialized engine, schema change, or external reference integration was introduced.
 
 ## Phase 7.5 nos/duty semantic cleanup
 

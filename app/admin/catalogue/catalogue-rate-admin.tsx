@@ -264,8 +264,9 @@ export function CatalogueRateAdmin({
             (durationFilter === "ASSIGNED" && Boolean(item.durationPolicy)) ||
             (durationFilter === "UNASSIGNED" && !item.durationPolicy) ||
             (durationFilter === "HALF_USE_DAYS_MIN_1" && item.durationPolicy?.code === "HALF_USE_DAYS_MIN_1") ||
+            (durationFilter === "FULL_USE_DAYS" && item.durationPolicy?.code === "FULL_USE_DAYS") ||
             (durationFilter === "ONE_OFF" && item.durationPolicy?.code === "ONE_OFF") ||
-            (durationFilter === "OTHER" && Boolean(item.durationPolicy) && !["HALF_USE_DAYS_MIN_1", "ONE_OFF"].includes(item.durationPolicy?.code ?? ""))) &&
+            (durationFilter === "OTHER" && Boolean(item.durationPolicy) && !["HALF_USE_DAYS_MIN_1", "FULL_USE_DAYS", "ONE_OFF"].includes(item.durationPolicy?.code ?? ""))) &&
           (quantityFilter === "ALL" || (quantityFilter === "KNOWN") === Boolean(item.quantityBasis)) &&
           (readinessFilter === "ALL" || (readinessFilter === "READY") === (ordinaryReady || personnelReady)) &&
           (blockerFilter === "ALL" || blockers.has(blockerFilter))
@@ -546,6 +547,7 @@ export function CatalogueRateAdmin({
             <option value="ASSIGNED">Policy assigned</option>
             <option value="UNASSIGNED">Policy unassigned</option>
             <option value="HALF_USE_DAYS_MIN_1">Half-use days, minimum 1</option>
+            <option value="FULL_USE_DAYS">Full-use days</option>
             <option value="ONE_OFF">One-off</option>
             <option value="OTHER">Other assigned policy</option>
           </select>
