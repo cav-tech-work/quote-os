@@ -119,6 +119,33 @@ enum PackageComponentBillingMode {
   INCLUDED
 }
 
+enum BusinessReviewStatus {
+  UNREVIEWED
+  APPROVED
+  CHANGE_REQUIRED
+  DEFERRED
+  REJECTED
+}
+
+enum BusinessReviewField {
+  IDENTITY
+  CATEGORY
+  BILLING_UNIT
+  QUANTITY_SEMANTICS
+  DURATION_POLICY
+  TO_CLIENT_RATE
+  TO_VENDOR_RATE
+  ACTIVE_INCLUSION
+  PACKAGE_TREATMENT
+}
+
+enum CatalogueReleaseStatus {
+  DRAFT
+  READY_FOR_APPROVAL
+  APPROVED
+  SUPERSEDED
+}
+
 enum DurationBasis {
   ONE_OFF
   VC_CHARGE_DAYS
@@ -210,6 +237,11 @@ model User {
   revisionsCreated          QuoteRevision[]                 @relation("RevisionCreator")
   revisionsIssued           QuoteRevision[]                 @relation("RevisionIssuer")
   generatedDocuments        GeneratedDocument[]
+  businessReviews           OfferingBusinessReview[]        @relation("BusinessReviewer")
+  businessReviewAudits      BusinessReviewAudit[]
+  catalogueReleasesCreated  CatalogueRelease[]              @relation("ReleaseCreator")
+  catalogueReleasesApproved CatalogueRelease[]              @relation("ReleaseApprover")
+  catalogueReleaseAudits    CatalogueReleaseAudit[]
 }
 
 model Account {
@@ -320,9 +352,96 @@ model CommercialOffering {
   quoteLines                QuoteLine[]
   parentPackageTemplates    PackageTemplate[]               @relation("PackageParentOffering")
   packageComponents         PackageComponent[]
+  businessReview            OfferingBusinessReview?
 
   @@index([canonicalItemId])
   @@index([durationPolicyId])
+}
+
+model OfferingBusinessReview {
+  id                   String                        @id @default(cuid())
+  commercialOfferingId String                        @unique
+  commercialOffering   CommercialOffering            @relation(fields: [commercialOfferingId], references: [id], onDelete: Restrict)
+  status               BusinessReviewStatus          @default(UNREVIEWED)
+  reviewNote           String?
+  requiredChanges      String?
+  reviewedById         String?
+  reviewedBy           User?                         @relation("BusinessReviewer", fields: [reviewedById], references: [id], onDelete: Restrict)
+  reviewedAt           DateTime?
+  createdAt            DateTime                      @default(now())
+  updatedAt            DateTime                      @updatedAt
+  fields               OfferingBusinessFieldReview[]
+  audits               BusinessReviewAudit[]
+
+  @@index([status])
+}
+
+model OfferingBusinessFieldReview {
+  id               String                 @id @default(cuid())
+  businessReviewId String
+  businessReview   OfferingBusinessReview @relation(fields: [businessReviewId], references: [id], onDelete: Cascade)
+  field            BusinessReviewField
+  status           BusinessReviewStatus   @default(UNREVIEWED)
+  proposedValue    String?
+  reason           String?
+  updatedAt        DateTime               @updatedAt
+
+  @@unique([businessReviewId, field])
+}
+
+model BusinessReviewAudit {
+  id               String                 @id @default(cuid())
+  businessReviewId String
+  businessReview   OfferingBusinessReview @relation(fields: [businessReviewId], references: [id], onDelete: Restrict)
+  actorId          String
+  actor            User                   @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  field            BusinessReviewField?
+  oldStatus        BusinessReviewStatus
+  newStatus        BusinessReviewStatus
+  oldValue         String?
+  newValue         String?
+  reason           String
+  createdAt        DateTime               @default(now())
+
+  @@index([businessReviewId, createdAt])
+}
+
+model CatalogueRelease {
+  id                      String                  @id @default(cuid())
+  code                    String                  @unique
+  status                  CatalogueReleaseStatus  @default(DRAFT)
+  createdById             String
+  createdBy               User                    @relation("ReleaseCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  approvedById            String?
+  approvedBy              User?                   @relation("ReleaseApprover", fields: [approvedById], references: [id], onDelete: Restrict)
+  approvedAt              DateTime?
+  catalogueFingerprint    String
+  releaseFingerprint      String
+  decisionSetHash         String
+  sourceWorkbookHash      String?
+  technicalDecisionHashes Json
+  contents                Json
+  summary                 Json
+  notes                   String?
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+  audits                  CatalogueReleaseAudit[]
+
+  @@index([status, createdAt])
+}
+
+model CatalogueReleaseAudit {
+  id        String                 @id @default(cuid())
+  releaseId String
+  release   CatalogueRelease       @relation(fields: [releaseId], references: [id], onDelete: Restrict)
+  actorId   String
+  actor     User                   @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  oldStatus CatalogueReleaseStatus
+  newStatus CatalogueReleaseStatus
+  reason    String
+  createdAt DateTime               @default(now())
+
+  @@index([releaseId, createdAt])
 }
 
 model PackageTemplate {

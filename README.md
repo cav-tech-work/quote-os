@@ -16,6 +16,8 @@ Phase 9 audits the remaining 17 service, transport, consumption, cabling, facili
 
 Phase 10 adds version-safe package recipes with bounded quantities, explicit included/billable components, component-sum and fixed-package pricing, per-side readiness, immutable component snapshots, builder/admin surfaces, and Phase 8 revision/PDF integration. No real composite was promoted because authoritative composition and rate-unit evidence remains incomplete; controlled fixtures are test-only. See [`docs/phase-10-package-recipe-engine.md`](docs/phase-10-package-recipe-engine.md).
 
+Phase 11 adds an ADMIN-only business catalogue review boundary and deterministic immutable release candidates. Field decisions identify approval/change/defer/reject requirements without mutating audited master data. Releases contain only explicitly approved, provenance-backed subsets and are future bootstrap inputs—not deployments. See [`docs/phase-11-business-catalogue-review.md`](docs/phase-11-business-catalogue-review.md).
+
 The authoritative master can be inspected without database writes:
 
 ```text

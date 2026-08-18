@@ -130,6 +130,8 @@ The exact engine accepts positive rational duty units for future-safe storage an
 
 Package composition and package pricing will remain separate to prevent double charging. Usage and context describe deployment; neither redefines canonical identity or automatically creates a commercial package.
 
+Phase 11 places business approval above technical catalogue semantics. CommercialOffering is the review unit; field decisions never directly mutate identity, rates, policies, or recipes. An immutable CatalogueRelease is a deterministic, provenance-backed approved subset for a future idempotent production bootstrap. Technical approval, business approval, release approval, and production materialization are distinct boundaries.
+
 ## Compatibility and technical debt
 
 New normalized quote creation searches `CommercialOffering`, renders quantity-basis-specific ordinary controls or explicit personnel headcount/duties controls, previews through the central server calculation engine, and recalculates inside a serializable persistence transaction. Ordinary selectability requires an active approved duration policy; personnel selectability requires explicit audited pricing-family approval instead. Both require one current GLOBAL rate for the requested side. CITY, opposite-side, legacy, external, and historical fallback paths are absent.

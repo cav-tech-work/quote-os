@@ -371,6 +371,7 @@ export function QuoteWorkspace() {
               {catalogue.length} selectable · {lines.length} selected
             </em>
           </div>
+          {catalogue.length === 0 && packages.length === 0 && <p className="notice">No production catalogue release has been loaded.</p>}
           <div className="search">
             <input
               placeholder="Search offering or canonical code/name"

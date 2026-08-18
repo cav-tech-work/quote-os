@@ -2,6 +2,14 @@
 
 Updated: 2026-08-18
 
+## Phase 11 business catalogue approval workspace
+
+- Business review is separate from technical semantic approval and operates per CommercialOffering with nine field decisions, rationale, actor/time, and dedicated audit history.
+- The ADMIN workspace combines source evidence, normalized truth, independent rates, duration details, packages, readiness, missing-rate and specialized-question queues.
+- Deterministic review export/import is status/comment-only and fingerprint guarded; it cannot bypass audited master-data controls.
+- CatalogueRelease snapshots an explicitly approved provenance-backed subset with rates, policies, package versions and hashes. Partial releases and independent side coverage are supported; approved releases are immutable.
+- No business decision/release is created automatically. Production remains empty, no bootstrap exists, startup stays migration-only, and Brand Profesor remains excluded.
+
 ## Phase 10 package/recipe engine
 
 - `PackageTemplate` and ordered `PackageComponent` recipes are first-class, version-keyed and internally authorized. Admin creates versions or toggles activity; in-place commercial recipe editing is not exposed.
