@@ -39,6 +39,10 @@ export type PdfQuote = {
       pricingFamilySnapshot?: "ORDINARY" | "HEADCOUNT_DUTY" | null;
       headcountSnapshot?: number | null;
       dutyUnitsPerPersonSnapshot?: string | null;
+      packageCodeSnapshot?: string | null;
+      packageVersionSnapshot?: number | null;
+      packageQuantitySnapshot?: string | null;
+      packagePricingModeSnapshot?: "COMPONENT_SUM" | "FIXED_PACKAGE" | "HYBRID" | null;
     }>;
   };
 };
@@ -98,7 +102,7 @@ export function QuotePdf({ quote, documentState = "ISSUED" }: { quote: PdfQuote;
       </View>
       <View style={styles.section}><Text style={styles.sectionTitle}>Equipment and services</Text>
         <View style={styles.tableHead}><Text style={styles.colItem}>ITEM</Text><Text style={styles.colQty}>QTY</Text><Text style={styles.colDays}>DAYS</Text><Text style={styles.colRate}>RATE</Text><Text style={styles.colDiscount}>DISC.</Text><Text style={styles.colAmount}>AMOUNT</Text></View>
-        {revision.lines.map((line, index) => { const personnel = line.pricingFamilySnapshot === "HEADCOUNT_DUTY"; return <View style={styles.row} key={`${line.itemCodeSnapshot}-${index}`} wrap={false}><View style={styles.colItem}><Text style={styles.itemName}>{line.itemNameSnapshot}</Text><Text style={styles.itemSub}>{personnel ? `${line.itemCodeSnapshot} - ${line.headcountSnapshot} people; ${line.dutyUnitsPerPersonSnapshot} duties/person` : `${line.itemCodeSnapshot}${line.descriptionSnapshot ? ` - ${line.descriptionSnapshot}` : ""} - ${line.unitSnapshot}${line.durationPolicyCodeSnapshot ? ` - ${line.durationPolicyCodeSnapshot} × ${line.chargeUnitsSnapshot}` : ""}`}</Text></View><Text style={styles.colQty}>{line.billableQuantitySnapshot ?? value(line.quantity)}</Text><Text style={styles.colDays}>{personnel ? "-" : line.usageDaysSnapshot ?? value(line.days)}</Text><Text style={styles.colRate}>{inr(line.rateUsedPaise)}</Text><Text style={styles.colDiscount}>{value(line.discountPercent)}%</Text><Text style={styles.colAmount}>{inr(line.lineTotalPaise)}</Text></View>; })}
+        {revision.lines.map((line, index) => { const personnel = line.pricingFamilySnapshot === "HEADCOUNT_DUTY"; const pkg = Boolean(line.packageCodeSnapshot); return <View style={styles.row} key={`${line.itemCodeSnapshot}-${index}`} wrap={false}><View style={styles.colItem}><Text style={styles.itemName}>{line.itemNameSnapshot}</Text><Text style={styles.itemSub}>{pkg ? `${line.packageCodeSnapshot} - package v${line.packageVersionSnapshot} - ${line.packagePricingModeSnapshot}` : personnel ? `${line.itemCodeSnapshot} - ${line.headcountSnapshot} people; ${line.dutyUnitsPerPersonSnapshot} duties/person` : `${line.itemCodeSnapshot}${line.descriptionSnapshot ? ` - ${line.descriptionSnapshot}` : ""} - ${line.unitSnapshot}${line.durationPolicyCodeSnapshot ? ` - ${line.durationPolicyCodeSnapshot} × ${line.chargeUnitsSnapshot}` : ""}`}</Text></View><Text style={styles.colQty}>{pkg ? line.packageQuantitySnapshot : line.billableQuantitySnapshot ?? value(line.quantity)}</Text><Text style={styles.colDays}>{personnel || pkg ? "-" : line.usageDaysSnapshot ?? value(line.days)}</Text><Text style={styles.colRate}>{inr(line.rateUsedPaise)}</Text><Text style={styles.colDiscount}>{value(line.discountPercent)}%</Text><Text style={styles.colAmount}>{inr(line.lineTotalPaise)}</Text></View>; })}
       </View>
       <View style={styles.totals}><View style={styles.totalRow}><Text>Subtotal</Text><Text>{inr(revision.subtotalPaise)}</Text></View><View style={styles.totalRow}><Text>Discount</Text><Text>-{inr(revision.discountTotalPaise)}</Text></View><View style={styles.totalRow}><Text>GST ({value(revision.taxPercentage)}%)</Text><Text>{inr(revision.taxTotalPaise)}</Text></View><View style={styles.grandTotal}><Text>Total</Text><Text>{inr(revision.grandTotalPaise)}</Text></View></View>
       {revision.notes && <View style={styles.section}><Text style={styles.sectionTitle}>Notes</Text><Text style={styles.note}>{revision.notes}</Text></View>}

@@ -5,6 +5,7 @@ import { Prisma, type PrismaClient } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { calculateNormalizedLine, normalizedLineSnapshot, sideForQuoteType, type NormalizedQuoteDraft } from "@/lib/normalized-quotes";
 import { QuotePdf, type PdfQuote } from "@/lib/quote-pdf";
+import { packageSnapshotForQuote } from "@/lib/package-engine";
 
 export type LifecycleCode = "QUOTE_NOT_FOUND" | "REVISION_NOT_FOUND" | "REVISION_IMMUTABLE" | "REVISION_NOT_ISSUABLE" | "REVISION_CHANGED" | "DOCUMENT_INTEGRITY_FAILURE";
 export class QuoteLifecycleError extends Error { constructor(public code: LifecycleCode, message: string) { super(message); this.name = "QuoteLifecycleError"; } }
@@ -72,11 +73,11 @@ export async function createRevisionFromIssued(quoteId: string, sourceRevisionId
     await lock(tx, `revision:${quoteId}`);
     const existing = await tx.quoteRevision.findFirst({ where: { quoteId, status: "DRAFT" }, include: { lines: true } });
     if (existing) return { revision: existing, idempotent: true };
-    const source = await tx.quoteRevision.findFirst({ where: { id: sourceRevisionId, quoteId, status: { in: ["ISSUED", "SUPERSEDED"] } }, include: { lines: true } });
+    const source = await tx.quoteRevision.findFirst({ where: { id: sourceRevisionId, quoteId, status: { in: ["ISSUED", "SUPERSEDED"] } }, include: { lines: { include: { packageComponents: true } } } });
     if (!source) throw new QuoteLifecycleError("REVISION_NOT_FOUND", "An issued source revision is required.");
     const latest = await tx.quoteRevision.aggregate({ where: { quoteId }, _max: { revisionNumber: true } });
     const revisionNumber = (latest._max.revisionNumber ?? 0) + 1;
-    const clonedLines = source.lines.map(({ id: _id, revisionId: _revisionId, ...line }) => ({ ...line, configurationSnapshot: line.configurationSnapshot === null ? Prisma.JsonNull : line.configurationSnapshot as Prisma.InputJsonValue, normalizedConfigurationSnapshot: line.normalizedConfigurationSnapshot === null ? Prisma.JsonNull : line.normalizedConfigurationSnapshot as Prisma.InputJsonValue, durationPolicyDefinitionSnapshot: line.durationPolicyDefinitionSnapshot === null ? Prisma.JsonNull : line.durationPolicyDefinitionSnapshot as Prisma.InputJsonValue }));
+    const clonedLines = source.lines.map(({ id: _id, revisionId: _revisionId, packageComponents, ...line }) => ({ ...line, configurationSnapshot: line.configurationSnapshot === null ? Prisma.JsonNull : line.configurationSnapshot as Prisma.InputJsonValue, normalizedConfigurationSnapshot: line.normalizedConfigurationSnapshot === null ? Prisma.JsonNull : line.normalizedConfigurationSnapshot as Prisma.InputJsonValue, durationPolicyDefinitionSnapshot: line.durationPolicyDefinitionSnapshot === null ? Prisma.JsonNull : line.durationPolicyDefinitionSnapshot as Prisma.InputJsonValue, packageComponents: { create: packageComponents.map(({ id: _componentId, quoteLineId: _quoteLineId, ...component }) => ({ ...component, configurationSnapshot: component.configurationSnapshot as Prisma.InputJsonValue, durationPolicyDefinitionSnapshot: component.durationPolicyDefinitionSnapshot === null ? Prisma.JsonNull : component.durationPolicyDefinitionSnapshot as Prisma.InputJsonValue })) } }));
     const revision = await tx.quoteRevision.create({ data: { quoteId, revisionNumber, status: "DRAFT", createdById: actorId, preparedDate: new Date(), validUntil: source.validUntil, taxPercentage: source.taxPercentage, notes: source.notes, termsSnapshot: source.termsSnapshot, settingsSnapshot: source.settingsSnapshot as Prisma.InputJsonValue, subtotalPaise: source.subtotalPaise, discountTotalPaise: source.discountTotalPaise, taxTotalPaise: source.taxTotalPaise, grandTotalPaise: source.grandTotalPaise, eventDays: source.eventDays, quoteTypeSnapshot: source.quoteTypeSnapshot, companySnapshot: source.companySnapshot, projectSnapshot: source.projectSnapshot, venueSnapshot: source.venueSnapshot, citySnapshot: source.citySnapshot, salespersonSnapshot: source.salespersonSnapshot, currencySnapshot: source.currencySnapshot, lines: { create: clonedLines } }, include: { lines: true } });
     await tx.quote.update({ where: { id: quoteId }, data: { status: "DRAFT" } });
     await tx.quoteEvent.create({ data: { quoteId, actorId, action: "REVISION_CREATED", metadata: { revisionId: revision.id, revisionNumber, clonedFromRevisionId: source.id, clonePreservedSnapshots: true } } });
@@ -90,8 +91,9 @@ export async function replaceNormalizedDraft(quoteId: string, revisionId: string
     const existing = await tx.quoteRevision.findFirst({ where: { id: revisionId, quoteId }, include: { quote: true } });
     if (!existing) throw new QuoteLifecycleError("REVISION_NOT_FOUND", "Revision was not found for this quote.");
     if (existing.status !== "DRAFT") throw new QuoteLifecycleError("REVISION_IMMUTABLE", "Issued revisions cannot be edited.");
-    const side = sideForQuoteType(input.type); const snapshots = [];
+    const side = sideForQuoteType(input.type); const snapshots: any[] = [];
     for (const line of input.lines) { const normalizedInput = { ...line, usageDays: line.usageDays ?? String(input.eventDays) }; const resolved = await calculateNormalizedLine(normalizedInput, side, tx); snapshots.push(normalizedLineSnapshot(resolved, normalizedInput, line.discountPercent, line.remarks)); }
+    for (const pkg of input.packages ?? []) snapshots.push(await packageSnapshotForQuote({ ...pkg, usageDays: pkg.usageDays ?? String(input.eventDays), quoteType: input.type }, tx));
     const subtotalPaise = snapshots.reduce((sum, line) => sum + line.finalAmountPaiseSnapshot, 0); const discountTotalPaise = snapshots.reduce((sum, line) => sum + line.discountPaise, 0); const taxTotalPaise = Math.round((subtotalPaise - discountTotalPaise) * input.taxPercentage / 100); const grandTotalPaise = subtotalPaise - discountTotalPaise + taxTotalPaise;
     await tx.quoteLine.deleteMany({ where: { revisionId } });
     const revision = await tx.quoteRevision.update({ where: { id: revisionId }, data: { preparedDate: new Date(), eventDays: input.eventDays, taxPercentage: input.taxPercentage, quoteTypeSnapshot: input.type, companySnapshot: input.company, projectSnapshot: input.project || null, venueSnapshot: input.venue || null, citySnapshot: input.city || null, salespersonSnapshot: input.salesperson || null, subtotalPaise, discountTotalPaise, taxTotalPaise, grandTotalPaise, lines: { create: snapshots } }, include: { lines: true } });

@@ -14,6 +14,8 @@ Phase 8 makes QuoteRevision the commercial-history boundary and GeneratedDocumen
 
 Phase 9 audits the remaining 17 service, transport, consumption, cabling, facility and composite rows. None has sufficient quantity plus rate-unit evidence for safe approval, so all remain explicitly deferred through the guarded workflow; no pricing family or billing unit was invented. See [`docs/phase-9-specialized-contract-review.md`](docs/phase-9-specialized-contract-review.md).
 
+Phase 10 adds version-safe package recipes with bounded quantities, explicit included/billable components, component-sum and fixed-package pricing, per-side readiness, immutable component snapshots, builder/admin surfaces, and Phase 8 revision/PDF integration. No real composite was promoted because authoritative composition and rate-unit evidence remains incomplete; controlled fixtures are test-only. See [`docs/phase-10-package-recipe-engine.md`](docs/phase-10-package-recipe-engine.md).
+
 The authoritative master can be inspected without database writes:
 
 ```text

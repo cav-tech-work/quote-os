@@ -1,6 +1,15 @@
 # QuoteOS project state
 
-Updated: 2026-08-17
+Updated: 2026-08-18
+
+## Phase 10 package/recipe engine
+
+- `PackageTemplate` and ordered `PackageComponent` recipes are first-class, version-keyed and internally authorized. Admin creates versions or toggles activity; in-place commercial recipe editing is not exposed.
+- Exact bounded `FIXED`, `FIXED_PER_PACKAGE` and `PARENT_QUANTITY_MULTIPLIER` rules feed existing ordinary/personnel calculators. `BILLABLE` versus `INCLUDED` prevents double charging.
+- `COMPONENT_SUM` and `FIXED_PACKAGE` run in V1. `HYBRID` is schema-visible but runtime-deferred. Nested packages and expression rules fail closed.
+- A package persists as one amount-bearing QuoteLine plus immutable component snapshots. Draft creation, issue, retained PDF retrieval and revision cloning preserve composition and provenance.
+- Production-data readiness remains TO_CLIENT 0 / TO_VENDOR 0 because no package data was populated. Medical/security composites remain deferred; controlled fixtures exist only in tests.
+- Production/startup policy, Phase 9 decisions, Brand Profesor, generators, attributes and variants are unchanged.
 
 ## Phase 9 specialized contract review
 

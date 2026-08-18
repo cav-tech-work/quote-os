@@ -123,7 +123,7 @@ The exact engine accepts positive rational duty units for future-safe storage an
 
 - `UsagePreset` (for example camera-riser or main-PA-power deployment intelligence)
 - `ContextPreset` (editable suggestions such as green room, box office, or food-stall area)
-- `PackageTemplate` / `PackageComponent`, included-component behavior, recipes, and package pricing
+- package HYBRID runtime, nested recipes, conditional components, and expression rules (Phase 10 implements versioned templates/components, included/billable roles, component-sum/fixed-package pricing, readiness, and immutable snapshots)
 - offering parameters and configuration dimensions/options
 - generator calculations and unresolved OPS equipment/composite `HEADCOUNT_DUTY` classifications
 - preview UI, advanced search ranking, city precedence, specialized quote snapshots, and legacy retirement
