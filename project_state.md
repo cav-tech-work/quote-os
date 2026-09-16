@@ -12,14 +12,12 @@ Updated: 2026-09-16
 - Reset removes operational catalogue master data and DRAFT/READY_FOR_APPROVAL release workflow state. It preserves APPROVED/SUPERSEDED `CatalogueRelease` history, engine configuration (`DurationPolicy`, `DurationPolicyPoint`, `RateMarket`), and every user, quote, revision, line, component snapshot and retained document. The only historical columns it may null are the three convenience `QuoteLine` catalogue FKs (`commercialOfferingId`, `catalogueItemId`, `packageTemplateId`); all commercial snapshot columns, revision totals, readback and retained PDF bytes/hashes are unchanged and covered by regression tests.
 - Migration `20260916090000_catalogue_release_delete_semantics` repairs the `CatalogueRelease` DELETE trigger (returns `OLD`); APPROVED releases remain immutable for both UPDATE and DELETE.
 
-## Phase 12A V1 component catalogue reconciliation
+## Phase 12A component reconciliation (removed)
 
-- LookUp rows 2-165 from `CAV_Rates_VC_Ops_Power_v120826 (1).xlsx` are parsed as 164 V1 component elements under 77 parent identities; row 166 `TRANSPORT` is excluded.
-- CCI city-sheet row-2 labels are normalized with six non-component controls excluded. The current split is 2 exact, 7 alias, 10 proposed, 17 ambiguous and 10 unmatched labels.
-- Local apply creates or reuses parent `CanonicalItem` and element `CommercialOffering` identities, aliases and hash-bound `SourceMapping` evidence only. It refuses non-local database hosts and leaves `Price` and `PackageTemplate` counts unchanged.
-- `/admin/catalogue/component-reconciliation` gives ADMIN users a review queue for CCI labels. Automatic decisions are distinct from human decisions so reruns do not overwrite manual review.
-- `/admin/packages/new` provides a bounded package recipe builder with component search, billable/included roles, fixed-package parent selection, server preview, draft save and clone-as-next-version. It does not expose inventory semantics, nested packages, `HYBRID`, or automatic package creation.
-- Production bootstrap, business approval, rates, package promotion, Brand Profesor, transport/consumption contracts and unresolved specialized engines remain outside this phase.
+- The Phase 12A CCI label reconciliation queue was removed: its `/admin/catalogue/component-reconciliation` workspace, its API route, the `lib/component-reconciliation` modules, the `components:reconcile` CLI and its dedicated tests are gone, because the operational catalogue was reset and the queue no longer has meaning.
+- Normalized element identity, aliases, `SourceMapping` provenance, the normalized catalogue rate admin and the package recipe builder are unchanged. No Prisma model, migration or persisted row was affected.
+- `/admin/packages/new` still provides a bounded package recipe builder with component search, billable/included roles, fixed-package parent selection, server preview, draft save and clone-as-next-version. It does not expose inventory semantics, nested packages, `HYBRID`, or automatic package creation.
+- Production bootstrap, business approval, rates, package promotion, Brand Profesor, transport/consumption contracts and unresolved specialized engines remain outside this scope.
 
 ## Phase 11 business catalogue approval workspace
 

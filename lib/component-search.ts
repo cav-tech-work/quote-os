@@ -1,7 +1,23 @@
-import { normalizeComponentText } from "@/lib/component-reconciliation/source";
 import { prisma } from "@/lib/prisma";
 
 export type ComponentSearchKind = "ELEMENT" | "PACKAGE";
+
+/**
+ * Search-normalization helper shared by the admin component picker API route and
+ * this search service. It has no dependencies on any feature module.
+ */
+export function normalizeComponentText(value: string) {
+  return value
+    .normalize("NFKD")
+    .toLocaleLowerCase("en-IN")
+    .replace(/&/g, " and ")
+    .replace(/\bw\//g, " with ")
+    .replace(/\bpts?\b/g, " point ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
 export type ComponentSearchResult = {
   id: string;
   name: string;

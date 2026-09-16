@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import { PrismaClient } from "@prisma/client";
 import { createCatalogueElement } from "../lib/element-admin";
@@ -168,4 +169,10 @@ test("package builder works end to end from manually created catalogue elements"
     if (actorId) await db.user.delete({ where: { id: actorId } }).catch(() => undefined);
     await db.$disconnect();
   }
+});
+
+test("admin package builder exposes bounded V1 workflow without inventory or HYBRID", () => {
+  const source = readFileSync(new URL("../app/admin/packages/new/package-builder.tsx", import.meta.url), "utf8");
+  for (const text of ["Create Package", "Quantity per package", "BILLABLE", "INCLUDED", "Save draft", "RATE MISSING", "FIXED_PER_PACKAGE"]) assert.match(source, new RegExp(text));
+  assert.doesNotMatch(source, /available quantity|stock quantity|HYBRID/i);
 });
