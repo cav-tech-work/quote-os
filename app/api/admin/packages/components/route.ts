@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireRole } from "@/lib/auth";
-import { normalizeComponentText } from "@/lib/component-reconciliation/source";
-import { searchSelectableComponents } from "@/lib/component-search";
+import { normalizeComponentText, searchSelectableComponents } from "@/lib/component-search";
 
 export async function GET(request: NextRequest) {
   const access = await requireRole("ADMIN");
