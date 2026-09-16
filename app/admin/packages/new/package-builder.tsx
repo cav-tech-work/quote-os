@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AdminButton } from "@/app/components/admin-button";
 import styles from "./package-builder.module.css";
 
 type Mode = "COMPONENT_SUM" | "FIXED_PACKAGE";
@@ -53,14 +54,14 @@ export function PackageBuilder({ initial }: { initial: PackageBuilderInitial | n
     </div></section>
     <section className={styles.panel}><div className={styles.sectionHeader}><div><h2>Components</h2><p>Default rule: fixed quantity per package.</p></div><span>{components.length} selected</span></div>
       <div className={styles.picker}><input placeholder="Search name, element code, parent code, alias or tag" value={search} onChange={(e) => setSearch(e.target.value)} /><div>{picker.filter((item) => !selectedIds.has(item.id)).slice(0, 8).map((item) => <button key={item.id} type="button" onClick={() => add(item)}><b>+ {item.name}</b><small>{item.elementCode} · Parent {item.parentCode ?? "—"} · {item.billingUnit}</small></button>)}</div></div>
-      <div className={styles.components}>{components.map((item, index) => <article key={item.id}><div className={styles.componentTitle}><div><b>{item.name}</b><small>Element {item.elementCode} · Parent {item.parentCode ?? "—"} · {item.billingUnit}</small></div><button type="button" className={styles.remove} onClick={() => setComponents((rows) => rows.filter((_, i) => i !== index))}>Remove</button></div><div className={styles.componentFields}>
+      <div className={styles.components}>{components.map((item, index) => <article key={item.id}><div className={styles.componentTitle}><div><b>{item.name}</b><small>Element {item.elementCode} · Parent {item.parentCode ?? "—"} · {item.billingUnit}</small></div><AdminButton variant="destructive" size="sm" onClick={() => setComponents((rows) => rows.filter((_, i) => i !== index))}>Remove</AdminButton></div><div className={styles.componentFields}>
         <label>Quantity per package<input inputMode="decimal" value={item.quantityValue} onChange={(e) => update(index, { quantityValue: e.target.value })} /></label>
         <label>Billing role<select value={item.billingMode} disabled={pricingMode === "FIXED_PACKAGE"} onChange={(e) => update(index, { billingMode: e.target.value as Billing })}><option value="BILLABLE">Billable</option><option value="INCLUDED">Included</option></select></label>
         {item.quantityBasis === "HEADCOUNT_DUTY" && <label>Duties per person<input inputMode="decimal" value={item.dutyUnitsPerPerson} onChange={(e) => update(index, { dutyUnitsPerPerson: e.target.value })} /></label>}
-        <div className={styles.order}><span>Order {index + 1}</span><button type="button" disabled={index === 0} onClick={() => move(index, -1)}>Up</button><button type="button" disabled={index === components.length - 1} onClick={() => move(index, 1)}>Down</button></div>
+        <div className={styles.order}><span>Order {index + 1}</span><AdminButton size="sm" disabled={index === 0} onClick={() => move(index, -1)}>Up</AdminButton><AdminButton size="sm" disabled={index === components.length - 1} onClick={() => move(index, 1)}>Down</AdminButton></div>
       </div></article>)}</div>
     </section>
-    <div className={styles.actions}><button type="button" onClick={() => void showPreview()} disabled={!components.length}>Preview</button><button type="button" className={styles.save} onClick={() => void save()} disabled={!components.length}>Save draft</button></div>
+    <div className={styles.actions}><AdminButton onClick={() => void showPreview()} disabled={!components.length}>Preview</AdminButton><AdminButton variant="primary" onClick={() => void save()} disabled={!components.length}>Save draft</AdminButton></div>
     {preview && <section className={styles.panel}><h2>Server preview</h2><p>Missing rates do not block a draft. There is no fallback to another rate side.</p><div className={styles.previewTable}><div className={styles.previewHead}><span>Component</span><span>Qty / unit</span><span>To client</span><span>To vendor</span></div>{preview.rows.map((row) => <div key={row.commercialOfferingId}><span><b>{row.name}</b><small>{row.elementCode} · {row.billingMode}</small></span><span>{row.quantity} {row.billingUnit}</span>{(["TO_CLIENT", "TO_VENDOR"] as const).map((side) => <span key={side} className={row.sides[side].state === "READY" ? styles.ready : styles.missing}>{row.sides[side].state === "READY" ? <>{money.format((row.sides[side].unitRatePaise ?? 0) / 100)}<small>Amount {money.format((row.sides[side].amountPaise ?? 0) / 100)}</small></> : row.sides[side].state === "RATE_MISSING" ? "RATE MISSING" : row.sides[side].state.replaceAll("_", " ")}</span>)}</div>)}</div></section>}
   </section>;
 }

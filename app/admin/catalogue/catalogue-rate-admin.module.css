@@ -42,45 +42,26 @@
   gap: 12px;
   flex-wrap: wrap;
 }
-.addElement {
-  border: 1px solid #46b6ff;
-  border-radius: 9px;
-  background: #238fdc;
-  color: #ffffff;
-  padding: 11px 17px;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-.scope button,
-.detail button,
-.rateEditor button,
-.marketForm button,
-.markets button {
-  border: 1px solid #34516a;
-  border-radius: 7px;
-  background: #162536;
-  color: #bcd0df;
-  padding: 9px 12px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.scope .selected {
-  background: #238fdc;
-  border-color: #46b6ff;
-  color: white;
-}
 .scope select {
   width: 180px;
   margin: 0;
   padding: 8px;
 }
 .message {
-  padding: 10px 13px;
-  border: 1px solid #2f6a82;
+  margin: 14px 0 0;
+  padding: 11px 14px;
   border-radius: 8px;
-  background: #102b3a;
-  color: #9bdcff;
+  font-size: 13px;
+}
+.messageError {
+  border: 1px solid #7a2f3a;
+  background: #2a1218;
+  color: #ff9aa8;
+}
+.messageSuccess {
+  border: 1px solid #1f5a46;
+  background: #0d2419;
+  color: #7fe3b3;
 }
 .metrics {
   display: grid;
@@ -222,14 +203,6 @@
 .rateEditor > div {
   display: flex;
   gap: 7px;
-}
-.rateEditor button {
-  background: #197fca;
-  color: white;
-}
-.rateEditor .clear {
-  background: transparent;
-  color: #ff9d9d;
 }
 .rateEditor small {
   color: #7991a6;

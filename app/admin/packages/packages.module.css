@@ -1,12 +1,100 @@
-.page { flex: 1; max-width: 1180px; margin: 0 auto; padding: 36px; }
-.pageHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
-.pageHeader h1, .card h2, .empty h2 { margin: 4px 0 8px; }
-.pageHeader p, .card p, .empty p { color: #5b6573; }
-.primary { display: inline-block; border-radius: 8px; background: #153d68; color: white; padding: 11px 16px; text-decoration: none; font-weight: 700; }
-.empty, .card { border: 1px solid #d8e0e8; border-radius: 12px; padding: 22px; background: white; color: #1c2b3a; margin-top: 16px; }
-.cardHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-.cardHeader a { color: #164f86; font-weight: 700; }
-.recipeList { display: grid; gap: 8px; }
-.recipeList > div { display: grid; grid-template-columns: minmax(220px, 1.4fr) minmax(220px, 1fr) minmax(160px, .7fr); gap: 12px; padding: 10px 12px; background: #f7f9fb; border-radius: 7px; }
-.recipeList span { color: #5b6573; }
-@media (max-width: 800px) { .pageHeader, .cardHeader { flex-direction: column; } .recipeList > div { grid-template-columns: 1fr; } }
+.page {
+  flex: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 38px 42px 70px;
+  color: #edf6ff;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.pageHeader h1,
+.card h2,
+.empty h2 {
+  margin: 4px 0 8px;
+}
+
+.pageHeader small {
+  color: #55b8ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.pageHeader p,
+.card p,
+.empty p {
+  margin: 5px 0;
+  color: #92a8bb;
+  font-size: 13px;
+}
+
+.empty,
+.card {
+  margin-top: 16px;
+  padding: 22px;
+  border: 1px solid #26394f;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #121e2d, #0e1825);
+  color: #dfeaf4;
+  box-shadow: 0 16px 40px #0003;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cardHeader a {
+  color: #75c9ff;
+  font-weight: 700;
+}
+
+.cardHeader small,
+.card code {
+  color: #8fa7ba;
+}
+
+.recipeList {
+  display: grid;
+  gap: 8px;
+}
+
+.recipeList > div {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.4fr) minmax(220px, 1fr) minmax(160px, 0.7fr);
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid #293d52;
+  border-radius: 7px;
+  background: #101c29;
+}
+
+.recipeList b {
+  color: #e6f1fb;
+}
+
+.recipeList span {
+  color: #8fa7ba;
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding: 25px 18px 60px;
+  }
+  .pageHeader,
+  .cardHeader {
+    flex-direction: column;
+  }
+  .recipeList > div {
+    grid-template-columns: 1fr;
+  }
+}
