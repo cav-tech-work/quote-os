@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { AppSidebar } from "@/app/components/app-sidebar";
+import { ElementCreator, type ParentOption } from "./element-creator";
 import styles from "./catalogue-rate-admin.module.css";
 
 type Side = "TO_CLIENT" | "TO_VENDOR";
@@ -39,6 +40,7 @@ type Offering = {
   durationBasis: string | null;
   durationPolicy: DurationPolicy | null;
   active: boolean;
+  aliases: string[];
   completeness: string;
   canonicalItem: {
     code: string;
@@ -199,6 +201,7 @@ export function CatalogueRateAdmin({
   const [history, setHistory] = useState<History | null>(null);
   const [message, setMessage] = useState("");
   const [batch, setBatch] = useState<ImportBatch | null>(null);
+  const [showCreate, setShowCreate] = useState(false);
   const loadMarkets = useCallback(async () => {
     const response = await fetch("/api/admin/catalogue/markets");
     if (response.ok) {
@@ -245,7 +248,7 @@ export function CatalogueRateAdmin({
     () =>
       offerings.filter((item) => {
         const haystack =
-          `${item.code} ${item.name} ${item.canonicalItem?.code ?? ""} ${item.canonicalItem?.name ?? ""}`.toLowerCase();
+          `${item.code} ${item.name} ${item.canonicalItem?.code ?? ""} ${item.canonicalItem?.name ?? ""} ${item.aliases.join(" ")}`.toLowerCase();
         const specialized = item.quantityBasis === "HEADCOUNT_DUTY" || item.quantityBasis === "GENERATOR" || item.kind === "PACKAGE" || item.durationPolicy?.mode === "MANUAL";
         const personnelReady = item.quantityBasis === "HEADCOUNT_DUTY" && item.pricingFamily === "HEADCOUNT_DUTY" && item.billingUnit === "DUTY" && Boolean(item.rates.TO_CLIENT || item.rates.TO_VENDOR);
         const ordinaryReady = !specialized && Boolean(item.quantityBasis && item.durationPolicy?.active && item.durationPolicy.authority === "INTERNAL_APPROVED" && (item.rates.TO_CLIENT || item.rates.TO_VENDOR));
@@ -285,6 +288,20 @@ export function CatalogueRateAdmin({
       ),
     [offerings],
   );
+  const parents = useMemo(() => {
+    const byCode = new Map<string, ParentOption>();
+    for (const item of offerings) {
+      if (!item.canonicalItem) continue;
+      if (!byCode.has(item.canonicalItem.code)) {
+        byCode.set(item.canonicalItem.code, {
+          code: item.canonicalItem.code,
+          name: item.canonicalItem.name,
+          category: item.canonicalItem.domain,
+        });
+      }
+    }
+    return [...byCode.values()].sort((left, right) => left.code.localeCompare(right.code));
+  }, [offerings]);
   async function saveRate(
     side: Side,
     amountRupees: string | null,
@@ -460,35 +477,46 @@ export function CatalogueRateAdmin({
               and vendor rate history.
             </p>
           </div>
-          <div className={styles.scope}>
+          <div className={styles.headerActions}>
             <button
-              className={scope === "GLOBAL" ? styles.selected : ""}
-              onClick={() => setScope("GLOBAL")}
+              className={styles.addElement}
+              onClick={() => setShowCreate((value) => !value)}
             >
-              Global
+              {showCreate ? "Close element form" : "+ Add Element"}
             </button>
-            <button
-              className={scope === "CITY" ? styles.selected : ""}
-              onClick={() => setScope("CITY")}
-            >
-              City
-            </button>
-            {scope === "CITY" && (
-              <select
-                value={marketId}
-                onChange={(event) => setMarketId(event.target.value)}
+            <div className={styles.scope}>
+              <button
+                className={scope === "GLOBAL" ? styles.selected : ""}
+                onClick={() => setScope("GLOBAL")}
               >
-                {markets.map((market) => (
-                  <option key={market.id} value={market.id}>
-                    {market.cityName}
-                    {market.active ? "" : " (inactive)"}
-                  </option>
-                ))}
-              </select>
-            )}
+                Global
+              </button>
+              <button
+                className={scope === "CITY" ? styles.selected : ""}
+                onClick={() => setScope("CITY")}
+              >
+                City
+              </button>
+              {scope === "CITY" && (
+                <select
+                  value={marketId}
+                  onChange={(event) => setMarketId(event.target.value)}
+                >
+                  {markets.map((market) => (
+                    <option key={market.id} value={market.id}>
+                      {market.cityName}
+                      {market.active ? "" : " (inactive)"}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
           </div>
         </header>
         {message && <p className={styles.message}>{message}</p>}
+        {showCreate && (
+          <ElementCreator parents={parents} onCreated={loadOfferings} />
+        )}
         <div className={styles.metrics}>
           <span>
             <b>{offerings.length}</b>Total offerings
@@ -508,7 +536,7 @@ export function CatalogueRateAdmin({
         </div>
         <section className={styles.filters}>
           <input
-            placeholder="Search canonical or offering code/name"
+            placeholder="Search name, element code, parent code or alias"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
@@ -571,8 +599,8 @@ export function CatalogueRateAdmin({
         </section>
         <section className={styles.table}>
           <div className={styles.head}>
-            <span>Canonical item</span>
-            <span>Commercial offering</span>
+            <span>Parent identity</span>
+            <span>Component / offering</span>
             <span>To client</span>
             <span>To vendor</span>
             <span>Status</span>
@@ -586,14 +614,14 @@ export function CatalogueRateAdmin({
               <span>
                 <b>{item.canonicalItem?.name ?? "Unresolved"}</b>
                 <small>
-                  {item.canonicalItem?.code ?? "—"} ·{" "}
+                  Parent {item.canonicalItem?.code ?? "—"} ·{" "}
                   {item.canonicalItem?.domain ?? "—"}
                 </small>
               </span>
               <span>
                 <b>{item.name}</b>
                 <small>
-                  {item.code} · {item.billingUnit} · {item.pricingFamily ?? "UNCLASSIFIED"} · {item.quantityBasis ?? "NO QUANTITY BASIS"}
+                  Element {item.code} · {item.billingUnit} · {item.pricingFamily ?? "UNCLASSIFIED"} · {item.quantityBasis ?? "NO QUANTITY BASIS"}
                 </small>
                 <small>
                   Duration: {item.durationPolicy?.code ?? "UNASSIGNED"}
@@ -640,7 +668,19 @@ export function CatalogueRateAdmin({
             </button>
           ))}
           {shown.length === 0 && (
-            <p className={styles.empty}>No offerings match these filters.</p>
+            offerings.length === 0 ? (
+              <div className={styles.empty}>
+                <p>No catalogue elements yet.</p>
+                <button
+                  className={styles.addElement}
+                  onClick={() => setShowCreate(true)}
+                >
+                  + Add Element
+                </button>
+              </div>
+            ) : (
+              <p className={styles.empty}>No offerings match these filters.</p>
+            )
           )}
         </section>
         {selected && (

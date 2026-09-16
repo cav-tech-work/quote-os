@@ -10,6 +10,16 @@ Phase 7.5 independently reviews all 39 ambiguous `nos/duty` rows: raw units are 
 
 Phase 7.6 explicitly assigns the existing FULL_USE_DAYS policy to 17 reviewed reusable OPS, security, sanitation, and facility equipment offerings. See [`docs/phase-7-6-full-use-review.md`](docs/phase-7-6-full-use-review.md). Apply uses the existing `catalogue:semantic-apply` dry-run/`--apply` workflow with `catalogue-full-use-decisions.json`.
 
+Phase 8 makes QuoteRevision the commercial-history boundary and GeneratedDocument the retained issued-document boundary. Drafts can be previewed and server-recalculated; issue atomically retains an immutable, SHA-256-addressed PDF in PostgreSQL; later changes clone into a new monotonically numbered draft without implicit repricing. See [`docs/phase-8-revision-documents.md`](docs/phase-8-revision-documents.md).
+
+Phase 9 audits the remaining 17 service, transport, consumption, cabling, facility and composite rows. None has sufficient quantity plus rate-unit evidence for safe approval, so all remain explicitly deferred through the guarded workflow; no pricing family or billing unit was invented. See [`docs/phase-9-specialized-contract-review.md`](docs/phase-9-specialized-contract-review.md).
+
+Phase 10 adds version-safe package recipes with bounded quantities, explicit included/billable components, component-sum and fixed-package pricing, per-side readiness, immutable component snapshots, builder/admin surfaces, and Phase 8 revision/PDF integration. No real composite was promoted because authoritative composition and rate-unit evidence remains incomplete; controlled fixtures are test-only. See [`docs/phase-10-package-recipe-engine.md`](docs/phase-10-package-recipe-engine.md).
+
+Phase 11 adds an ADMIN-only business catalogue review boundary and deterministic immutable release candidates. Field decisions identify approval/change/defer/reject requirements without mutating audited master data. Releases contain only explicitly approved, provenance-backed subsets and are future bootstrap inputs—not deployments. See [`docs/phase-11-business-catalogue-review.md`](docs/phase-11-business-catalogue-review.md).
+
+Phase 12A reconciles the V1 LookUp component vocabulary and CCI row-2 component labels into local normalized component evidence, adds an ADMIN review workspace for ambiguous CCI labels, and adds a bounded package recipe builder. It imports no prices, creates no packages automatically, and remains local-development only. See [`docs/phase-12a-component-catalogue.md`](docs/phase-12a-component-catalogue.md).
+
 The authoritative master can be inspected without database writes:
 
 ```text
@@ -28,6 +38,15 @@ npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx
 ```
 
 The review file defaults every unresolved mapping, unknown unit, and alias conflict to `DEFER`. Apply verifies the exact workbook/review hashes and commits approved canonicals, offerings, aliases, global prices, mappings, and provenance atomically. Repeating the same reviewed apply is a no-op, including after an administrator changes a rate. Legacy catalogue data remains isolated for historical compatibility; all 1,608 workbook city values remain historical evidence.
+
+Phase 12A component reconciliation is a separate local-only workflow:
+
+```text
+npm run components:reconcile -- "/absolute/path/to/CAV_Rates_VC_Ops_Power_v120826 (1).xlsx" "/absolute/path/to/CCI_2026_v2_PivotExtraction_ToClient.xlsx" --preview
+npm run components:reconcile -- "/absolute/path/to/CAV_Rates_VC_Ops_Power_v120826 (1).xlsx" "/absolute/path/to/CCI_2026_v2_PivotExtraction_ToClient.xlsx" --apply
+```
+
+It reads LookUp rows 2-165, excludes non-component CCI control columns, records hash-bound source evidence, and refuses non-local PostgreSQL hosts. It does not write `Price` rows or `PackageTemplate` rows.
 
 ## Catalogue and rate administration
 

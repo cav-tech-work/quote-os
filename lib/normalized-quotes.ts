@@ -2,6 +2,8 @@ import { Prisma, type PriceSide } from "@prisma/client";
 import { calculateOfferingWithRate, calculatePersonnelWithRate, resolveCurrentGlobalRate } from "@/lib/catalogue-calculation";
 import type { DurationInput, MeasurementConfiguration } from "@/lib/catalogue-calculation";
 import { prisma } from "@/lib/prisma";
+import { allocateQuoteNumber } from "@/lib/quote-number";
+import { packageSnapshotForQuote } from "@/lib/package-engine";
 
 export const PRICING_ENGINE_VERSION = "quoteos-exact-v2";
 export const SNAPSHOT_SCHEMA_VERSION = "normalized-line-v2";
@@ -124,17 +126,18 @@ export function normalizedLineSnapshot(resolved: Awaited<ReturnType<typeof calcu
   };
 }
 
-export type NormalizedQuoteDraft = { type: "CLIENT" | "VENDOR"; company: string; project?: string; venue?: string; city?: string; salesperson?: string; taxPercentage: number; eventDays: number; lines: Array<NormalizedLineInput & { discountPercent: number; remarks?: string }> };
+export type NormalizedQuoteDraft = { type: "CLIENT" | "VENDOR"; company: string; project?: string; venue?: string; city?: string; salesperson?: string; taxPercentage: number; eventDays: number; lines: Array<NormalizedLineInput & { discountPercent: number; remarks?: string }>; packages?: Array<{ packageTemplateId: string; packageQuantity: string; usageDays?: string; expectedParentPriceId?: string; discountPercent: number; remarks?: string }> };
 
 export async function persistNormalizedQuote(input: NormalizedQuoteDraft, actorId: string, database = prisma) {
   const side = sideForQuoteType(input.type);
   return database.$transaction(async (tx) => {
-    const snapshots = [];
+    const snapshots: any[] = [];
     for (const line of input.lines) { const usageDays = line.usageDays ?? String(input.eventDays); const normalizedInput = { ...line, usageDays }; const resolved = await calculateNormalizedLine(normalizedInput, side, tx); snapshots.push(normalizedLineSnapshot(resolved, normalizedInput, line.discountPercent, line.remarks)); }
+    for (const pkg of input.packages ?? []) snapshots.push(await packageSnapshotForQuote({ ...pkg, usageDays: pkg.usageDays ?? String(input.eventDays), quoteType: input.type }, tx));
     const subtotalPaise = snapshots.reduce((total, line) => total + line.finalAmountPaiseSnapshot, 0); const discountTotalPaise = snapshots.reduce((total, line) => total + line.discountPaise, 0); const taxTotalPaise = Math.round((subtotalPaise - discountTotalPaise) * input.taxPercentage / 100); const grandTotalPaise = subtotalPaise - discountTotalPaise + taxTotalPaise;
-    const number = `QT-${new Date().getFullYear()}-${Date.now().toString().slice(-8)}-${Math.random().toString(36).slice(2, 5).toUpperCase()}`;
+    const number = await allocateQuoteNumber(tx);
     const created = await tx.quote.create({ data: { number, type: input.type, company: input.company, project: input.project || null, venue: input.venue || null, city: input.city || null, salesperson: input.salesperson || null, createdById: actorId } });
-    const revision = await tx.quoteRevision.create({ data: { quoteId: created.id, revisionNumber: 1, preparedDate: new Date(), eventDays: input.eventDays, taxPercentage: input.taxPercentage, settingsSnapshot: { builderMode: "NORMALIZED", snapshotSchemaVersion: SNAPSHOT_SCHEMA_VERSION }, subtotalPaise, discountTotalPaise, taxTotalPaise, grandTotalPaise, lines: { create: snapshots } }, include: { lines: true } });
+    const revision = await tx.quoteRevision.create({ data: { quoteId: created.id, revisionNumber: 1, status: "DRAFT", createdById: actorId, preparedDate: new Date(), eventDays: input.eventDays, taxPercentage: input.taxPercentage, quoteTypeSnapshot: input.type, companySnapshot: input.company, projectSnapshot: input.project || null, venueSnapshot: input.venue || null, citySnapshot: input.city || null, salespersonSnapshot: input.salesperson || null, currencySnapshot: "INR", termsSnapshot: "This quotation is subject to availability, final technical confirmation, and applicable taxes. Payment terms and project-specific conditions will be confirmed in writing.", settingsSnapshot: { builderMode: "NORMALIZED", snapshotSchemaVersion: SNAPSHOT_SCHEMA_VERSION }, subtotalPaise, discountTotalPaise, taxTotalPaise, grandTotalPaise, lines: { create: snapshots } }, include: { lines: { include: { packageComponents: true } } } });
     await tx.quoteEvent.create({ data: { quoteId: created.id, actorId, action: "CREATED", metadata: { revisionId: revision.id, builderMode: "NORMALIZED", normalizedLineCount: snapshots.length } } });
     return { ...created, revision };
   }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });

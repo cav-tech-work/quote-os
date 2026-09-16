@@ -1,4 +1,4 @@
-import type { QuantityBasis } from "@prisma/client";
+import type { PricingFamily, QuantityBasis, UnitCode } from "@prisma/client";
 
 export type ReviewDecision = "APPROVE" | "DEFER" | "REJECT";
 export type FieldDecision<T> = { decision: ReviewDecision; value?: T; reason: string; evidence?: string };
@@ -6,7 +6,7 @@ export type SemanticDecisionFile = {
   schemaVersion: "1.0.0";
   sourceImportFileHash: string;
   catalogueFingerprint: string;
-  decisions: Record<string, { quantityBasis?: FieldDecision<QuantityBasis>; durationPolicy?: FieldDecision<string> }>;
+  decisions: Record<string, { quantityBasis?: FieldDecision<QuantityBasis>; pricingFamily?: FieldDecision<PricingFamily>; billingUnit?: FieldDecision<UnitCode>; durationPolicy?: FieldDecision<string> }>;
 };
 export type SemanticReviewRow = {
   code: string; name: string; canonical: string | null; domain: string | null; billingUnit: string;
