@@ -1,6 +1,6 @@
 .page { flex: 1; max-width: 1120px; margin: 0 auto; padding: 36px; }
 .page header h1 { margin: 4px 0 8px; }
-.page header p, .identity p, .candidates { color: #5b6573; }
+.page header p, .identity p { color: #5b6573; }
 .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 22px 0; }
 .metrics span { padding: 14px; background: #eef3f7; border-radius: 8px; color: #566271; }
 .metrics b { display: block; color: #173a60; font-size: 1.45rem; }
@@ -16,10 +16,18 @@
 .confirmed { background: #dff3e6; color: #176535; }
 .review { background: #fff0d5; color: #8b4b0f; }
 .match { margin: 12px 0 0; }
-.candidates { font-size: .87rem; }
+.reviewControls { margin-top: 12px; display: grid; gap: 10px; }
+.suggested { border: 1px solid #d8e0e8; border-radius: 8px; overflow: hidden; }
+.suggested h3 { margin: 0; padding: 9px 11px; font-size: .85rem; background: #f5f8fb; color: #425168; }
+.candidateRow { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 10px 11px; border-top: 1px solid #edf1f5; align-items: center; }
+.candidateRow small { display: block; color: #5b6573; margin-top: 2px; }
+.candidateRow button { border: 1px solid #173a60; border-radius: 7px; padding: 8px 11px; background: #173a60; color: white; font-weight: 700; }
+.candidateRow button:disabled { border-color: #c5ced8; background: #eef2f5; color: #687789; }
+.missing { color: #a14b21 !important; }
 .decision { display: grid; grid-template-columns: 1fr 1.5fr auto auto; gap: 8px; margin-top: 12px; }
 .decision input, .decision select, .decision button { border: 1px solid #b9c7d4; border-radius: 7px; padding: 9px; background: white; }
 .decision button { background: #173a60; color: white; font-weight: 700; }
 .decision .defer { background: white; color: #6a4a18; }
+.selected { margin: 0; color: #425168; font-size: .88rem; }
 .empty { padding: 25px; text-align: center; color: #5b6573; }
-@media (max-width: 800px) { .page { padding: 20px; } .metrics { grid-template-columns: repeat(2, 1fr); } .identity, .decision { display: grid; grid-template-columns: 1fr; } }
+@media (max-width: 800px) { .page { padding: 20px; } .metrics { grid-template-columns: repeat(2, 1fr); } .identity, .decision, .candidateRow { display: grid; grid-template-columns: 1fr; } }

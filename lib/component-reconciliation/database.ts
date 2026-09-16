@@ -1,6 +1,7 @@
 import { Prisma, type PrismaClient, type UnitCode } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { normalizeAlias, stableJson } from "@/lib/catalogue-import/normalize";
+import { getSelectableComponentById, searchSelectableComponents } from "@/lib/component-search";
 import { buildComponentReconciliationPreview } from "./reconcile";
 import type { ComponentReconciliationPreview, DestinationOffering, LookupComponent, SourceProfile } from "./types";
 
@@ -155,12 +156,24 @@ export async function previewComponentReconciliation(profile: SourceProfile, dat
 
 export function parseCciMappingNotes(notes: string | null) {
   if (!notes) return null;
-  try { return JSON.parse(notes) as { sourceLabel: string; cities: string[]; matchType: string; status: string; candidates: unknown[]; workbookSha256: string; decisionOrigin?: string }; } catch { return null; }
+  try { return JSON.parse(notes) as { sourceLabel: string; cities: string[]; matchType: string; status: string; candidates: Array<{ elementCode: string; parentCode: string; description: string; score?: number }>; workbookSha256: string; decisionOrigin?: string }; } catch { return null; }
 }
 
 export async function listCciReconciliation(database: PrismaClient = prisma) {
   const mappings = await database.sourceMapping.findMany({ where: { sourceSystem: CCI_COMPONENT_SOURCE }, orderBy: { sourceDescription: "asc" }, include: { commercialOffering: { include: { canonicalItem: true } } } });
-  return mappings.map((mapping) => ({ id: mapping.id, sourceLabel: mapping.sourceDescription, ...parseCciMappingNotes(mapping.notes), matchedOffering: mapping.commercialOffering ? { id: mapping.commercialOffering.id, elementCode: mapping.commercialOffering.code, name: mapping.commercialOffering.name, parentCode: mapping.commercialOffering.canonicalItem?.code ?? null } : null, validated: mapping.validated }));
+  const candidateCodes = [...new Set(mappings.flatMap((mapping) => parseCciMappingNotes(mapping.notes)?.candidates?.map((candidate) => candidate.elementCode) ?? []))];
+  const candidateOfferings = new Map((await searchSelectableComponents({ includeCodes: candidateCodes, limit: candidateCodes.length }, database)).map((component) => [component.elementCode, component]));
+  return mappings.map((mapping) => {
+    const notes = parseCciMappingNotes(mapping.notes);
+    return {
+      id: mapping.id,
+      sourceLabel: mapping.sourceDescription,
+      ...notes,
+      candidateOfferings: (notes?.candidates ?? []).map((candidate) => ({ ...candidate, offering: candidateOfferings.get(candidate.elementCode) ?? null })),
+      matchedOffering: mapping.commercialOffering ? { id: mapping.commercialOffering.id, elementCode: mapping.commercialOffering.code, name: mapping.commercialOffering.name, parentCode: mapping.commercialOffering.canonicalItem?.code ?? null } : null,
+      validated: mapping.validated,
+    };
+  });
 }
 
 export async function decideCciReconciliation(input: { id: string; offeringId: string | null; status: "CONFIRMED" | "DEFERRED" }, database: PrismaClient = prisma) {
@@ -168,7 +181,8 @@ export async function decideCciReconciliation(input: { id: string; offeringId: s
   if (!mapping || mapping.sourceSystem !== CCI_COMPONENT_SOURCE) throw new Error("Component reconciliation row was not found.");
   const evidence = parseCciMappingNotes(mapping.notes);
   if (!evidence) throw new Error("Component reconciliation evidence is invalid.");
-  const offering = input.offeringId ? await database.commercialOffering.findUnique({ where: { id: input.offeringId }, include: { canonicalItem: true } }) : null;
+  const selected = input.offeringId ? await getSelectableComponentById(input.offeringId, database) : null;
+  const offering = selected ? await database.commercialOffering.findUnique({ where: { id: selected.id }, include: { canonicalItem: true } }) : null;
   if (input.status === "CONFIRMED" && !offering) throw new Error("A component is required to confirm this match.");
   return database.$transaction(async (tx) => {
     if (offering && await ensureAlias(tx, offering.id, mapping.sourceDescription, CCI_COMPONENT_SOURCE)) { /* retained searchable alias */ }

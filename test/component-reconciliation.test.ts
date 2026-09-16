@@ -55,3 +55,8 @@ test("admin package builder exposes bounded V1 workflow without inventory or HYB
   for (const text of ["Create Package", "Quantity per package", "BILLABLE", "INCLUDED", "Save draft", "RATE MISSING", "FIXED_PER_PACKAGE"]) assert.match(source, new RegExp(text));
   assert.doesNotMatch(source, /available quantity|stock quantity|HYBRID/i);
 });
+
+test("reconciliation UI surfaces suggested candidates before generic component search", () => {
+  const source = readFileSync(new URL("../app/admin/catalogue/component-reconciliation/workspace.tsx", import.meta.url), "utf8");
+  for (const text of ["Suggested match", "Candidate matches", "includeCode", "Confirm selected", "Search another component"]) assert.match(source, new RegExp(text));
+});

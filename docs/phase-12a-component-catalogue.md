@@ -124,6 +124,8 @@ npm run components:reconcile -- "/absolute/path/CAV_Rates_VC_Ops_Power_v120826 (
 ## Admin surfaces
 
 - `/admin/catalogue/component-reconciliation` shows CCI label, cities, match type, status, candidates, current match, and confirm/change/defer actions.
+- Proposed and ambiguous candidates are rendered directly on each reconciliation card, ahead of generic search, and each selectable candidate has a dedicated confirm action.
+- Reconciliation and package-builder component pickers use the same identity search service. Element selection includes active V1 component offerings with `ITEM`, `SERVICE`, or unset kind, and does not filter by rate availability, quote readiness, duration readiness, or business-review state.
 - `/admin/catalogue` search includes aliases and distinguishes parent identity from element identity.
 - `/admin/packages` lists recipe drafts and versions.
 - `/admin/packages/new` creates draft package recipes only. It supports component-sum and fixed-package modes, searchable components, per-package quantities, billable/included role, personnel duties where needed, server preview, save draft, and clone-as-next-version.
