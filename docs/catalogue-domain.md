@@ -100,7 +100,9 @@ The current-rate resolver accepts only offering, side, and time. It queries the 
 
 ### Semantic review and guarded apply
 
-`catalogue-semantic-decisions.json` is a versioned, source-import-hash and catalogue-fingerprint-bound review set. The deterministic review lists every offering, source evidence, current/candidate quantity and duration semantics, reasoning, family, and blockers. Missing decisions mean `DEFER`, never approval. Apply is dry-run by default; `--apply` requires an active administrator identity and changes only `quantityBasis` and `durationPolicyId` in one transaction. Quantity and duration changes receive durable semantic audit records, duration assignments retain the Phase 5 assignment audit, stale fingerprints fail, and an identical reapply is a no-op without duplicate events.
+Semantic decisions independently review `quantityBasis`, `pricingFamily`, normalized `billingUnit`, and `durationPolicy`. APPROVE changes are transactional and field-audited; DEFER records reviewed uncertainty without mutating normalized semantics. Source workbook values and mappings remain immutable provenance.
+
+`catalogue-semantic-decisions.json` is a versioned, source-import-hash and catalogue-fingerprint-bound review set. The deterministic review lists every offering, source evidence, current/candidate quantity and duration semantics, reasoning, family, and blockers. Missing decisions mean `DEFER`, never approval. Apply is dry-run by default; `--apply` requires an active administrator identity and changes only explicitly approved `quantityBasis`, `pricingFamily`, `billingUnit`, or `durationPolicyId` fields in one transaction. Changes receive durable semantic audit records, duration assignments retain the Phase 5 assignment audit, stale fingerprints fail, and an identical reapply is a no-op without duplicate events.
 
 The Phase 5.6 inventory additionally records GLOBAL rate availability, specialist status, commercial review bucket, confidence, and per-decision evidence. All 180 previously unresolved duration rows are explicit decisions: high-confidence ordinary VC elements are approved individually and exception/OPS/specialist rows are explicitly deferred.
 
@@ -121,12 +123,14 @@ The exact engine accepts positive rational duty units for future-safe storage an
 
 - `UsagePreset` (for example camera-riser or main-PA-power deployment intelligence)
 - `ContextPreset` (editable suggestions such as green room, box office, or food-stall area)
-- `PackageTemplate` / `PackageComponent`, included-component behavior, recipes, and package pricing
+- package HYBRID runtime, nested recipes, conditional components, and expression rules (Phase 10 implements versioned templates/components, included/billable roles, component-sum/fixed-package pricing, readiness, and immutable snapshots)
 - offering parameters and configuration dimensions/options
 - generator calculations and unresolved OPS equipment/composite `HEADCOUNT_DUTY` classifications
 - preview UI, advanced search ranking, city precedence, specialized quote snapshots, and legacy retirement
 
 Package composition and package pricing will remain separate to prevent double charging. Usage and context describe deployment; neither redefines canonical identity or automatically creates a commercial package.
+
+Phase 11 places business approval above technical catalogue semantics. CommercialOffering is the review unit; field decisions never directly mutate identity, rates, policies, or recipes. An immutable CatalogueRelease is a deterministic, provenance-backed approved subset for a future idempotent production bootstrap. Technical approval, business approval, release approval, and production materialization are distinct boundaries.
 
 ## Compatibility and technical debt
 

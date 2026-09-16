@@ -1,0 +1,12 @@
+.page { flex: 1; max-width: 1180px; margin: 0 auto; padding: 36px; }
+.pageHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.pageHeader h1, .card h2, .empty h2 { margin: 4px 0 8px; }
+.pageHeader p, .card p, .empty p { color: #5b6573; }
+.primary { display: inline-block; border-radius: 8px; background: #153d68; color: white; padding: 11px 16px; text-decoration: none; font-weight: 700; }
+.empty, .card { border: 1px solid #d8e0e8; border-radius: 12px; padding: 22px; background: white; color: #1c2b3a; margin-top: 16px; }
+.cardHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.cardHeader a { color: #164f86; font-weight: 700; }
+.recipeList { display: grid; gap: 8px; }
+.recipeList > div { display: grid; grid-template-columns: minmax(220px, 1.4fr) minmax(220px, 1fr) minmax(160px, .7fr); gap: 12px; padding: 10px 12px; background: #f7f9fb; border-radius: 7px; }
+.recipeList span { color: #5b6573; }
+@media (max-width: 800px) { .pageHeader, .cardHeader { flex-direction: column; } .recipeList > div { grid-template-columns: 1fr; } }

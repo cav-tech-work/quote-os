@@ -39,6 +39,7 @@ export async function listCatalogueOfferings(scopeType: PriceScopeType, marketId
     orderBy: [{ canonicalItem: { name: "asc" } }, { name: "asc" }],
     include: {
       canonicalItem: { select: { id: true, code: true, name: true, domain: true, entityType: true, active: true } },
+      aliases: { where: { active: true }, select: { originalText: true } },
       durationPolicy: true,
       prices: { where: { ...scope, active: true }, include: { sourceImport: { select: { id: true, filename: true, appliedAt: true } } } },
     },
@@ -50,6 +51,7 @@ export async function listCatalogueOfferings(scopeType: PriceScopeType, marketId
       id: offering.id, code: offering.code, name: offering.name, kind: offering.kind,
       quantityBasis: offering.quantityBasis, pricingFamily: offering.pricingFamily,
       billingUnit: offering.billingUnit, active: offering.active, canonicalItem: offering.canonicalItem,
+      aliases: offering.aliases.map((alias) => alias.originalText),
       durationBasis: offering.durationBasis, durationPolicy: offering.durationPolicy,
       completeness: client && vendor ? "BOTH" : client ? "CLIENT_ONLY" : vendor ? "VENDOR_ONLY" : "NEITHER",
       rates: { TO_CLIENT: client, TO_VENDOR: vendor },
@@ -68,7 +70,12 @@ type ChangeRateInput = {
   reason: string;
 };
 
-export async function changeCurrentRate(input: ChangeRateInput, database = prisma) {
+/**
+ * Applies one audited price change using an already-open transaction client.
+ * Shared by the rate editor and by Element Creator so both paths use the same
+ * append-only Price/PriceAuditEvent semantics.
+ */
+export async function applyRateChange(tx: Prisma.TransactionClient, input: ChangeRateInput) {
   const reason = input.reason.trim();
   if (!reason) throw new RateInputError("A change reason is required.");
   if (reason.length > 500) throw new RateInputError("The change reason must be 500 characters or fewer.");
@@ -76,32 +83,34 @@ export async function changeCurrentRate(input: ChangeRateInput, database = prism
     throw new RateInputError("Rate must be a valid non-negative paise amount.");
   }
   const scope = scopeWhere(input.scopeType, input.marketId);
+  const offering = await tx.commercialOffering.findUnique({ where: { id: input.offeringId }, select: { id: true } });
+  if (!offering) throw new RateInputError("Commercial offering not found.");
+  if (scope.scopeType === "CITY") {
+    const market = await tx.rateMarket.findUnique({ where: { id: scope.marketId }, select: { active: true } });
+    if (!market) throw new RateInputError("Rate market not found.");
+    if (!market.active) throw new RateInputError("Inactive markets cannot receive new rates.");
+  }
+  const current = await tx.price.findFirst({ where: { commercialOfferingId: input.offeringId, side: input.side, ...scope, active: true } });
+  if ((current?.id ?? null) !== input.expectedCurrentPriceId) throw new RateConflictError();
+  if (input.amountPaise === null && !current) return { changed: false, price: null };
+  if (current && input.amountPaise === current.amountPaise) return { changed: false, price: current };
+  const now = new Date();
+  if (current) await tx.price.update({ where: { id: current.id }, data: { active: false, effectiveTo: now } });
+  const next = input.amountPaise === null ? null : await tx.price.create({ data: {
+    commercialOfferingId: input.offeringId, side: input.side, ...scope,
+    amountPaise: input.amountPaise, currency: "INR", effectiveFrom: now, active: true,
+  } });
+  await tx.priceAuditEvent.create({ data: {
+    actorId: input.actorId, commercialOfferingId: input.offeringId, side: input.side, ...scope,
+    action: next ? (current ? "REPLACE" : "CREATE") : "CLEAR",
+    oldPriceId: current?.id ?? null, newPriceId: next?.id ?? null, reason,
+  } });
+  return { changed: true, price: next };
+}
+
+export async function changeCurrentRate(input: ChangeRateInput, database = prisma) {
   try {
-    return await database.$transaction(async (tx) => {
-      const offering = await tx.commercialOffering.findUnique({ where: { id: input.offeringId }, select: { id: true } });
-      if (!offering) throw new RateInputError("Commercial offering not found.");
-      if (scope.scopeType === "CITY") {
-        const market = await tx.rateMarket.findUnique({ where: { id: scope.marketId }, select: { active: true } });
-        if (!market) throw new RateInputError("Rate market not found.");
-        if (!market.active) throw new RateInputError("Inactive markets cannot receive new rates.");
-      }
-      const current = await tx.price.findFirst({ where: { commercialOfferingId: input.offeringId, side: input.side, ...scope, active: true } });
-      if ((current?.id ?? null) !== input.expectedCurrentPriceId) throw new RateConflictError();
-      if (input.amountPaise === null && !current) return { changed: false, price: null };
-      if (current && input.amountPaise === current.amountPaise) return { changed: false, price: current };
-      const now = new Date();
-      if (current) await tx.price.update({ where: { id: current.id }, data: { active: false, effectiveTo: now } });
-      const next = input.amountPaise === null ? null : await tx.price.create({ data: {
-        commercialOfferingId: input.offeringId, side: input.side, ...scope,
-        amountPaise: input.amountPaise, currency: "INR", effectiveFrom: now, active: true,
-      } });
-      await tx.priceAuditEvent.create({ data: {
-        actorId: input.actorId, commercialOfferingId: input.offeringId, side: input.side, ...scope,
-        action: next ? (current ? "REPLACE" : "CREATE") : "CLEAR",
-        oldPriceId: current?.id ?? null, newPriceId: next?.id ?? null, reason,
-      } });
-      return { changed: true, price: next };
-    }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+    return await database.$transaction((tx) => applyRateChange(tx, input), { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
   } catch (error) {
     if (error instanceof RateInputError || error instanceof RateConflictError) throw error;
     if (error instanceof Prisma.PrismaClientKnownRequestError && ["P2002", "P2034"].includes(error.code)) throw new RateConflictError();

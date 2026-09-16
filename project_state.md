@@ -1,6 +1,57 @@
 # QuoteOS project state
 
-Updated: 2026-08-17
+Updated: 2026-09-16
+
+## Rapid V1 operational catalogue and package workflow
+
+- `/admin/catalogue` gains a manual **Add Element** action. It reuses an existing parent `CanonicalItem` by Parent Code (never duplicating it) and creates one `CommercialOffering` element with a billing unit plus an inferred-or-chosen measurement. Element Code is globally unique and duplicates are rejected with a user-facing error.
+- The **TO_CLIENT GLOBAL price is optional**. A blank price creates no `Price` row; an explicit zero creates a normal audited zero rate; a supplied amount creates the standard append-only audited `Price`. No vendor rate, markup or CITY price is derived.
+- A rate-less element remains valid, searchable catalogue master data and stays selectable in the package builder, shown as `RATE MISSING`. It is not quote-ready until a reviewed duration policy is assigned and a rate exists.
+- The **package recipe builder** at `/admin/packages` builds `COMPONENT_SUM` and `FIXED_PACKAGE` recipes from those elements with `FIXED_PER_PACKAGE` quantities, `BILLABLE`/`INCLUDED` roles, reorder, server preview and inactive draft save. `HYBRID`, nested packages and inventory semantics remain unsupported/deferred.
+- A **guarded one-time catalogue reset** exists: `npm run catalogue:reset -- --target production` (dry run) and `--apply --confirm RESET_CATALOGUE` to execute. It prints the database identity and a four-way report (removed / retained engine configuration / retained historical records / preserved application data), runs in one transaction, fails closed, and is never part of startup.
+- Reset removes operational catalogue master data and DRAFT/READY_FOR_APPROVAL release workflow state. It preserves APPROVED/SUPERSEDED `CatalogueRelease` history, engine configuration (`DurationPolicy`, `DurationPolicyPoint`, `RateMarket`), and every user, quote, revision, line, component snapshot and retained document. The only historical columns it may null are the three convenience `QuoteLine` catalogue FKs (`commercialOfferingId`, `catalogueItemId`, `packageTemplateId`); all commercial snapshot columns, revision totals, readback and retained PDF bytes/hashes are unchanged and covered by regression tests.
+- Migration `20260916090000_catalogue_release_delete_semantics` repairs the `CatalogueRelease` DELETE trigger (returns `OLD`); APPROVED releases remain immutable for both UPDATE and DELETE.
+
+## Phase 12A V1 component catalogue reconciliation
+
+- LookUp rows 2-165 from `CAV_Rates_VC_Ops_Power_v120826 (1).xlsx` are parsed as 164 V1 component elements under 77 parent identities; row 166 `TRANSPORT` is excluded.
+- CCI city-sheet row-2 labels are normalized with six non-component controls excluded. The current split is 2 exact, 7 alias, 10 proposed, 17 ambiguous and 10 unmatched labels.
+- Local apply creates or reuses parent `CanonicalItem` and element `CommercialOffering` identities, aliases and hash-bound `SourceMapping` evidence only. It refuses non-local database hosts and leaves `Price` and `PackageTemplate` counts unchanged.
+- `/admin/catalogue/component-reconciliation` gives ADMIN users a review queue for CCI labels. Automatic decisions are distinct from human decisions so reruns do not overwrite manual review.
+- `/admin/packages/new` provides a bounded package recipe builder with component search, billable/included roles, fixed-package parent selection, server preview, draft save and clone-as-next-version. It does not expose inventory semantics, nested packages, `HYBRID`, or automatic package creation.
+- Production bootstrap, business approval, rates, package promotion, Brand Profesor, transport/consumption contracts and unresolved specialized engines remain outside this phase.
+
+## Phase 11 business catalogue approval workspace
+
+- Business review is separate from technical semantic approval and operates per CommercialOffering with nine field decisions, rationale, actor/time, and dedicated audit history.
+- The ADMIN workspace combines source evidence, normalized truth, independent rates, duration details, packages, readiness, missing-rate and specialized-question queues.
+- Deterministic review export/import is status/comment-only and fingerprint guarded; it cannot bypass audited master-data controls.
+- CatalogueRelease snapshots an explicitly approved provenance-backed subset with rates, policies, package versions and hashes. Partial releases and independent side coverage are supported; approved releases are immutable.
+- No business decision/release is created automatically. Production remains empty, no bootstrap exists, startup stays migration-only, and Brand Profesor remains excluded.
+
+## Phase 10 package/recipe engine
+
+- `PackageTemplate` and ordered `PackageComponent` recipes are first-class, version-keyed and internally authorized. Admin creates versions or toggles activity; in-place commercial recipe editing is not exposed.
+- Exact bounded `FIXED`, `FIXED_PER_PACKAGE` and `PARENT_QUANTITY_MULTIPLIER` rules feed existing ordinary/personnel calculators. `BILLABLE` versus `INCLUDED` prevents double charging.
+- `COMPONENT_SUM` and `FIXED_PACKAGE` run in V1. `HYBRID` is schema-visible but runtime-deferred. Nested packages and expression rules fail closed.
+- A package persists as one amount-bearing QuoteLine plus immutable component snapshots. Draft creation, issue, retained PDF retrieval and revision cloning preserve composition and provenance.
+- Production-data readiness remains TO_CLIENT 0 / TO_VENDOR 0 because no package data was populated. Medical/security composites remain deferred; controlled fixtures exist only in tests.
+- Production/startup policy, Phase 9 decisions, Brand Profesor, generators, attributes and variants are unchanged.
+
+## Phase 9 specialized contract review
+
+- The unresolved population exactly matches the expected 17 rows. Workbook identity, Days Applies, formulas, notes, source mappings, normalized state and both GLOBAL rate sides were audited individually.
+- All 17 are explicitly DEFERRED because billable unit or duration remains ambiguous; 12 also have no GLOBAL rate. The five priced rows do not establish per-meal, per-trip, per-vehicle, per-team or per-package unit meaning.
+- No new PricingFamily, UnitCode, calculation, duration assignment or readiness was added. Coverage remains 164 TO_CLIENT and 153 TO_VENDOR combined.
+- Guarded apply now supports reviewed pricing-family and billing-unit fields, but Phase 9 applied zero field changes. Production population, startup policy, Phase 8, Brand Profesor and generator/package boundaries are unchanged.
+
+## Phase 8 revision lifecycle and retained documents
+
+- QuoteRevision now has explicit DRAFT, ISSUED and SUPERSEDED states, one active draft per quote, creator/issuer identity, issued time, and revision-scoped PDF-visible metadata.
+- PostgreSQL counters allocate concurrency-safe quote numbers; advisory locks plus unique constraints serialize next-revision creation and issue.
+- Cloning preserves snapshots without repricing. Server-authoritative line edits recalculate only changed cloned lines; issued revisions reject mutation with `REVISION_IMMUTABLE`.
+- The canonical issued PDF is retained in PostgreSQL with SHA-256, bytes, size, MIME type, filename, document type/version, template version and generator. Retrieval verifies and serves the retained bytes rather than rendering again.
+- Dynamic draft preview and legacy-regeneratable output are explicitly distinguished from retained issued artifacts. QuoteEvent records clone, issue, supersession and document retention.
 
 ## Phase 7.6 full-use duration approval
 
@@ -132,6 +183,7 @@ The workflow uses Node.js 22, matching the production Docker image, and does not
 ## Operational notes
 
 - Render automatically deploys `main`.
+- `dev-v2` is the active development branch for the rapid V1 element-creator, package-builder and catalogue-reset work; `main` remains the production branch.
 - `dev-mac` is the localhost development/staging branch. It uses isolated local PostgreSQL and may enable `DEV_AUTH_BYPASS=true`; there is no hosted staging service.
 - The local bypass is effective only outside `NODE_ENV=production` and reconciles `dev-local@quoteos.local` as an active local administrator. It cannot grant production access or production system-manager authority.
 - Do not commit `AUTH_SECRET`, Google client secrets, or database URLs.
