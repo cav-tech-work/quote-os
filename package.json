@@ -16,7 +16,6 @@
     "catalogue:personnel-apply": "tsx scripts/catalogue-personnel-apply.ts",
     "catalogue:nos-duty-apply": "tsx scripts/catalogue-nos-duty-apply.ts",
     "catalogue:reset": "tsx scripts/catalogue-reset.ts",
-    "components:reconcile": "tsx scripts/component-reconciliation.ts",
     "reference:crawl:brandprofesor": "node scripts/crawl-brandprofesor-reference.mjs",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
