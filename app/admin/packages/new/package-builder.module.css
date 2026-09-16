@@ -1,31 +1,248 @@
-.page { flex: 1; max-width: 1100px; margin: 0 auto; padding: 36px; }
-.page > header h1 { margin: 4px 0 8px; }
-.page > header p, .sectionHeader p, .panel > p { color: #5b6573; }
-.panel { margin-top: 20px; padding: 22px; border: 1px solid #d8e0e8; border-radius: 12px; background: white; color: #1c2b3a; }
-.panel h2 { margin: 0 0 14px; }
-.fields { display: grid; grid-template-columns: 2fr 1.4fr .6fr 1.1fr; gap: 14px; }
-.fields label, .componentFields label { display: grid; gap: 6px; font-weight: 700; color: #243447; }
-.fields input, .fields select, .fields textarea, .componentFields input, .componentFields select, .picker input { width: 100%; box-sizing: border-box; border: 1px solid #bdc9d6; border-radius: 7px; padding: 10px; background: white; font: inherit; }
-.wide { grid-column: 1 / -1; }
-.wide textarea { min-height: 78px; resize: vertical; }
-.wide small { font-weight: 400; color: #5b6573; }
-.sectionHeader, .componentTitle, .actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.picker { border: 1px solid #c7d7e7; border-radius: 9px; padding: 12px; background: #f6f9fc; }
-.picker > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin-top: 9px; }
-.picker button { text-align: left; border: 1px solid #d5dee7; border-radius: 7px; background: white; padding: 9px; }
-.picker small, .componentTitle small, .previewTable small { display: block; color: #647181; margin-top: 3px; }
-.components { display: grid; gap: 10px; margin-top: 14px; }
-.components article { border: 1px solid #dbe3eb; border-radius: 9px; padding: 14px; }
-.componentFields { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.2fr; gap: 12px; align-items: end; margin-top: 12px; }
-.remove { color: #a12727; background: transparent; border: 0; }
-.order { display: flex; align-items: center; gap: 6px; }
-.order button, .actions button { border: 1px solid #9dafc0; border-radius: 7px; background: white; padding: 9px 12px; }
-.actions { justify-content: flex-end; margin: 20px 0; }
-.actions .save { background: #153d68; color: white; border-color: #153d68; font-weight: 700; }
-.message { padding: 10px 13px; background: #fff4cf; border-radius: 7px; }
-.previewTable { display: grid; }
-.previewTable > div { display: grid; grid-template-columns: 1.5fr .7fr 1fr 1fr; gap: 12px; align-items: center; padding: 10px; border-bottom: 1px solid #e1e7ed; }
-.previewHead { font-weight: 700; background: #eef3f7; }
-.ready { color: #176535; }
-.missing { color: #a14e13; font-weight: 700; }
-@media (max-width: 800px) { .page { padding: 20px; } .fields, .componentFields, .picker > div, .previewTable > div { grid-template-columns: 1fr; } .wide { grid-column: auto; } }
+.page {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 38px 42px 70px;
+  color: #edf6ff;
+}
+
+.page > header small {
+  color: #55b8ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.page > header h1 {
+  margin: 4px 0 8px;
+}
+
+.page > header p,
+.sectionHeader p,
+.panel > p {
+  margin: 5px 0;
+  color: #92a8bb;
+  font-size: 13px;
+}
+
+.panel {
+  margin-top: 20px;
+  padding: 22px;
+  border: 1px solid #26394f;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #121e2d, #0e1825);
+  color: #dfeaf4;
+  box-shadow: 0 16px 40px #0003;
+}
+
+.panel h2 {
+  margin: 0 0 14px;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 2fr 1.4fr 0.6fr 1.1fr;
+  gap: 14px;
+}
+
+.fields label,
+.componentFields label {
+  display: grid;
+  gap: 6px;
+  color: #a7bacb;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.15px;
+}
+
+.fields input,
+.fields select,
+.fields textarea,
+.componentFields input,
+.componentFields select,
+.picker input {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  border: 1px solid #30465d;
+  border-radius: 7px;
+  padding: 10px 11px;
+  background: #0a1420;
+  color: #eff7ff;
+  font: inherit;
+  outline: none;
+  transition: 0.16s;
+}
+
+.fields input:focus,
+.fields select:focus,
+.fields textarea:focus,
+.componentFields input:focus,
+.componentFields select:focus,
+.picker input:focus {
+  border-color: #42b4ff;
+  box-shadow: 0 0 0 3px #2496ed29;
+}
+
+.fields input::placeholder,
+.fields textarea::placeholder,
+.picker input::placeholder {
+  color: #637b91;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.wide textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+.wide small {
+  font-weight: 400;
+  color: #8299ad;
+}
+
+.sectionHeader,
+.componentTitle,
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sectionHeader > span {
+  color: #8fa7ba;
+  font-size: 12px;
+}
+
+.picker {
+  border: 1px solid #2b4257;
+  border-radius: 9px;
+  padding: 12px;
+  background: #0b1723;
+}
+
+.picker > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 9px;
+}
+
+/* Two-line picker options: same secondary treatment, list layout. */
+.picker button {
+  display: block;
+  width: 100%;
+  border: 1px solid #34516a;
+  border-radius: 7px;
+  padding: 9px 11px;
+  background: #162536;
+  color: #eaf4ff;
+  font-size: 12px;
+  text-align: left;
+}
+
+.picker button:hover {
+  border-color: #3f6180;
+  background: #1c3145;
+}
+
+.picker small,
+.componentTitle small,
+.previewTable small {
+  display: block;
+  margin-top: 3px;
+  color: #8299ad;
+}
+
+.components {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.components article {
+  border: 1px solid #293d52;
+  border-radius: 9px;
+  padding: 14px;
+  background: #0c1723;
+}
+
+.componentFields {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: 12px;
+  align-items: end;
+  margin-top: 12px;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #8fa7ba;
+  font-size: 11px;
+}
+
+.actions {
+  justify-content: flex-end;
+  margin: 20px 0;
+}
+
+.message {
+  padding: 11px 14px;
+  border: 1px solid #7a2f3a;
+  border-radius: 8px;
+  background: #2a1218;
+  color: #ff9aa8;
+  font-size: 13px;
+}
+
+.previewTable {
+  display: grid;
+}
+
+.previewTable > div {
+  display: grid;
+  grid-template-columns: 1.5fr 0.7fr 1fr 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #263a4e;
+}
+
+.previewHead {
+  background: #162638;
+  color: #8ea7bb;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.ready {
+  color: #75d9ad;
+}
+
+.missing {
+  color: #ffc66d;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding: 25px 18px 60px;
+  }
+  .fields,
+  .componentFields,
+  .picker > div,
+  .previewTable > div {
+    grid-template-columns: 1fr;
+  }
+  .wide {
+    grid-column: auto;
+  }
+}

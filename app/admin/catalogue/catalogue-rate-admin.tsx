@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { AppSidebar } from "@/app/components/app-sidebar";
+import { AdminButton } from "@/app/components/admin-button";
 import { ElementCreator, type ParentOption } from "./element-creator";
 import styles from "./catalogue-rate-admin.module.css";
 
@@ -163,14 +164,8 @@ function RateEditor({
         onChange={(event) => setReason(event.target.value)}
       />
       <div>
-        <button onClick={() => void submit(false)}>Save</button>
-        <button
-          className={styles.clear}
-          disabled={!price}
-          onClick={() => void submit(true)}
-        >
-          Clear
-        </button>
+        <AdminButton variant="primary" onClick={() => void submit(false)}>Save</AdminButton>
+        <AdminButton variant="destructive" disabled={!price} onClick={() => void submit(true)}>Clear</AdminButton>
       </div>
       {price?.sourceImport && (
         <small>Imported from {price.sourceImport.filename}</small>
@@ -199,9 +194,10 @@ export function CatalogueRateAdmin({
   const [policies, setPolicies] = useState<DurationPolicy[]>([]);
   const [selected, setSelected] = useState<Offering | null>(null);
   const [history, setHistory] = useState<History | null>(null);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<{ text: string; tone: "error" | "success" } | null>(null);
   const [batch, setBatch] = useState<ImportBatch | null>(null);
   const [showCreate, setShowCreate] = useState(false);
+  const notify = useCallback((text: string, tone: "error" | "success" = "success") => setMessage({ text, tone }), []);
   const loadMarkets = useCallback(async () => {
     const response = await fetch("/api/admin/catalogue/markets");
     if (response.ok) {
@@ -226,8 +222,8 @@ export function CatalogueRateAdmin({
     const response = await fetch(`/api/admin/catalogue/offerings?${query}`);
     const data = await response.json();
     if (response.ok) setOfferings(data.offerings);
-    else setMessage(data.error || "Could not load catalogue.");
-  }, [scope, marketId]);
+    else notify(data.error || "Could not load catalogue.", "error");
+  }, [scope, marketId, notify]);
   const loadHistory = useCallback(async (id: string) => {
     const response = await fetch(
       `/api/admin/catalogue/offerings/${id}/history`,
@@ -308,7 +304,7 @@ export function CatalogueRateAdmin({
     reason: string,
   ) {
     if (!selected) return;
-    setMessage("");
+    setMessage(null);
     const current = selected.rates[side];
     const response = await fetch(
       `/api/admin/catalogue/offerings/${selected.id}/rates`,
@@ -327,15 +323,16 @@ export function CatalogueRateAdmin({
     );
     const data = await response.json();
     if (!response.ok) {
-      setMessage(
+      notify(
         data.code === "RATE_CONFLICT"
           ? `${data.error} The table has been refreshed.`
           : data.error || "Could not update rate.",
+        "error",
       );
       await loadOfferings();
       return;
     }
-    setMessage(
+    notify(
       data.changed ? "Rate history updated." : "No rate change was needed.",
     );
     await loadOfferings();
@@ -355,7 +352,7 @@ export function CatalogueRateAdmin({
       }),
     });
     const data = await response.json();
-    setMessage(response.ok ? "Market created." : data.error);
+    notify(response.ok ? "Market created." : data.error, response.ok ? "success" : "error");
     if (response.ok) {
       event.currentTarget.reset();
       await loadMarkets();
@@ -368,10 +365,11 @@ export function CatalogueRateAdmin({
       body: JSON.stringify({ active: !market.active }),
     });
     const data = await response.json();
-    setMessage(
+    notify(
       response.ok
         ? `Market ${market.active ? "deactivated" : "activated"}.`
         : data.error,
+      response.ok ? "success" : "error",
     );
     await loadMarkets();
   }
@@ -390,8 +388,9 @@ export function CatalogueRateAdmin({
       },
     );
     const data = await response.json();
-    setMessage(
+    notify(
       response.ok ? "Duration policy assignment updated." : data.error,
+      response.ok ? "success" : "error",
     );
     if (response.ok) {
       await loadOfferings();
@@ -432,7 +431,7 @@ export function CatalogueRateAdmin({
       }),
     });
     const data = await response.json();
-    setMessage(response.ok ? "Duration policy created." : data.error);
+    notify(response.ok ? "Duration policy created." : data.error, response.ok ? "success" : "error");
     if (response.ok) {
       event.currentTarget.reset();
       await loadPolicies();
@@ -448,10 +447,11 @@ export function CatalogueRateAdmin({
       },
     );
     const data = await response.json();
-    setMessage(
+    notify(
       response.ok
         ? `Duration policy ${policy.active ? "deactivated" : "activated"}.`
         : data.error,
+      response.ok ? "success" : "error",
     );
     await loadPolicies();
   }
@@ -478,25 +478,12 @@ export function CatalogueRateAdmin({
             </p>
           </div>
           <div className={styles.headerActions}>
-            <button
-              className={styles.addElement}
-              onClick={() => setShowCreate((value) => !value)}
-            >
+            <AdminButton variant="primary" onClick={() => setShowCreate((value) => !value)}>
               {showCreate ? "Close element form" : "+ Add Element"}
-            </button>
+            </AdminButton>
             <div className={styles.scope}>
-              <button
-                className={scope === "GLOBAL" ? styles.selected : ""}
-                onClick={() => setScope("GLOBAL")}
-              >
-                Global
-              </button>
-              <button
-                className={scope === "CITY" ? styles.selected : ""}
-                onClick={() => setScope("CITY")}
-              >
-                City
-              </button>
+              <AdminButton active={scope === "GLOBAL"} onClick={() => setScope("GLOBAL")}>Global</AdminButton>
+              <AdminButton active={scope === "CITY"} onClick={() => setScope("CITY")}>City</AdminButton>
               {scope === "CITY" && (
                 <select
                   value={marketId}
@@ -513,7 +500,7 @@ export function CatalogueRateAdmin({
             </div>
           </div>
         </header>
-        {message && <p className={styles.message}>{message}</p>}
+        {message && <p className={`${styles.message} ${message.tone === "error" ? styles.messageError : styles.messageSuccess}`}>{message.text}</p>}
         {showCreate && (
           <ElementCreator parents={parents} onCreated={loadOfferings} />
         )}
@@ -671,12 +658,7 @@ export function CatalogueRateAdmin({
             offerings.length === 0 ? (
               <div className={styles.empty}>
                 <p>No catalogue elements yet.</p>
-                <button
-                  className={styles.addElement}
-                  onClick={() => setShowCreate(true)}
-                >
-                  + Add Element
-                </button>
+                <AdminButton variant="primary" onClick={() => setShowCreate(true)}>+ Add Element</AdminButton>
               </div>
             ) : (
               <p className={styles.empty}>No offerings match these filters.</p>
@@ -696,7 +678,7 @@ export function CatalogueRateAdmin({
                     : ""}
                 </p>
               </div>
-              <button onClick={() => setSelected(null)}>Close</button>
+              <AdminButton onClick={() => setSelected(null)}>Close</AdminButton>
             </header>
             <div className={styles.policyAssignment}>
               <label>
@@ -823,7 +805,7 @@ export function CatalogueRateAdmin({
               </select>
               <input name="description" placeholder="Description" />
               <input name="curvePoints" placeholder="Curve: 1=1, 4=3/2" />
-              <button type="submit">Create version</button>
+              <AdminButton type="submit" variant="primary">Create version</AdminButton>
             </form>
             <div className={styles.markets}>
               {policies.map((policy) => (
@@ -842,9 +824,9 @@ export function CatalogueRateAdmin({
                         : ""}
                     </small>
                   </span>
-                  <button onClick={() => void togglePolicy(policy)}>
+                  <AdminButton size="sm" variant={policy.active ? "destructive" : "secondary"} onClick={() => void togglePolicy(policy)}>
                     {policy.active ? "Deactivate" : "Activate"}
-                  </button>
+                  </AdminButton>
                 </div>
               ))}
             </div>
@@ -857,7 +839,7 @@ export function CatalogueRateAdmin({
               <input name="cityName" placeholder="City" required />
               <input name="state" placeholder="State" />
               <input name="country" defaultValue="IN" required />
-              <button type="submit">Create market</button>
+              <AdminButton type="submit" variant="primary">Create market</AdminButton>
             </form>
             <div className={styles.markets}>
               {markets.map((market) => (
@@ -868,9 +850,9 @@ export function CatalogueRateAdmin({
                       {market.code} · {market.state ?? "—"}, {market.country}
                     </small>
                   </span>
-                  <button onClick={() => void toggleMarket(market)}>
+                  <AdminButton size="sm" variant={market.active ? "destructive" : "secondary"} onClick={() => void toggleMarket(market)}>
                     {market.active ? "Deactivate" : "Activate"}
-                  </button>
+                  </AdminButton>
                 </div>
               ))}
             </div>

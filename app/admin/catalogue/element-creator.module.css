@@ -1,9 +1,10 @@
 .panel {
   margin: 18px 0 0;
-  padding: 20px 22px;
-  border: 1px solid #293e54;
-  border-radius: 14px;
-  background: #0c1723;
+  padding: 22px;
+  border: 1px solid #26394f;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #121e2d, #0e1825);
+  box-shadow: 0 16px 40px #0003;
 }
 
 .panel > header {
@@ -26,10 +27,10 @@
 }
 
 .panel header p {
+  max-width: 640px;
   margin: 5px 0 0;
   color: #92a8bb;
   font-size: 13px;
-  max-width: 640px;
 }
 
 .grid {
@@ -46,32 +47,43 @@
 }
 
 .field > span {
-  color: #9fb6c9;
+  color: #a7bacb;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
+  font-weight: 750;
+  letter-spacing: 0.15px;
 }
 
 .field input,
 .field select {
   width: 100%;
   margin: 0;
-  padding: 10px 12px;
-  border: 1px solid #34516a;
-  border-radius: 8px;
+  border: 1px solid #30465d;
+  border-radius: 7px;
+  padding: 10px 11px;
   background: #0a1420;
-  color: #edf6ff;
+  color: #eff7ff;
   font-size: 13px;
+  outline: none;
+  transition: 0.16s;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #42b4ff;
+  box-shadow: 0 0 0 3px #2496ed29;
+}
+
+.field input::placeholder {
+  color: #637b91;
 }
 
 .field small {
-  color: #7d93a7;
+  color: #8299ad;
   font-size: 11px;
 }
 
 .hint {
-  color: #62d6a4;
+  color: #7fe3b3;
   font-size: 11px;
 }
 
@@ -82,46 +94,22 @@
   margin-top: 18px;
 }
 
-.primary {
-  border: 1px solid #46b6ff;
-  border-radius: 8px;
-  background: #238fdc;
-  color: white;
-  padding: 11px 18px;
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.primary:disabled {
-  opacity: 0.55;
-}
-
-.secondary {
-  border: 1px solid #34516a;
-  border-radius: 8px;
-  background: #162536;
-  color: #bcd0df;
-  padding: 11px 16px;
-  font-size: 13px;
-  font-weight: 700;
-}
-
 .error {
   margin: 14px 0 0;
-  padding: 10px 12px;
+  padding: 11px 14px;
   border: 1px solid #7a2f3a;
   border-radius: 8px;
   background: #2a1218;
   color: #ff9aa8;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .notice {
   margin: 14px 0 0;
-  padding: 10px 12px;
+  padding: 11px 14px;
   border: 1px solid #1f5a46;
   border-radius: 8px;
   background: #0d2419;
   color: #7fe3b3;
-  font-size: 12px;
+  font-size: 13px;
 }

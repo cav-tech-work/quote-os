@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import { AdminButton } from "@/app/components/admin-button";
 import { AppSidebar } from "@/app/components/app-sidebar";
 const statuses = [
   "UNREVIEWED",
@@ -264,7 +265,7 @@ export function CatalogueReviewWorkspace() {
                     · {row.readiness.state} · {row.reviewStatus}
                   </small>
                 </span>
-                <button onClick={() => setSelected(row)}>Review detail</button>
+                <AdminButton size="sm" onClick={() => setSelected(row)}>Review detail</AdminButton>
               </header>
               <p>
                 {row.billingUnit} · {row.quantityBasis ?? "quantity unresolved"}{" "}
@@ -287,9 +288,9 @@ export function CatalogueReviewWorkspace() {
                 {statuses
                   .filter((x) => x !== "UNREVIEWED")
                   .map((x) => (
-                    <button key={x} onClick={() => void decide(row, x)}>
+                    <AdminButton key={x} size="sm" onClick={() => void decide(row, x)}>
                       {x}
-                    </button>
+                    </AdminButton>
                   ))}
               </div>
             </div>
@@ -297,7 +298,7 @@ export function CatalogueReviewWorkspace() {
         </article>
         {selected && (
           <article>
-            <button onClick={() => setSelected(null)}>Close</button>
+            <AdminButton onClick={() => setSelected(null)}>Close</AdminButton>
             <h2>{selected.code} — review evidence</h2>
             <p>
               <b>Source:</b>{" "}
@@ -357,27 +358,31 @@ export function CatalogueReviewWorkspace() {
                   {current?.proposedValue
                     ? ` → ${current.proposedValue}`
                     : ""}{" "}
-                  <button
+                  <AdminButton
+                    size="sm"
+                    variant="primary"
                     onClick={() =>
                       void decideField(selected, field, "APPROVED")
                     }
                   >
                     Approve field
-                  </button>
-                  <button
+                  </AdminButton>
+                  <AdminButton
+                    size="sm"
                     onClick={() =>
                       void decideField(selected, field, "CHANGE_REQUIRED")
                     }
                   >
                     Request change
-                  </button>
-                  <button
+                  </AdminButton>
+                  <AdminButton
+                    size="sm"
                     onClick={() =>
                       void decideField(selected, field, "DEFERRED")
                     }
                   >
                     Defer field
-                  </button>
+                  </AdminButton>
                 </div>
               );
             })}
@@ -397,9 +402,9 @@ export function CatalogueReviewWorkspace() {
                 onChange={(event) => setReleaseCode(event.target.value)}
               />
             </label>
-            <button onClick={() => void createRelease()}>
+            <AdminButton variant="primary" onClick={() => void createRelease()}>
               Create from approved subset
-            </button>
+            </AdminButton>
           </div>
           {releases.map((release) => (
             <div className="normalizedLine" key={release.id}>
@@ -420,20 +425,24 @@ export function CatalogueReviewWorkspace() {
                 {release.summary.releaseBlockers.length}
               </p>
               {release.status === "DRAFT" && (
-                <button
+                <AdminButton
+                  variant="primary"
+                  size="sm"
                   onClick={() =>
                     void transitionRelease(release, "READY_FOR_APPROVAL")
                   }
                 >
                   Mark ready for approval
-                </button>
+                </AdminButton>
               )}
               {release.status === "READY_FOR_APPROVAL" && (
-                <button
+                <AdminButton
+                  variant="primary"
+                  size="sm"
                   onClick={() => void transitionRelease(release, "APPROVED")}
                 >
                   Approve immutable release
-                </button>
+                </AdminButton>
               )}
             </div>
           ))}

@@ -9,6 +9,7 @@ import {
   suggestElementCode,
   UNIT_OPTIONS,
 } from "@/lib/element-options";
+import { AdminButton } from "@/app/components/admin-button";
 import styles from "./element-creator.module.css";
 
 export type ParentOption = { code: string; name: string; category: string };
@@ -139,8 +140,8 @@ export function ElementCreator({ parents, onCreated }: { parents: ParentOption[]
         {error && <p className={styles.error}>{error}</p>}
         {notice && <p className={styles.notice}>{notice}</p>}
         <div className={styles.actions}>
-          <button type="submit" className={styles.primary} disabled={busy}>{busy ? "Creating…" : "Create element"}</button>
-          <button type="button" className={styles.secondary} onClick={reset} disabled={busy}>Clear</button>
+          <AdminButton type="submit" variant="primary" disabled={busy}>{busy ? "Creating…" : "Create element"}</AdminButton>
+          <AdminButton onClick={reset} disabled={busy}>Clear</AdminButton>
         </div>
       </form>
     </section>
