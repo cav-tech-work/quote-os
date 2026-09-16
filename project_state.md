@@ -1,6 +1,15 @@
 # QuoteOS project state
 
-Updated: 2026-08-18
+Updated: 2026-09-16
+
+## Phase 12A V1 component catalogue reconciliation
+
+- LookUp rows 2-165 from `CAV_Rates_VC_Ops_Power_v120826 (1).xlsx` are parsed as 164 V1 component elements under 77 parent identities; row 166 `TRANSPORT` is excluded.
+- CCI city-sheet row-2 labels are normalized with six non-component controls excluded. The current split is 2 exact, 7 alias, 10 proposed, 17 ambiguous and 10 unmatched labels.
+- Local apply creates or reuses parent `CanonicalItem` and element `CommercialOffering` identities, aliases and hash-bound `SourceMapping` evidence only. It refuses non-local database hosts and leaves `Price` and `PackageTemplate` counts unchanged.
+- `/admin/catalogue/component-reconciliation` gives ADMIN users a review queue for CCI labels. Automatic decisions are distinct from human decisions so reruns do not overwrite manual review.
+- `/admin/packages/new` provides a bounded package recipe builder with component search, billable/included roles, fixed-package parent selection, server preview, draft save and clone-as-next-version. It does not expose inventory semantics, nested packages, `HYBRID`, or automatic package creation.
+- Production bootstrap, business approval, rates, package promotion, Brand Profesor, transport/consumption contracts and unresolved specialized engines remain outside this phase.
 
 ## Phase 11 business catalogue approval workspace
 

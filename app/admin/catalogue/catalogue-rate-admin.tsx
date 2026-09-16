@@ -39,6 +39,7 @@ type Offering = {
   durationBasis: string | null;
   durationPolicy: DurationPolicy | null;
   active: boolean;
+  aliases: string[];
   completeness: string;
   canonicalItem: {
     code: string;
@@ -245,7 +246,7 @@ export function CatalogueRateAdmin({
     () =>
       offerings.filter((item) => {
         const haystack =
-          `${item.code} ${item.name} ${item.canonicalItem?.code ?? ""} ${item.canonicalItem?.name ?? ""}`.toLowerCase();
+          `${item.code} ${item.name} ${item.canonicalItem?.code ?? ""} ${item.canonicalItem?.name ?? ""} ${item.aliases.join(" ")}`.toLowerCase();
         const specialized = item.quantityBasis === "HEADCOUNT_DUTY" || item.quantityBasis === "GENERATOR" || item.kind === "PACKAGE" || item.durationPolicy?.mode === "MANUAL";
         const personnelReady = item.quantityBasis === "HEADCOUNT_DUTY" && item.pricingFamily === "HEADCOUNT_DUTY" && item.billingUnit === "DUTY" && Boolean(item.rates.TO_CLIENT || item.rates.TO_VENDOR);
         const ordinaryReady = !specialized && Boolean(item.quantityBasis && item.durationPolicy?.active && item.durationPolicy.authority === "INTERNAL_APPROVED" && (item.rates.TO_CLIENT || item.rates.TO_VENDOR));
@@ -508,7 +509,7 @@ export function CatalogueRateAdmin({
         </div>
         <section className={styles.filters}>
           <input
-            placeholder="Search canonical or offering code/name"
+            placeholder="Search name, element code, parent code or alias"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
           />
@@ -571,8 +572,8 @@ export function CatalogueRateAdmin({
         </section>
         <section className={styles.table}>
           <div className={styles.head}>
-            <span>Canonical item</span>
-            <span>Commercial offering</span>
+            <span>Parent identity</span>
+            <span>Component / offering</span>
             <span>To client</span>
             <span>To vendor</span>
             <span>Status</span>
@@ -586,14 +587,14 @@ export function CatalogueRateAdmin({
               <span>
                 <b>{item.canonicalItem?.name ?? "Unresolved"}</b>
                 <small>
-                  {item.canonicalItem?.code ?? "—"} ·{" "}
+                  Parent {item.canonicalItem?.code ?? "—"} ·{" "}
                   {item.canonicalItem?.domain ?? "—"}
                 </small>
               </span>
               <span>
                 <b>{item.name}</b>
                 <small>
-                  {item.code} · {item.billingUnit} · {item.pricingFamily ?? "UNCLASSIFIED"} · {item.quantityBasis ?? "NO QUANTITY BASIS"}
+                  Element {item.code} · {item.billingUnit} · {item.pricingFamily ?? "UNCLASSIFIED"} · {item.quantityBasis ?? "NO QUANTITY BASIS"}
                 </small>
                 <small>
                   Duration: {item.durationPolicy?.code ?? "UNASSIGNED"}

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { PrismaClient } from "@prisma/client";
-import { createPackageVersion, PackageDefinitionError } from "../lib/package-admin";
+import { createPackageVersion, PackageDefinitionError, previewPackageDefinition } from "../lib/package-admin";
 import { calculatePackage, listReadyPackages, PackageCalculationError, packageLineSnapshot, resolvePackageComponentQuantity } from "../lib/package-engine";
 import { persistNormalizedQuote } from "../lib/normalized-quotes";
 import { createRevisionFromIssued, getRetainedDocument, issueRevision } from "../lib/quote-lifecycle";
@@ -61,4 +61,18 @@ test("package calculations, snapshots, versioning, revision clone and retained P
 test("HYBRID calculation fails closed", async () => {
   const db = { packageTemplate: { findUnique: async () => ({ id: "x", active: true, authority: "INTERNAL_APPROVED", pricingMode: "HYBRID", components: [{}] }) } };
   await assert.rejects(() => calculatePackage({ packageTemplateId: "x", packageQuantity: "1", side: "TO_CLIENT" }, db), (error: unknown) => error instanceof PackageCalculationError && error.code === "PACKAGE_MODE_UNSUPPORTED");
+});
+
+test("draft package preview reports missing rates without creating a package", async () => {
+  let creates = 0;
+  const offering = { id: "cm123456789012345678901234", code: "PREVIEW_COMPONENT", name: "Preview component", active: true, kind: "ITEM", billingUnit: "NOS", quantityBasis: null, canonicalItem: { code: "PREVIEW_PARENT" }, durationPolicy: null };
+  const db = {
+    commercialOffering: { findMany: async () => [offering] },
+    price: { findMany: async () => [] },
+    packageTemplate: { create: async () => { creates += 1; } },
+  };
+  const preview = await previewPackageDefinition({ code: "PREVIEW_PACKAGE", name: "Preview package", version: 1, pricingMode: "COMPONENT_SUM", components: [{ commercialOfferingId: offering.id, quantityRuleType: "FIXED_PER_PACKAGE", quantityValue: "2", billingMode: "BILLABLE", sortOrder: 1 }] }, db);
+  assert.equal(preview.rows[0].sides.TO_CLIENT.state, "RATE_MISSING");
+  assert.equal(preview.rows[0].sides.TO_VENDOR.state, "RATE_MISSING");
+  assert.equal(creates, 0);
 });

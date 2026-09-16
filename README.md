@@ -18,6 +18,8 @@ Phase 10 adds version-safe package recipes with bounded quantities, explicit inc
 
 Phase 11 adds an ADMIN-only business catalogue review boundary and deterministic immutable release candidates. Field decisions identify approval/change/defer/reject requirements without mutating audited master data. Releases contain only explicitly approved, provenance-backed subsets and are future bootstrap inputs—not deployments. See [`docs/phase-11-business-catalogue-review.md`](docs/phase-11-business-catalogue-review.md).
 
+Phase 12A reconciles the V1 LookUp component vocabulary and CCI row-2 component labels into local normalized component evidence, adds an ADMIN review workspace for ambiguous CCI labels, and adds a bounded package recipe builder. It imports no prices, creates no packages automatically, and remains local-development only. See [`docs/phase-12a-component-catalogue.md`](docs/phase-12a-component-catalogue.md).
+
 The authoritative master can be inspected without database writes:
 
 ```text
@@ -36,6 +38,15 @@ npm run catalogue:apply -- /absolute/path/to/CAV_Rates_VC_Ops_Power_v120826.xlsx
 ```
 
 The review file defaults every unresolved mapping, unknown unit, and alias conflict to `DEFER`. Apply verifies the exact workbook/review hashes and commits approved canonicals, offerings, aliases, global prices, mappings, and provenance atomically. Repeating the same reviewed apply is a no-op, including after an administrator changes a rate. Legacy catalogue data remains isolated for historical compatibility; all 1,608 workbook city values remain historical evidence.
+
+Phase 12A component reconciliation is a separate local-only workflow:
+
+```text
+npm run components:reconcile -- "/absolute/path/to/CAV_Rates_VC_Ops_Power_v120826 (1).xlsx" "/absolute/path/to/CCI_2026_v2_PivotExtraction_ToClient.xlsx" --preview
+npm run components:reconcile -- "/absolute/path/to/CAV_Rates_VC_Ops_Power_v120826 (1).xlsx" "/absolute/path/to/CCI_2026_v2_PivotExtraction_ToClient.xlsx" --apply
+```
+
+It reads LookUp rows 2-165, excludes non-component CCI control columns, records hash-bound source evidence, and refuses non-local PostgreSQL hosts. It does not write `Price` rows or `PackageTemplate` rows.
 
 ## Catalogue and rate administration
 

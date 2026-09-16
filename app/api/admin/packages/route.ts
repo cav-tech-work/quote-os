@@ -5,7 +5,7 @@ import { createPackageVersion, PackageDefinitionError } from "@/lib/package-admi
 import { prisma } from "@/lib/prisma";
 
 const component = z.object({ commercialOfferingId: z.string().cuid(), quantityRuleType: z.enum(["FIXED", "FIXED_PER_PACKAGE", "PARENT_QUANTITY_MULTIPLIER"]), quantityValue: z.string(), billingMode: z.enum(["BILLABLE", "INCLUDED"]), dutyUnitsPerPerson: z.string().optional(), sortOrder: z.number().int(), required: z.boolean().optional(), notes: z.string().optional() });
-const definition = z.object({ code: z.string(), name: z.string().min(1), description: z.string().optional(), version: z.number().int().positive(), pricingMode: z.enum(["COMPONENT_SUM", "FIXED_PACKAGE", "HYBRID"]), parentCommercialOfferingId: z.string().cuid().optional(), active: z.boolean().optional(), components: z.array(component).min(1) });
+const definition = z.object({ code: z.string(), name: z.string().min(1), description: z.string().optional(), version: z.number().int().positive(), pricingMode: z.enum(["COMPONENT_SUM", "FIXED_PACKAGE"]), parentCommercialOfferingId: z.string().cuid().optional(), active: z.literal(false).optional(), components: z.array(component).min(1) });
 
 export async function GET() {
   const access = await requireRole("ADMIN"); if ("error" in access) return access.error;

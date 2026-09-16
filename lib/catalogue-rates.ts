@@ -39,6 +39,7 @@ export async function listCatalogueOfferings(scopeType: PriceScopeType, marketId
     orderBy: [{ canonicalItem: { name: "asc" } }, { name: "asc" }],
     include: {
       canonicalItem: { select: { id: true, code: true, name: true, domain: true, entityType: true, active: true } },
+      aliases: { where: { active: true }, select: { originalText: true } },
       durationPolicy: true,
       prices: { where: { ...scope, active: true }, include: { sourceImport: { select: { id: true, filename: true, appliedAt: true } } } },
     },
@@ -50,6 +51,7 @@ export async function listCatalogueOfferings(scopeType: PriceScopeType, marketId
       id: offering.id, code: offering.code, name: offering.name, kind: offering.kind,
       quantityBasis: offering.quantityBasis, pricingFamily: offering.pricingFamily,
       billingUnit: offering.billingUnit, active: offering.active, canonicalItem: offering.canonicalItem,
+      aliases: offering.aliases.map((alias) => alias.originalText),
       durationBasis: offering.durationBasis, durationPolicy: offering.durationPolicy,
       completeness: client && vendor ? "BOTH" : client ? "CLIENT_ONLY" : vendor ? "VENDOR_ONLY" : "NEITHER",
       rates: { TO_CLIENT: client, TO_VENDOR: vendor },
