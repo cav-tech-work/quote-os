@@ -14,7 +14,7 @@ Updated: 2026-09-16
 
 ## Phase 12A component reconciliation (removed)
 
-- The Phase 12A CCI label reconciliation queue was removed: its `/admin/catalogue/component-reconciliation` workspace, its API route, the `lib/component-reconciliation` modules, the `components:reconcile` CLI and its dedicated tests are gone, because the operational catalogue was reset and the queue no longer has meaning.
+- The Phase 12A component-label reconciliation queue was removed: its `/admin/catalogue/component-reconciliation` workspace, its API route, the `lib/component-reconciliation` modules, the `components:reconcile` CLI and its dedicated tests are gone, because the operational catalogue was reset and the queue no longer has meaning.
 - Normalized element identity, aliases, `SourceMapping` provenance, the normalized catalogue rate admin and the package recipe builder are unchanged. No Prisma model, migration or persisted row was affected.
 - `/admin/packages/new` still provides a bounded package recipe builder with component search, billable/included roles, fixed-package parent selection, server preview, draft save and clone-as-next-version. It does not expose inventory semantics, nested packages, `HYBRID`, or automatic package creation.
 - Production bootstrap, business approval, rates, package promotion, Brand Profesor, transport/consumption contracts and unresolved specialized engines remain outside this scope.

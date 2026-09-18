@@ -18,7 +18,7 @@ Phase 10 adds version-safe package recipes with bounded quantities, explicit inc
 
 Phase 11 adds an ADMIN-only business catalogue review boundary and deterministic immutable release candidates. Field decisions identify approval/change/defer/reject requirements without mutating audited master data. Releases contain only explicitly approved, provenance-backed subsets and are future bootstrap inputs—not deployments. See [`docs/phase-11-business-catalogue-review.md`](docs/phase-11-business-catalogue-review.md).
 
-Phase 12A's CCI component-label reconciliation queue has been removed. The bounded package recipe builder remains available at `/admin/packages`. It imports no prices, never creates packages automatically, and stays local-development only.
+Phase 12A's component-label reconciliation queue has been removed. The bounded package recipe builder remains available at `/admin/packages`. It imports no prices, never creates packages automatically, and stays local-development only.
 
 The authoritative master can be inspected without database writes:
 
